@@ -26,13 +26,13 @@ I work at [Silk Data](https://github.com/SilkData), a machine-learning R&D compa
 
 ## What I work on
 
-**Media CMS on GCP.** 11 microservice repos behind a high-traffic media portal. Jenkins and Ansible deploy them with Docker and Traefik to dev, stage and prod. Right now I'm building a second production environment for it on GKE Autopilot with Terraform, Helm and Argo CD.
+**Media CMS.** Microservices behind a high-traffic media portal. I run the delivery pipelines for all environments and I'm building a new cloud production environment for it, fully described in code.
 
-**Cross-platform product on Azure AKS.** Backend microservices, web, Android and iOS. Jenkins and Ansible build and release the backend into a private registry, GitLab CI builds the mobile apps on a self-hosted Mac mini, and our own OTA server ships the apps outside Google Play and the App Store.
+**Cross-platform product.** Backend, web and mobile apps. Build and release pipelines for every part, including the mobile apps and their distribution outside the app stores.
 
-**Anti-plagiarism SaaS** <sub>(part-time, 2024-2025)</sub>. One parameterized Jenkins pipeline creates a whole environment on Hetzner with Terraform, hardens the servers with Ansible (SSH baseline, Wazuh, Zabbix) and deploys 6+ services behind Traefik with automatic TLS.
+**Anti-plagiarism SaaS.** One pipeline builds a complete environment from scratch: cloud servers, security hardening, monitoring and deployment of all services.
 
-**EdTech platform** <sub>(part-time, 2023-2025)</sub>. Deployment used to be manual. I replaced it with idempotent Ansible for Moodle, SIS, CAS SSO and Redis, added Terraform and Jenkins pipelines on Azure, and moved the stack from CentOS to Ubuntu.
+**EdTech platform.** Deployment used to be manual. I turned it into repeatable automation, built cloud pipelines for every environment and moved the whole stack to a new OS.
 
 ## Tools I use
 
