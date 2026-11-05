@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="768" viewBox="0 0 680 768" role="img">
+<title>Delivery pipeline. Commit. Build and test with build, lint, unit tests and a secret scan in parallel. Package: the artifact goes to a registry. Provision: plan and apply create or change the servers. Deploy: a rolling update onto those servers. Observe runs 24/7 and alerts the on-call SRE or DevOps engineer; fixes come back as commits.</title>
+<rect class="card" x="44" y="12" width="624" height="104" rx="10"/>
+<rect class="hl k1" x="44" y="12" width="624" height="104" rx="10"/>
+<text class="num" x="58" y="38">01</text>
+<g class="icon" transform="translate(84 22) scale(0.8333)"><circle cx="12" cy="12" r="3.2"/><path d="M3 12h5.8M15.2 12H21"/></g>
+<text class="name" x="114" y="38">Commit</text>
+<text class="what" x="58" y="60">push or merge</text>
+<text class="tool" x="58" y="84">Git · GitLab · GitHub</text>
+<line class="wire" x1="344" y1="64.0" x2="648" y2="64.0"/><circle class="dot" cx="354" cy="64.0" r="6"/><circle class="dot" cx="386" cy="64.0" r="6"/><circle class="dot" cx="418" cy="64.0" r="6"/><circle class="dot-on k2" cx="450" cy="64.0" r="7"/><text class="tiny-on k2" x="450" y="86.0" text-anchor="middle">new</text>
+<rect class="card" x="44" y="136" width="624" height="104" rx="10"/>
+<rect class="hl k3" x="44" y="136" width="624" height="104" rx="10"/>
+<text class="num" x="58" y="162">02</text>
+<g class="icon" transform="translate(84 146) scale(0.8333)"><circle cx="12" cy="12" r="9"/><path d="M8 12.4l2.8 2.8L16.2 9.6"/></g>
+<text class="name" x="114" y="162">Build &amp; test</text>
+<text class="what" x="58" y="184">checks in parallel</text>
+<text class="tool" x="58" y="208">Jenkins · GitLab CI</text>
+<text class="tool" x="58" y="223">GitHub Actions</text>
+<text class="tiny" x="344" y="163.0">build</text><rect class="slot" x="410" y="156.5" width="222" height="6" rx="3"/><rect class="bar k4" x="410" y="156.5" width="222" height="6" rx="3"/><circle class="ok k5" cx="643" cy="159.5" r="5"/><path class="okv k5" d="M 640.8 159.8 l 1.5 1.5 l 3.0 -3.2"/><text class="tiny" x="344" y="182.0">lint</text><rect class="slot" x="410" y="175.5" width="222" height="6" rx="3"/><rect class="bar k6" x="410" y="175.5" width="222" height="6" rx="3"/><circle class="ok k7" cx="643" cy="178.5" r="5"/><path class="okv k7" d="M 640.8 178.8 l 1.5 1.5 l 3.0 -3.2"/><text class="tiny" x="344" y="201.0">unit tests</text><rect class="slot" x="410" y="194.5" width="222" height="6" rx="3"/><rect class="bar k8" x="410" y="194.5" width="222" height="6" rx="3"/><circle class="ok k9" cx="643" cy="197.5" r="5"/><path class="okv k9" d="M 640.8 197.8 l 1.5 1.5 l 3.0 -3.2"/><text class="tiny" x="344" y="220.0">secret scan</text><rect class="slot" x="410" y="213.5" width="222" height="6" rx="3"/><rect class="bar k10" x="410" y="213.5" width="222" height="6" rx="3"/><circle class="ok k11" cx="643" cy="216.5" r="5"/><path class="okv k11" d="M 640.8 216.8 l 1.5 1.5 l 3.0 -3.2"/>
+<line class="wire" x1="70" y1="118" x2="70" y2="130"/><polygon class="head" points="70,135 66,129 74,129"/>
+<rect class="card" x="44" y="260" width="624" height="104" rx="10"/>
+<rect class="hl k12" x="44" y="260" width="624" height="104" rx="10"/>
+<text class="num" x="58" y="286">03</text>
+<g class="icon" transform="translate(84 270) scale(0.8333)"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></g>
+<text class="name" x="114" y="286">Package</text>
+<text class="what" x="58" y="308">artifact to a registry</text>
+<text class="tool" x="58" y="332">Docker · Harbor · Nexus</text>
+<line class="wire" x1="404" y1="312.0" x2="604" y2="312.0"/><ellipse class="db" cx="626" cy="326.0" rx="18" ry="5"/><rect class="db" x="608" y="300.0" width="36" height="26" style="stroke-width:0"/><line class="db" x1="608" y1="300.0" x2="608" y2="326.0"/><line class="db" x1="644" y1="300.0" x2="644" y2="326.0"/><ellipse class="db" cx="626" cy="300.0" rx="18" ry="5"/><text class="tiny" x="626" y="344.0" text-anchor="middle">registry</text><g class="k13"><rect class="box-body" x="344" y="302.0" width="44" height="20" rx="2"/><line class="ridge" x1="351" y1="305.0" x2="351" y2="319.0"/><line class="ridge" x1="357" y1="305.0" x2="357" y2="319.0"/><line class="ridge" x1="363" y1="305.0" x2="363" y2="319.0"/><line class="ridge" x1="369" y1="305.0" x2="369" y2="319.0"/><line class="ridge" x1="375" y1="305.0" x2="375" y2="319.0"/><line class="ridge" x1="381" y1="305.0" x2="381" y2="319.0"/><rect class="box-frame" x="344" y="302.0" width="44" height="20" rx="2"/><text class="chip-text" x="366" y="297.0" text-anchor="middle">app:1.4</text></g><circle class="ok k14" cx="642" cy="296.0" r="6"/><path class="okv k14" d="M 639.3 296.3 l 1.8 1.8 l 3.6 -3.9"/>
+<line class="wire" x1="70" y1="242" x2="70" y2="254"/><polygon class="head" points="70,259 66,253 74,253"/>
+<rect class="card" x="44" y="384" width="624" height="104" rx="10"/>
+<rect class="hl k15" x="44" y="384" width="624" height="104" rx="10"/>
+<text class="num" x="58" y="410">04</text>
+<g class="icon" transform="translate(84 394) scale(0.8333)"><rect x="3.5" y="4" width="17" height="7" rx="2"/><rect x="3.5" y="13" width="17" height="7" rx="2"/><path d="M7.5 7.5h.01M7.5 16.5h.01"/></g>
+<text class="name" x="114" y="410">Provision</text>
+<text class="what" x="58" y="432">create or change infra</text>
+<text class="tool" x="58" y="456">Terraform</text>
+<text class="tool" x="58" y="471">AWS · Azure · GCP · Hetzner</text>
+<text class="tiny-on k16" x="344" y="408">plan: +2 ~1</text><text class="tiny k17" x="420" y="408">apply</text><rect class="srv" x="344" y="422" width="34" height="22" rx="4"/><circle class="srv-led" cx="351" cy="433.0" r="2"/><line class="wire" x1="357" y1="433.0" x2="372" y2="433.0"/><rect class="srv-chg k18" x="341" y="419" width="40" height="28" rx="6"/><text class="tiny-on k19" x="361" y="462" text-anchor="middle">~ changed</text><g class="k20"><rect class="srv-new" x="390" y="422" width="34" height="22" rx="4"/><circle class="srv-led" cx="397" cy="433.0" r="2"/><line class="wire" x1="403" y1="433.0" x2="418" y2="433.0"/></g><g class="k21"><rect class="srv-new" x="436" y="422" width="34" height="22" rx="4"/><circle class="srv-led" cx="443" cy="433.0" r="2"/><line class="wire" x1="449" y1="433.0" x2="464" y2="433.0"/></g><text class="tiny-on k22" x="430" y="462" text-anchor="middle">+ new</text>
+<line class="wire" x1="70" y1="366" x2="70" y2="378"/><polygon class="head" points="70,383 66,377 74,377"/>
+<rect class="card" x="44" y="508" width="624" height="104" rx="10"/>
+<rect class="hl k23" x="44" y="508" width="624" height="104" rx="10"/>
+<text class="num" x="58" y="534">05</text>
+<g class="icon" transform="translate(84 518) scale(0.8333)"><path d="M12 15V4M7.5 8.5L12 4l4.5 4.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></g>
+<text class="name" x="114" y="534">Deploy</text>
+<text class="what" x="58" y="556">to the servers from 04</text>
+<text class="tool" x="58" y="580">Ansible · Helm · Argo CD</text>
+<text class="tiny k24" x="344" y="532">rolling update</text><rect class="srv" x="344" y="546" width="34" height="22" rx="4"/><circle class="srv-led" cx="351" cy="557.0" r="2"/><line class="wire" x1="357" y1="557.0" x2="372" y2="557.0"/><rect class="app k25" x="366" y="551" width="8" height="12" rx="2"/><circle class="ok k26" cx="361" cy="584" r="6"/><path class="okv k26" d="M 358.3 584.3 l 1.8 1.8 l 3.6 -3.9"/><rect class="srv" x="390" y="546" width="34" height="22" rx="4"/><circle class="srv-led" cx="397" cy="557.0" r="2"/><line class="wire" x1="403" y1="557.0" x2="418" y2="557.0"/><rect class="app k27" x="412" y="551" width="8" height="12" rx="2"/><circle class="ok k28" cx="407" cy="584" r="6"/><path class="okv k28" d="M 404.3 584.3 l 1.8 1.8 l 3.6 -3.9"/><rect class="srv" x="436" y="546" width="34" height="22" rx="4"/><circle class="srv-led" cx="443" cy="557.0" r="2"/><line class="wire" x1="449" y1="557.0" x2="464" y2="557.0"/><rect class="app k29" x="458" y="551" width="8" height="12" rx="2"/><circle class="ok k30" cx="453" cy="584" r="6"/><path class="okv k30" d="M 450.3 584.3 l 1.8 1.8 l 3.6 -3.9"/>
+<line class="wire" x1="70" y1="490" x2="70" y2="502"/><polygon class="head" points="70,507 66,501 74,501"/>
+<line class="wire" x1="70" y1="614" x2="70" y2="626"/><polygon class="head" points="70,631 66,625 74,625"/>
+<rect class="card" x="44" y="632" width="624" height="124" rx="10"/>
+<text class="num" x="58" y="658">06</text>
+<g class="icon" transform="translate(84 642) scale(0.8333)"><path d="M3 12h4l3-7 4 14 3-7h4"/></g>
+<text class="name" x="114" y="658">Observe</text>
+<rect class="badge" x="182" y="644" width="50" height="19" rx="9.5"/><circle class="live" cx="193" cy="653.5" r="3.5"/><text class="badge-text" x="201" y="658">24/7</text>
+<text class="what" x="58" y="680">metrics, logs, security events</text>
+<text class="tool" x="58" y="704">Prometheus · Grafana</text>
+<text class="tool" x="58" y="719">Zabbix · Wazuh</text>
+<clipPath id="beat-v"><rect x="344" y="644" width="304" height="44"/></clipPath><g clip-path="url(#beat-v)"><path class="pulse k31" d="M 344.0 666.0 L 358.0 666.0 L 362.0 662.0 L 366.0 666.0 L 370.0 666.0 L 373.0 673.0 L 376.0 646.0 L 379.0 675.0 L 382.0 666.0 L 394.0 666.0 L 394.0 666.0 L 408.0 666.0 L 412.0 662.0 L 416.0 666.0 L 420.0 666.0 L 423.0 673.0 L 426.0 646.0 L 429.0 675.0 L 432.0 666.0 L 444.0 666.0 L 444.0 666.0 L 458.0 666.0 L 462.0 662.0 L 466.0 666.0 L 470.0 666.0 L 473.0 673.0 L 476.0 646.0 L 479.0 675.0 L 482.0 666.0 L 494.0 666.0 L 494.0 666.0 L 508.0 666.0 L 512.0 662.0 L 516.0 666.0 L 520.0 666.0 L 523.0 673.0 L 526.0 646.0 L 529.0 675.0 L 532.0 666.0 L 544.0 666.0 L 544.0 666.0 L 558.0 666.0 L 562.0 662.0 L 566.0 666.0 L 570.0 666.0 L 573.0 673.0 L 576.0 646.0 L 579.0 675.0 L 582.0 666.0 L 594.0 666.0 L 594.0 666.0 L 608.0 666.0 L 612.0 662.0 L 616.0 666.0 L 620.0 666.0 L 623.0 673.0 L 626.0 646.0 L 629.0 675.0 L 632.0 666.0 L 644.0 666.0 L 644.0 666.0 L 658.0 666.0 L 662.0 662.0 L 666.0 666.0 L 670.0 666.0 L 673.0 673.0 L 676.0 646.0 L 679.0 675.0 L 682.0 666.0 L 694.0 666.0 L 694.0 666.0 L 708.0 666.0 L 712.0 662.0 L 716.0 666.0 L 720.0 666.0 L 723.0 673.0 L 726.0 646.0 L 729.0 675.0 L 732.0 666.0 L 744.0 666.0"/></g>
+<g class="k32"><rect class="alert" x="344" y="698" width="304" height="46" rx="10"/><g class="alert-icon" transform="translate(356 710) scale(0.9167)"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/></g><text class="alert-title" x="388" y="718">Alert</text><text class="what" x="388" y="734">to on-call SRE / DevOps</text></g>
+<path class="loop" d="M 44 694.0 L 16 694.0 L 16 64.0 L 42 64.0"/><polygon fill="#2fbfb4" opacity=".7" points="44,64.0 36,60.0 36,68.0"/><text class="tiny" transform="translate(11 379.0) rotate(-90)" text-anchor="middle">fixes come back as commits</text>
+<style>
+  svg { --accent: #2fbfb4; --red: #f85149; }
+  text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; }
+  .card { fill: #151b23; stroke: #3d444d; stroke-width: 1; }
+  .hl { fill: none; stroke: #2fbfb4; stroke-width: 2; }
+  .num { font-size: 12px; font-weight: 600; fill: #2fbfb4; letter-spacing: .08em; }
+  .name { font-size: 15px; font-weight: 600; fill: #e6edf3; }
+  .what { font-size: 12px; fill: #9198a1; }
+  .tool { font-size: 11px; fill: #9198a1; }
+  .tiny { font-size: 10.5px; fill: #9198a1; }
+  .tiny-on { font-size: 10.5px; font-weight: 600; fill: #2fbfb4; }
+  .icon { fill: none; stroke: #2fbfb4; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .wire { stroke: #3d444d; stroke-width: 1.5; fill: none; }
+  .head { fill: #3d444d; }
+  .slot { fill: #3d444d; opacity: .55; }
+  .bar { fill: #2fbfb4; }
+  .dot { fill: #151b23; stroke: #3d444d; stroke-width: 1.5; }
+  .dot-on { fill: #2fbfb4; }
+  .ok { fill: #2fbfb4; }
+  .okv { fill: none; stroke: #ffffff; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .chip { fill: #151b23; stroke: #2fbfb4; stroke-width: 1.5; }
+  .chip-text { font-size: 11px; font-weight: 600; fill: #e6edf3; }
+  .srv { fill: #151b23; stroke: #3d444d; stroke-width: 1.5; }
+  .srv-new { fill: #2fbfb4; fill-opacity: .18; stroke: #2fbfb4; stroke-width: 1.5; }
+  .srv-chg { fill: none; stroke: #2fbfb4; stroke-width: 1.8; stroke-dasharray: 3 2; }
+  .srv-led { fill: #9198a1; }
+  .app { fill: #2fbfb4; }
+  .db { fill: #151b23; stroke: #2fbfb4; stroke-width: 1.5; }
+  .box-body { fill: #2fbfb4; fill-opacity: .2; }
+  .box-frame { fill: none; stroke: #2fbfb4; stroke-width: 1.6; }
+  .ridge { stroke: #2fbfb4; stroke-width: 1.2; opacity: .75; }
+  .pulse { fill: none; stroke: #2fbfb4; stroke-width: 2; stroke-linejoin: round; animation: beat 1.2s linear infinite; }
+  .live { fill: #2fbfb4; animation: blink 1.4s ease-in-out infinite; }
+  .badge { fill: none; stroke: #2fbfb4; stroke-width: 1.2; }
+  .badge-text { font-size: 11px; font-weight: 700; fill: #2fbfb4; }
+  .alert { fill: #151b23; stroke: #f85149; stroke-width: 1.8; }
+  .alert-icon { fill: none; stroke: #f85149; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .alert-title { font-size: 13px; font-weight: 700; fill: #f85149; }
+  .loop { fill: none; stroke: #2fbfb4; stroke-width: 1.5; stroke-dasharray: 5 5; opacity: .7; animation: flow 1.6s linear infinite; }
+  @keyframes beat { to { transform: translateX(-50px) } }
+  @keyframes blink { 0%, 100% { opacity: 1 } 50% { opacity: .3 } }
+  @keyframes flow { to { stroke-dashoffset: -20 } }
+  .k1 { animation: k1 10.6s linear infinite; } @keyframes k1 { 0%, -0.47% { opacity: 0 } 0.94%, 8.49% { opacity: 1.0 } 10.85%, 100% { opacity: 0 } } .k2 { animation: k2 10.6s linear infinite; } @keyframes k2 { 0%, 2.83% { opacity: 0.0 } 4.25%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k3 { animation: k3 10.6s linear infinite; } @keyframes k3 { 0%, 8.02% { opacity: 0 } 9.43%, 24.53% { opacity: 1.0 } 26.89%, 100% { opacity: 0 } } .k4 { transform-box: fill-box; transform-origin: left center; animation: k4 10.6s linear infinite; } @keyframes k4 { 0%, 9.43% { transform: scaleX(0) } 17.92%, 92.45% { transform: scaleX(1) } 96.23%, 100% { transform: scaleX(0) } } .k5 { animation: k5 10.6s linear infinite; } @keyframes k5 { 0%, 17.92% { opacity: 0.0 } 19.34%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k6 { transform-box: fill-box; transform-origin: left center; animation: k6 10.6s linear infinite; } @keyframes k6 { 0%, 9.43% { transform: scaleX(0) } 14.15%, 92.45% { transform: scaleX(1) } 96.23%, 100% { transform: scaleX(0) } } .k7 { animation: k7 10.6s linear infinite; } @keyframes k7 { 0%, 14.15% { opacity: 0.0 } 15.57%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k8 { transform-box: fill-box; transform-origin: left center; animation: k8 10.6s linear infinite; } @keyframes k8 { 0%, 9.43% { transform: scaleX(0) } 23.58%, 92.45% { transform: scaleX(1) } 96.23%, 100% { transform: scaleX(0) } } .k9 { animation: k9 10.6s linear infinite; } @keyframes k9 { 0%, 23.58% { opacity: 0.0 } 25.00%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k10 { transform-box: fill-box; transform-origin: left center; animation: k10 10.6s linear infinite; } @keyframes k10 { 0%, 9.43% { transform: scaleX(0) } 19.81%, 92.45% { transform: scaleX(1) } 96.23%, 100% { transform: scaleX(0) } } .k11 { animation: k11 10.6s linear infinite; } @keyframes k11 { 0%, 19.81% { opacity: 0.0 } 21.23%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k12 { animation: k12 10.6s linear infinite; } @keyframes k12 { 0%, 24.06% { opacity: 0 } 25.47%, 33.96% { opacity: 1.0 } 36.32%, 100% { opacity: 0 } } .k13 { animation: k13 10.6s ease-in-out infinite; } @keyframes k13 { 0%, 25.94% { transform: translateX(0) } 32.55%, 92.45% { transform: translateX(206px) } 96.23%, 100% { transform: translateX(0) } } .k14 { animation: k14 10.6s linear infinite; } @keyframes k14 { 0%, 32.55% { opacity: 0.0 } 33.96%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k15 { animation: k15 10.6s linear infinite; } @keyframes k15 { 0%, 33.49% { opacity: 0 } 34.91%, 47.17% { opacity: 1.0 } 49.53%, 100% { opacity: 0 } } .k16 { animation: k16 10.6s linear infinite; } @keyframes k16 { 0%, 35.38% { opacity: 0.0 } 36.79%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k17 { animation: k17 10.6s linear infinite; } @keyframes k17 { 0%, 39.62% { opacity: 0.0 } 41.04%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k18 { animation: k18 10.6s linear infinite; } @keyframes k18 { 0%, 41.04% { opacity: 0.0 } 42.45%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k19 { animation: k19 10.6s linear infinite; } @keyframes k19 { 0%, 41.04% { opacity: 0.0 } 42.45%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k20 { animation: k20 10.6s linear infinite; } @keyframes k20 { 0%, 42.92% { opacity: 0.0 } 44.34%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k21 { animation: k21 10.6s linear infinite; } @keyframes k21 { 0%, 44.81% { opacity: 0.0 } 46.23%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k22 { animation: k22 10.6s linear infinite; } @keyframes k22 { 0%, 44.81% { opacity: 0.0 } 46.23%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k23 { animation: k23 10.6s linear infinite; } @keyframes k23 { 0%, 46.70% { opacity: 0 } 48.11%, 61.32% { opacity: 1.0 } 63.68%, 100% { opacity: 0 } } .k24 { animation: k24 10.6s linear infinite; } @keyframes k24 { 0%, 48.11% { opacity: 0.0 } 49.53%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k25 { animation: k25 10.6s linear infinite; } @keyframes k25 { 0%, 51.42% { opacity: 0.0 } 52.83%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k26 { animation: k26 10.6s linear infinite; } @keyframes k26 { 0%, 51.89% { opacity: 0.0 } 53.30%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k27 { animation: k27 10.6s linear infinite; } @keyframes k27 { 0%, 55.19% { opacity: 0.0 } 56.60%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k28 { animation: k28 10.6s linear infinite; } @keyframes k28 { 0%, 55.66% { opacity: 0.0 } 57.08%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k29 { animation: k29 10.6s linear infinite; } @keyframes k29 { 0%, 58.96% { opacity: 0.0 } 60.38%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k30 { animation: k30 10.6s linear infinite; } @keyframes k30 { 0%, 59.43% { opacity: 0.0 } 60.85%, 92.45% { opacity: 1 } 96.23%, 100% { opacity: 0.0 } } .k31 { animation: k31 10.6s linear infinite; } @keyframes k31 { 0%, 69.34% { stroke: var(--accent) } 70.75%, 88.68% { stroke: var(--red) } 91.51%, 100% { stroke: var(--accent) } } .k32 { animation: k32 10.6s linear infinite; } @keyframes k32 { 0%, 69.34% { opacity: 0 } 70.75%, 88.68% { opacity: 1.0 } 91.04%, 100% { opacity: 0 } }
+  @media (prefers-reduced-motion: reduce) {
+    [class^="k"], [class*=" k"], .pulse, .live, .loop { animation: none !important; }
+    [class^="k"], [class*=" k"] { opacity: 1 !important; transform: none !important; } }
+</style>
+</svg>

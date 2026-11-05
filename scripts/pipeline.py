@@ -116,6 +116,9 @@ def style(t, anim):
   .srv-led {{ fill: {t['muted']}; }}
   .app {{ fill: {t['accent']}; }}
   .db {{ fill: {t['fill']}; stroke: {t['accent']}; stroke-width: 1.5; }}
+  .box-body {{ fill: {t['accent']}; fill-opacity: .2; }}
+  .box-frame {{ fill: none; stroke: {t['accent']}; stroke-width: 1.6; }}
+  .ridge {{ stroke: {t['accent']}; stroke-width: 1.2; opacity: .75; }}
   .pulse {{ fill: none; stroke: {t['accent']}; stroke-width: 2; stroke-linejoin: round; animation: beat 1.2s linear infinite; }}
   .live {{ fill: {t['accent']}; animation: blink 1.4s ease-in-out infinite; }}
   .badge {{ fill: none; stroke: {t['accent']}; stroke-width: 1.2; }}
@@ -174,6 +177,13 @@ def viz_build(anim, rx, ry, rw, rh):
     return "".join(out)
 
 
+def container(x, y, w=44, h=20):
+    """A shipping container: the image that goes to the registry."""
+    ridges = "".join(f'<line class="ridge" x1="{x + k}" y1="{y + 3}" x2="{x + k}" y2="{y + h - 3}"/>' for k in range(7, w - 3, 6))
+    return (f'<rect class="box-body" x="{x}" y="{y}" width="{w}" height="{h}" rx="2"/>{ridges}'
+            f'<rect class="box-frame" x="{x}" y="{y}" width="{w}" height="{h}" rx="2"/>')
+
+
 def viz_package(anim, rx, ry, rw, rh):
     y = ry + rh / 2
     dbx = rx + rw - 40
@@ -183,9 +193,9 @@ def viz_package(anim, rx, ry, rw, rh):
            f'<line class="db" x1="{dbx}" y1="{y - 12}" x2="{dbx}" y2="{y + 14}"/><line class="db" x1="{dbx + 36}" y1="{y - 12}" x2="{dbx + 36}" y2="{y + 14}"/>'
            f'<ellipse class="db" cx="{dbx + 18}" cy="{y - 12}" rx="18" ry="5"/>',
            f'<text class="tiny" x="{dbx + 18}" y="{y + 32}" text-anchor="middle">registry</text>']
-    m = anim.move(2.75, 3.45, dbx - rx - 70)
-    out.append(f'<g class="{m}"><rect class="chip" x="{rx}" y="{y - 11}" width="54" height="22" rx="6"/>'
-               f'<text class="chip-text" x="{rx + 27}" y="{y + 4}" text-anchor="middle">app:1.4</text></g>')
+    m = anim.move(2.75, 3.45, dbx - rx - 58)
+    out.append(f'<g class="{m}">{container(rx, y - 10)}'
+               f'<text class="chip-text" x="{rx + 22}" y="{y - 15}" text-anchor="middle">app:1.4</text></g>')
     out.append(tick(anim, dbx + 34, y - 16, 3.5, r=6))
     return "".join(out)
 
@@ -321,6 +331,48 @@ def narrow(t):
     return svg(W, by + 198, t, anim, out)
 
 
+def vertical(t):
+    W, x0 = 680, 44
+    anim, out = Anim(), []
+    ch, gap, cw = 104, 20, W - x0 - 12
+    ys = [12 + i * (ch + gap) for i in range(len(STAGES))]
+    for i, y in enumerate(ys):
+        title, sub, tools, t0, t1 = STAGES[i]
+        out += [f'<rect class="card" x="{x0}" y="{y}" width="{cw}" height="{ch}" rx="10"/>',
+                f'<rect class="hl {anim.window(t0, t1)}" x="{x0}" y="{y}" width="{cw}" height="{ch}" rx="10"/>',
+                f'<text class="num" x="{x0 + 14}" y="{y + 26}">{i + 1:02d}</text>',
+                icon(title, x0 + 40, y + 10),
+                f'<text class="name" x="{x0 + 70}" y="{y + 26}">{esc(title)}</text>',
+                f'<text class="what" x="{x0 + 14}" y="{y + 48}">{esc(sub)}</text>']
+        for k, line in enumerate(tools):
+            out.append(f'<text class="tool" x="{x0 + 14}" y="{y + 72 + k * 15}">{esc(line)}</text>')
+        out.append(VIZ[i](anim, x0 + 300, y + 14, cw - 320, ch - 28))
+        if i:
+            out.append(arrow(x0 + 26, y - gap + 2, x0 + 26, y - 1))
+    by = ys[-1] + ch + gap
+    out.append(arrow(x0 + 26, by - gap + 2, x0 + 26, by - 1))
+    oh = 124
+    out += [f'<rect class="card" x="{x0}" y="{by}" width="{cw}" height="{oh}" rx="10"/>',
+            f'<text class="num" x="{x0 + 14}" y="{by + 26}">06</text>',
+            icon("Observe", x0 + 40, by + 10),
+            f'<text class="name" x="{x0 + 70}" y="{by + 26}">Observe</text>',
+            f'<rect class="badge" x="{x0 + 138}" y="{by + 12}" width="50" height="19" rx="9.5"/>'
+            f'<circle class="live" cx="{x0 + 149}" cy="{by + 21.5}" r="3.5"/>'
+            f'<text class="badge-text" x="{x0 + 157}" y="{by + 26}">24/7</text>',
+            f'<text class="what" x="{x0 + 14}" y="{by + 48}">metrics, logs, security events</text>',
+            f'<text class="tool" x="{x0 + 14}" y="{by + 72}">Prometheus · Grafana</text>',
+            f'<text class="tool" x="{x0 + 14}" y="{by + 87}">Zabbix · Wazuh</text>',
+            pulse(anim, x0 + 300, by + 12, cw - 320, 44, "beat-v"),
+            alert(anim, x0 + 300, by + 66, cw - 320)]
+    # incidents come back as commits: a dashed loop up the left side
+    top, bottom = ys[0] + ch / 2, by + oh / 2
+    out.append(f'<path class="loop" d="M {x0} {bottom} L 16 {bottom} L 16 {top} L {x0 - 2} {top}"/>'
+               f'<polygon fill="{t["accent"]}" opacity=".7" points="{x0},{top} {x0 - 8},{top - 4} {x0 - 8},{top + 4}"/>'
+               f'<text class="tiny" transform="translate(11 {(top + bottom) / 2}) rotate(-90)" text-anchor="middle">'
+               f'fixes come back as commits</text>')
+    return svg(W, by + oh + 12, t, anim, out)
+
+
 def svg(w, h, t, anim, body):
     title = ("Delivery pipeline. Commit. Build and test with build, lint, unit tests and a secret scan in parallel. "
              "Package: the artifact goes to a registry. Provision: plan and apply create or change the servers. "
@@ -336,4 +388,5 @@ if __name__ == "__main__":
     for theme, t in THEMES.items():
         (out / f"{theme}.svg").write_text(wide(t), encoding="utf-8", newline="\n")
         (out / f"{theme}-narrow.svg").write_text(narrow(t), encoding="utf-8", newline="\n")
+        (out / f"{theme}-vertical.svg").write_text(vertical(t), encoding="utf-8", newline="\n")
     print("written to", out)
