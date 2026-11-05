@@ -16,10 +16,10 @@
 I work at [Silk Data](https://github.com/SilkData), a machine-learning R&D company. Most of my work is CI/CD pipelines and the infrastructure under them: Jenkins, GitLab CI, Terraform, Ansible and Kubernetes. I started as a sysadmin in 2013, moved to DevOps in 2018 and have led and mentored a team of two engineers.
 
 <picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/pipeline/dark-narrow.svg?v=3">
-  <source media="(max-width: 600px)" srcset="./assets/pipeline/light-narrow.svg?v=3">
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/pipeline/dark-vertical.svg?v=3">
-  <img src="./assets/pipeline/light-vertical.svg?v=3" alt="Delivery pipeline. Commit. Build and test, with build, lint, unit tests and a secret scan in parallel. Package: the artifact goes to a registry. Provision: plan and apply create or change the servers. Deploy: a rolling update onto those servers. Observe runs 24/7 and alerts the on-call SRE or DevOps engineer; fixes come back as commits. Tools: Git, GitLab, GitHub, Jenkins, GitLab CI, GitHub Actions, Docker, Harbor, Nexus, Terraform on AWS, Azure, GCP and Hetzner, Ansible, Helm, Argo CD, Prometheus, Grafana, Zabbix, Wazuh." width="100%">
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/pipeline/dark-narrow.svg?v=4">
+  <source media="(max-width: 600px)" srcset="./assets/pipeline/light-narrow.svg?v=4">
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/pipeline/dark-vertical.svg?v=4">
+  <img src="./assets/pipeline/light-vertical.svg?v=4" alt="Delivery pipeline. Commit. Build and test, with build, lint, unit tests and a secret scan in parallel. Package: the artifact goes to a registry. Provision: plan and apply create or change the servers. Deploy: a rolling update onto those servers. Observe runs 24/7 and alerts the on-call SRE or DevOps engineer; fixes come back as commits. Tools: Git, GitLab, GitHub, Jenkins, GitLab CI, GitHub Actions, Docker, Harbor, Nexus, Terraform on AWS, Azure, GCP and Hetzner, Ansible, Helm, Argo CD, Prometheus, Grafana, Zabbix, Wazuh." width="100%">
 </picture>
 
 <sub>How the pipelines I build usually look. On the right are the tools I've used for each step in production.</sub>
