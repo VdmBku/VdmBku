@@ -6,7 +6,7 @@
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/app-delivery/dark-narrow.svg">
   <source media="(max-width: 600px)" srcset="../assets/app-delivery/light-narrow.svg">
   <source media="(prefers-color-scheme: dark)" srcset="../assets/app-delivery/dark.svg">
-  <img src="../assets/app-delivery/light.svg" alt="Three flows. Every branch: checkout, build, nine test suites in parallel, image, reports. Release on demand: pick a tag and services, checks, deploy the picked services to stage, stage healthy, the same release to several customer clusters, update the version page. Dependency scan: resolve dependencies, scan against CVE data, publish a report." width="100%">
+  <img src="../assets/app-delivery/light.svg" alt="Three flows. Every branch or tag: checkout, build, nine test suites in parallel, image, reports. Release on demand: pick a tag and services, checks, deploy the picked services to stage, stage healthy, the same release to several customer clusters, update the version page. Dependency scan: resolve dependencies, scan against CVE data, publish a report." width="100%">
 </picture>
 
 ## Moving a legacy backend to Kubernetes
@@ -17,9 +17,9 @@ The backend used to run as Tomcat and MySQL directly on plain servers. I contain
 - MySQL moved from a Linux server to the managed Azure Database for MySQL.
 - The heavy processing servers are driven by an Azure queue. They start only when a task lands in the queue and shut down when the work is done, so the big machines cost money only while they are busy. That kept the cloud bill low from day one.
 
-## Every branch
+## Every branch or tag
 
-A multibranch Jenkins pipeline builds every branch. After the build, the test suites, split by area of the codebase, run in parallel with fail-fast, so a broken branch stops early. The image is built alongside, and the test reports are published with every run.
+A multibranch Jenkins pipeline builds every branch and every tag. After the build, the test suites, split by area of the codebase, run in parallel with fail-fast, so a broken branch stops early. The image is built alongside, and the test reports are published with every run.
 
 ## Releases
 

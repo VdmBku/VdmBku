@@ -11,8 +11,8 @@ from pipeline import FONT, THEMES, esc
 
 # (kind, title, subtitle, start, done); kinds: node, bars, grid, scan
 TRACKS = [
-    ("Every branch", "build and test", [
-        ("node", "Checkout", "branch", 0.3, 0.8),
+    ("Every branch or tag", "build and test", [
+        ("node", "Checkout", "branch or tag", 0.3, 0.8),
         ("node", "Build", "app and images", 0.9, 1.4),
         ("bars", "Tests", "9 suites in parallel", 1.5, 3.8),
         ("node", "Image", "to registry", 3.9, 4.2),
@@ -259,7 +259,7 @@ def narrow(t):
 
 
 def svg(w, h, t, anim, body):
-    title = ("Three flows: every branch is built and tested with nine suites in parallel; a release deploys the picked "
+    title = ("Three flows: every branch or tag is built and tested with nine suites in parallel; a release deploys the picked "
              "services to stage first and, once stage is healthy, to the clusters of several customers; a dependency scan "
              "checks for known vulnerabilities.")
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img">\n'

@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="400" height="738" viewBox="0 0 400 738" role="img">
-<title>Three flows: every branch is built and tested with nine suites in parallel; a release deploys the picked services to stage first and, once stage is healthy, to the clusters of several customers; a dependency scan checks for known vulnerabilities.</title>
-<text class="track-title" x="12" y="24">Every branch</text><text class="track-sub" x="388" y="24" text-anchor="end">build and test</text>
+<title>Three flows: every branch or tag is built and tested with nine suites in parallel; a release deploys the picked services to stage first and, once stage is healthy, to the clusters of several customers; a dependency scan checks for known vulnerabilities.</title>
+<text class="track-title" x="12" y="24">Every branch or tag</text><text class="track-sub" x="388" y="24" text-anchor="end">build and test</text>
 <line class="wire" x1="28" y1="66" x2="28" y2="88"/><line class="wire-on a1" x1="28" y1="66" x2="28" y2="88"/>
 <line class="wire" x1="28" y1="112" x2="28" y2="134"/><line class="wire-on a2" x1="28" y1="112" x2="28" y2="134"/>
 <line class="wire" x1="28" y1="158" x2="28" y2="180"/><line class="wire-on a3" x1="28" y1="158" x2="28" y2="180"/>
 <line class="wire" x1="28" y1="204" x2="28" y2="226"/><line class="wire-on a4" x1="28" y1="204" x2="28" y2="226"/>
 <circle class="node" cx="28" cy="54" r="9"/><circle class="done a5" cx="28" cy="54" r="9"/><path class="tick a5" d="M 23.5 54.5 l 3 3 l 6 -6.5"/>
-<text class="title" x="48" y="52">Checkout</text><text class="sub" x="48" y="68">branch</text>
+<text class="title" x="48" y="52">Checkout</text><text class="sub" x="48" y="68">branch or tag</text>
 <circle class="node" cx="28" cy="100" r="9"/><circle class="done a6" cx="28" cy="100" r="9"/><path class="tick a6" d="M 23.5 100.5 l 3 3 l 6 -6.5"/>
 <text class="title" x="48" y="98">Build</text><text class="sub" x="48" y="114">app and images</text>
 <circle class="node" cx="28" cy="146" r="9"/><circle class="done a7" cx="28" cy="146" r="9"/><path class="tick a7" d="M 23.5 146.5 l 3 3 l 6 -6.5"/>

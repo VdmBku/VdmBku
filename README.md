@@ -44,9 +44,9 @@ Brought server load from ~85 down to under 7 during a bot-driven incident, conta
 I moved the legacy backend from plain servers to a managed container platform in the cloud, back when that was not yet the usual move: containerized the app, moved file storage to object storage and the database to a managed service. The big processing servers started only when a task landed in the queue and shut down after, which kept the cloud bill low from day one. Build and release pipelines cover every part, including the mobile apps and their distribution outside the app stores.
 
 ### [Enterprise product](projects/enterprise-product.md)
-<sub>Release testing on four database engines</sub>
+<sub>Release builds, security checks, testing on four database engines</sub>
 
-For every release the pipeline restores a production-like dump on each engine, runs the migration and checks that the server comes up.
+One pipeline builds the release, others audit dependencies and rebuild the antivirus image. Every release is also tested on four database engines: a production-like dump, the migration, and a check that the server comes up.
 
 ### [Company infrastructure](projects/company-infrastructure.md)
 <sub>Servers as code</sub>

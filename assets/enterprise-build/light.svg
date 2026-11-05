@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="336" viewBox="0 0 1000 336" role="img">
+<title>Release build: checkout, three web front-ends, server tests cached per commit, server JAR with the bundles inside, Docker image, deploy with Ansible. Dependency audit: npm audit on four front-ends, a gate that fails on high severity, archived reports. Antivirus service: keep the previous image for rollback, build the ClamAV image, push, deploy with Ansible.</title>
+<text class="track-title" x="12" y="50">Release build</text><text class="track-sub" x="12" y="67">one pipeline</text>
+<path class="wire" d="M 212 52 L 316 52" fill="none"/><path class="wire-on a1" d="M 212 52 L 316 52" fill="none"/>
+<path class="wire" d="M 414 52 L 518 52" fill="none"/><path class="wire-on a2" d="M 414 52 L 518 52" fill="none"/>
+<path class="wire" d="M 542 52 L 642 52" fill="none"/><path class="wire-on a3" d="M 542 52 L 642 52" fill="none"/>
+<path class="wire" d="M 666 52 L 766 52" fill="none"/><path class="wire-on a4" d="M 666 52 L 766 52" fill="none"/>
+<path class="wire" d="M 790 52 L 890 52" fill="none"/><path class="wire-on a5" d="M 790 52 L 890 52" fill="none"/>
+<circle class="node" cx="200" cy="52" r="10"/><circle class="done a6" cx="200" cy="52" r="10"/><path class="tick a6" d="M 195.5 52.5 l 3 3 l 6 -6.5"/>
+<text class="title" x="200.0" y="85" text-anchor="middle">Checkout</text><text class="sub" x="200.0" y="102" text-anchor="middle">release tag</text>
+<rect class="svc" x="324" y="41.0" width="22" height="22" rx="4"/><rect class="svc-on a7" x="324" y="41.0" width="22" height="22" rx="4"/><rect class="svc" x="354" y="41.0" width="22" height="22" rx="4"/><rect class="svc-on a8" x="354" y="41.0" width="22" height="22" rx="4"/><rect class="svc" x="384" y="41.0" width="22" height="22" rx="4"/><rect class="svc-on a9" x="384" y="41.0" width="22" height="22" rx="4"/>
+<text class="title" x="365.0" y="85" text-anchor="middle">Web bundles</text><text class="sub" x="365.0" y="102" text-anchor="middle">3 front-ends</text>
+<circle class="node" cx="530" cy="52" r="10"/><circle class="done a10" cx="530" cy="52" r="10"/><path class="tick a10" d="M 525.5 52.5 l 3 3 l 6 -6.5"/>
+<text class="title" x="530.0" y="85" text-anchor="middle">Server tests</text><text class="sub" x="530.0" y="102" text-anchor="middle">cached per commit</text>
+<circle class="node" cx="654" cy="52" r="10"/><circle class="done a11" cx="654" cy="52" r="10"/><path class="tick a11" d="M 649.5 52.5 l 3 3 l 6 -6.5"/>
+<text class="title" x="654.0" y="85" text-anchor="middle">Server JAR</text><text class="sub" x="654.0" y="102" text-anchor="middle">bundles inside</text>
+<circle class="node" cx="778" cy="52" r="10"/><circle class="done a12" cx="778" cy="52" r="10"/><path class="tick a12" d="M 773.5 52.5 l 3 3 l 6 -6.5"/>
+<text class="title" x="778.0" y="85" text-anchor="middle">Image</text><text class="sub" x="778.0" y="102" text-anchor="middle">Docker</text>
+<circle class="node" cx="902" cy="52" r="10"/><circle class="done a13" cx="902" cy="52" r="10"/><path class="tick a13" d="M 897.5 52.5 l 3 3 l 6 -6.5"/>
+<text class="title" x="902.0" y="85" text-anchor="middle">Deploy</text><text class="sub" x="902.0" y="102" text-anchor="middle">Ansible, picked target</text>
+<text class="track-title" x="12" y="158">Dependency audit</text><text class="track-sub" x="12" y="175">front-end packages</text>
+<path class="wire" d="M 320 160 L 424 160" fill="none"/><path class="wire-on a14" d="M 320 160 L 424 160" fill="none"/>
+<path class="wire" d="M 448 160 L 548 160" fill="none"/><path class="wire-on a15" d="M 448 160 L 548 160" fill="none"/>
+<rect class="svc" x="200" y="149.0" width="22" height="22" rx="4"/><rect class="svc-on a16" x="200" y="149.0" width="22" height="22" rx="4"/><rect class="svc" x="230" y="149.0" width="22" height="22" rx="4"/><rect class="svc-on a17" x="230" y="149.0" width="22" height="22" rx="4"/><rect class="svc" x="260" y="149.0" width="22" height="22" rx="4"/><rect class="svc-on a18" x="260" y="149.0" width="22" height="22" rx="4"/><rect class="svc" x="290" y="149.0" width="22" height="22" rx="4"/><rect class="svc-on a19" x="290" y="149.0" width="22" height="22" rx="4"/>
+<text class="title" x="256.0" y="193" text-anchor="middle">4 front-ends</text><text class="sub" x="256.0" y="210" text-anchor="middle">npm audit each</text>
+<circle class="node" cx="436" cy="160" r="10"/><circle class="done a20" cx="436" cy="160" r="10"/><path class="tick a20" d="M 431.5 160.5 l 3 3 l 6 -6.5"/>
+<text class="title" x="436.0" y="193" text-anchor="middle">Gate</text><text class="sub" x="436.0" y="210" text-anchor="middle">fails on high severity</text>
+<circle class="node" cx="560" cy="160" r="10"/><circle class="done a21" cx="560" cy="160" r="10"/><path class="tick a21" d="M 555.5 160.5 l 3 3 l 6 -6.5"/>
+<text class="title" x="560.0" y="193" text-anchor="middle">Reports</text><text class="sub" x="560.0" y="210" text-anchor="middle">archived</text>
+<text class="track-title" x="12" y="266">Antivirus service</text><text class="track-sub" x="12" y="283">its own image</text>
+<path class="wire" d="M 212 268 L 312 268" fill="none"/><path class="wire-on a22" d="M 212 268 L 312 268" fill="none"/>
+<path class="wire" d="M 336 268 L 436 268" fill="none"/><path class="wire-on a23" d="M 336 268 L 436 268" fill="none"/>
+<path class="wire" d="M 460 268 L 560 268" fill="none"/><path class="wire-on a24" d="M 460 268 L 560 268" fill="none"/>
+<circle class="node" cx="200" cy="268" r="10"/><circle class="done a25" cx="200" cy="268" r="10"/><path class="tick a25" d="M 195.5 268.5 l 3 3 l 6 -6.5"/>
+<text class="title" x="200.0" y="301" text-anchor="middle">Keep previous</text><text class="sub" x="200.0" y="318" text-anchor="middle">rollback tag</text>
+<circle class="node" cx="324" cy="268" r="10"/><circle class="done a26" cx="324" cy="268" r="10"/><path class="tick a26" d="M 319.5 268.5 l 3 3 l 6 -6.5"/>
+<text class="title" x="324.0" y="301" text-anchor="middle">Build</text><text class="sub" x="324.0" y="318" text-anchor="middle">ClamAV image</text>
+<circle class="node" cx="448" cy="268" r="10"/><circle class="done a27" cx="448" cy="268" r="10"/><path class="tick a27" d="M 443.5 268.5 l 3 3 l 6 -6.5"/>
+<text class="title" x="448.0" y="301" text-anchor="middle">Push</text><text class="sub" x="448.0" y="318" text-anchor="middle">registry</text>
+<circle class="node" cx="572" cy="268" r="10"/><circle class="done a28" cx="572" cy="268" r="10"/><path class="tick a28" d="M 567.5 268.5 l 3 3 l 6 -6.5"/>
+<text class="title" x="572.0" y="301" text-anchor="middle">Deploy</text><text class="sub" x="572.0" y="318" text-anchor="middle">Ansible</text>
+<line class="divider" x1="12" y1="120" x2="988" y2="120"/>
+<line class="divider" x1="12" y1="228" x2="988" y2="228"/>
+<style>
+  text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; }
+  .track-title { font-size: 14px; font-weight: 600; fill: #1f2328; }
+  .track-sub { font-size: 12px; fill: #59636e; }
+  .title { font-size: 13px; font-weight: 600; fill: #1f2328; }
+  .sub { font-size: 12px; fill: #59636e; }
+  .wire { stroke: #d0d7de; stroke-width: 3; stroke-linecap: round; }
+  .wire-on { stroke: #0f8a82; stroke-width: 3; stroke-linecap: round; opacity: 0; }
+  .node { fill: #f6f8fa; stroke: #d0d7de; stroke-width: 2; }
+  .done { fill: #0f8a82; opacity: 0; }
+  .tick { fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
+  .slot { fill: #d0d7de; opacity: .55; }
+  .bar { fill: #0f8a82; }
+  .svc { fill: #f6f8fa; stroke: #d0d7de; stroke-width: 1.5; }
+  .svc-on { fill: #0f8a82; opacity: 0; }
+  .divider { stroke: #d0d7de; stroke-width: 1; stroke-dasharray: 3 5; opacity: .7; }
+  .a1 { animation: a1 11.8s linear infinite; } @keyframes a1 { 0%, 5.93% { opacity: 0.0 } 7.20%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a2 { animation: a2 11.8s linear infinite; } @keyframes a2 { 0%, 15.25% { opacity: 0.0 } 16.53%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a3 { animation: a3 11.8s linear infinite; } @keyframes a3 { 0%, 22.03% { opacity: 0.0 } 23.31%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a4 { animation: a4 11.8s linear infinite; } @keyframes a4 { 0%, 26.27% { opacity: 0.0 } 27.54%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a5 { animation: a5 11.8s linear infinite; } @keyframes a5 { 0%, 30.51% { opacity: 0.0 } 31.78%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a6 { animation: a6 11.8s linear infinite; } @keyframes a6 { 0%, 5.51% { opacity: 0.0 } 6.78%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a7 { animation: a7 11.8s linear infinite; } @keyframes a7 { 0%, 9.18% { opacity: 0.0 } 10.45%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a8 { animation: a8 11.8s linear infinite; } @keyframes a8 { 0%, 12.01% { opacity: 0.0 } 13.28%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a9 { animation: a9 11.8s linear infinite; } @keyframes a9 { 0%, 14.83% { opacity: 0.0 } 16.10%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a10 { animation: a10 11.8s linear infinite; } @keyframes a10 { 0%, 21.61% { opacity: 0.0 } 22.88%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a11 { animation: a11 11.8s linear infinite; } @keyframes a11 { 0%, 25.85% { opacity: 0.0 } 27.12%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a12 { animation: a12 11.8s linear infinite; } @keyframes a12 { 0%, 30.08% { opacity: 0.0 } 31.36%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a13 { animation: a13 11.8s linear infinite; } @keyframes a13 { 0%, 35.17% { opacity: 0.0 } 36.44%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a14 { animation: a14 11.8s linear infinite; } @keyframes a14 { 0%, 52.54% { opacity: 0.0 } 53.81%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a15 { animation: a15 11.8s linear infinite; } @keyframes a15 { 0%, 56.78% { opacity: 0.0 } 58.05%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a16 { animation: a16 11.8s linear infinite; } @keyframes a16 { 0%, 41.95% { opacity: 0.0 } 43.22%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a17 { animation: a17 11.8s linear infinite; } @keyframes a17 { 0%, 45.34% { opacity: 0.0 } 46.61%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a18 { animation: a18 11.8s linear infinite; } @keyframes a18 { 0%, 48.73% { opacity: 0.0 } 50.00%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a19 { animation: a19 11.8s linear infinite; } @keyframes a19 { 0%, 52.12% { opacity: 0.0 } 53.39%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a20 { animation: a20 11.8s linear infinite; } @keyframes a20 { 0%, 56.36% { opacity: 0.0 } 57.63%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a21 { animation: a21 11.8s linear infinite; } @keyframes a21 { 0%, 59.75% { opacity: 0.0 } 61.02%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a22 { animation: a22 11.8s linear infinite; } @keyframes a22 { 0%, 66.95% { opacity: 0.0 } 68.22%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a23 { animation: a23 11.8s linear infinite; } @keyframes a23 { 0%, 71.19% { opacity: 0.0 } 72.46%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a24 { animation: a24 11.8s linear infinite; } @keyframes a24 { 0%, 74.58% { opacity: 0.0 } 75.85%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a25 { animation: a25 11.8s linear infinite; } @keyframes a25 { 0%, 66.53% { opacity: 0.0 } 67.80%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a26 { animation: a26 11.8s linear infinite; } @keyframes a26 { 0%, 70.76% { opacity: 0.0 } 72.03%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a27 { animation: a27 11.8s linear infinite; } @keyframes a27 { 0%, 74.15% { opacity: 0.0 } 75.42%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } } .a28 { animation: a28 11.8s linear infinite; } @keyframes a28 { 0%, 78.39% { opacity: 0.0 } 79.66%, 93.22% { opacity: 1 } 96.61%, 100% { opacity: 0.0 } }
+  @media (prefers-reduced-motion: reduce) {
+    [class^="a"], [class*=" a"] { animation: none !important; opacity: 1 !important; transform: none !important; } }
+</style>
+</svg>
