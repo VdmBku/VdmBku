@@ -26,13 +26,32 @@ I work at [Silk Data](https://github.com/SilkData), a machine-learning R&D compa
 
 ## Selected work
 
-**Media CMS.** Microservices behind a high-traffic media portal. I run the delivery pipelines for all environments and I'm building a new cloud production environment for it, fully described in code.
+### Media CMS
+<sub>Microservices behind a high-traffic media portal</sub>
 
-**Legacy servers of the same portal.** Brought server load from ~85 down to under 7 during a bot-driven incident, contained a critical remote code execution bug on a runtime that could not be patched, and moved the origin behind the CDN step by step with zero downtime.
+I run the delivery pipelines for all environments and I'm building a new cloud production environment for it, fully described in code.
 
-**Cross-platform product** <sub>(since 2018)</sub>. Backend, web and mobile apps. I moved the legacy backend from plain servers to a managed container platform in the cloud, back when that was not yet the usual move: containerized the app, moved file storage to object storage and the database to a managed service. The big processing servers started only when a task landed in the queue and shut down after, which kept the cloud bill low from day one. Build and release pipelines cover every part, including the mobile apps and their distribution outside the app stores.
+### Legacy servers of the same portal
+<sub>Incident response and security</sub>
 
-**Enterprise product.** Every release is tested against four database engines: the pipeline restores a production-like dump, runs the migration and checks that the server comes up.
+Brought server load from ~85 down to under 7 during a bot-driven incident, contained a critical remote code execution bug on a runtime that could not be patched, and moved the origin behind the CDN step by step with zero downtime.
+
+### Cross-platform product
+<sub>Backend, web and mobile apps · since 2018</sub>
+
+I moved the legacy backend from plain servers to a managed container platform in the cloud, back when that was not yet the usual move: containerized the app, moved file storage to object storage and the database to a managed service. The big processing servers started only when a task landed in the queue and shut down after, which kept the cloud bill low from day one. Build and release pipelines cover every part, including the mobile apps and their distribution outside the app stores.
+
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/app-delivery/dark-narrow.svg">
+  <source media="(max-width: 600px)" srcset="./assets/app-delivery/light-narrow.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/app-delivery/dark.svg">
+  <img src="./assets/app-delivery/light.svg" alt="Three flows. Every branch: checkout, build, nine test suites in parallel, image, reports. Release on demand: pick a tag and services, preflight, lint, deploy only the picked services, wait for healthy rollouts, update the version page. Dependency scan: resolve dependencies, scan against CVE data, publish a report." width="100%">
+</picture>
+
+### Enterprise product
+<sub>Release testing on four database engines</sub>
+
+For every release the pipeline restores a production-like dump on each engine, runs the migration and checks that the server comes up.
 
 <picture>
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/db-matrix/dark-narrow.svg">
@@ -41,9 +60,15 @@ I work at [Silk Data](https://github.com/SilkData), a machine-learning R&D compa
   <img src="./assets/db-matrix/light.svg" alt="A new release is checked on PostgreSQL, Oracle, MariaDB and MySQL one after another. For each engine: database up, build and tests, restore dump, migrate, server up. When all four pass, the release is OK." width="100%">
 </picture>
 
-**Company infrastructure.** All internal and client servers are described in code, each with its own firewall. One pipeline brings any new server to the same secure, monitored baseline.
+### Company infrastructure
+<sub>Servers as code</sub>
 
-**Anti-plagiarism SaaS.** A prospect clicks "Request a demo" on the landing page. After a quick approval, one pipeline builds a complete environment for them from scratch: cloud server, security baseline, monitoring and all six services behind a proxy with TLS.
+All internal and client servers are described in code, each with its own firewall. One pipeline brings any new server to the same secure, monitored baseline.
+
+### Anti-plagiarism SaaS
+<sub>Demo environments on request</sub>
+
+A prospect clicks "Request a demo" on the landing page. After a quick approval, one pipeline builds a complete environment for them from scratch: cloud server, security baseline, monitoring and all six services behind a proxy with TLS.
 
 <picture>
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/demo-flow/dark-narrow.svg">
@@ -52,7 +77,10 @@ I work at [Silk Data](https://github.com/SilkData), a machine-learning R&D compa
   <img src="./assets/demo-flow/light.svg" alt="Request a demo, then seven automated steps: approve, pipeline, server and DNS, hardening, proxy and TLS, six services deployed, ready with access sent." width="100%">
 </picture>
 
-**EdTech platform.** There was no DevOps: the existing pipeline didn't work and the app wouldn't build in a container. I reviewed and refactored the whole delivery setup, which gave stable pipelines and cloud releases with managed configuration. Then I moved the servers to ARM to cut the cloud bill.
+### EdTech platform
+<sub>From a broken pipeline to stable cloud releases</sub>
+
+There was no DevOps: the existing pipeline didn't work and the app wouldn't build in a container. I reviewed and refactored the whole delivery setup, which gave stable pipelines and cloud releases with managed configuration. Then I moved the servers to ARM to cut the cloud bill.
 
 ## Stack
 
