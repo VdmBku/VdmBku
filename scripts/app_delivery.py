@@ -20,11 +20,11 @@ TRACKS = [
     ]),
     ("Release", "on demand", [
         ("node", "Pick release", "tag and services", 5.0, 5.5),
-        ("node", "Preflight", "params, secrets", 5.6, 6.0),
-        ("node", "Lint", "deploy code", 6.1, 6.5),
-        ("grid", "Deploy", "picked services only", 6.6, 8.6),
-        ("node", "Rollouts", "all healthy", 8.7, 9.1),
-        ("node", "Version page", "updated", 9.2, 9.6),
+        ("node", "Checks", "params, secrets, lint", 5.6, 6.0),
+        ("grid", "Stage", "picked services only", 6.1, 7.6),
+        ("node", "Stage OK", "rollouts healthy", 7.7, 8.0),
+        ("fan", "Customer clusters", "same release", 8.1, 9.3),
+        ("node", "Version page", "updated", 9.4, 9.7),
     ]),
     ("Dependency scan", "known vulnerabilities", [
         ("node", "Resolve", "dependencies", 10.0, 10.5),
@@ -140,30 +140,67 @@ def scan(anim, x, y, w, start, end):
             f'<rect class="bar {anim.grow(start, end)}" x="{x}" y="{y - 4}" width="{w}" height="8" rx="4"/>')
 
 
-WIDTH = {"node": 0, "bars": 170, "grid": 185, "scan": 150}
-HALF = {"node": 10, "bars": 31, "grid": 17, "scan": 10}
+FAN = 3          # customer clusters that get the release after stage
+
+
+def fan(anim, x, y, start, end, dy=26, r=8):
+    """One node per customer cluster, stacked; each ticks in turn."""
+    step = (end - start) / FAN
+    out = []
+    for i in range(FAN):
+        yy = y + (i - (FAN - 1) / 2) * dy
+        on = anim.show(start + step * (i + 1))
+        out.append(f'<circle class="node" cx="{x}" cy="{yy}" r="{r}"/>'
+                   f'<circle class="done {on}" cx="{x}" cy="{yy}" r="{r}"/>'
+                   f'<path class="tick {on}" d="M {x - 3.6} {yy + 0.4} l 2.4 2.4 l 4.8 -5.2"/>')
+    return "".join(out)
+
+
+def fan_wires(anim, x1, x2, y, lit, dy=26):
+    """Curves from one point to each cluster node and back into one."""
+    out = []
+    for i in range(FAN):
+        yy = y + (i - (FAN - 1) / 2) * dy
+        d = f"M {x1} {y} C {x1 + 18} {y}, {x2 - 18} {yy}, {x2} {yy}"
+        out.append(f'<path class="wire" d="{d}" fill="none"/><path class="wire-on {anim.show(lit)}" d="{d}" fill="none"/>')
+    return "".join(out)
+
+
+WIDTH = {"node": 0, "bars": 170, "grid": 146, "scan": 150, "fan": 0}
+HALF = {"node": 10, "bars": 31, "grid": 13, "scan": 10, "fan": 34}
+GAP = {0: 112, 1: 122, 2: 112}  # per track spacing between items
+START_X = {0: 200, 1: 190, 2: 200}
 
 
 def wide(t):
-    W, H = 1000, 356
-    rows = [58, 190, 300]
+    W = 1000
     anim, out = Anim(), []
-    for (title, sub, items), y in zip(TRACKS, rows):
+    y, dividers = 58, []
+    for ti, (title, sub, items) in enumerate(TRACKS):
+        half = max(HALF[k] for k, *_ in items)
+        if ti:
+            y += half                      # room for tall widgets under the divider
         out.append(f'<text class="track-title" x="12" y="{y - 2}">{esc(title)}</text>'
                    f'<text class="track-sub" x="12" y="{y + 15}">{esc(sub)}</text>')
-        label_y = y + max(HALF[k] for k, *_ in items) + 22
-        x = 200
-        spans = []
+        label_y = y + half + 22
+        x, spans = START_X[ti], []
         for kind, it, isub, start, done in items:
             w = WIDTH[kind]
             spans.append((x, x + w, kind, start, done))
-            x += w + 112
-        # wires between consecutive items, lit when the item on the right starts
+            x += w + GAP[ti]
         for (x1a, x1b, k1, s1, d1), (x2a, x2b, k2, s2, d2) in zip(spans, spans[1:]):
-            a = x1b + (12 if k1 == "node" else 8)
-            b = x2a - (12 if k2 == "node" else 8)
-            out.append(f'<line class="wire" x1="{a}" y1="{y}" x2="{b}" y2="{y}"/>'
-                       f'<line class="wire-on {anim.show(d1 + 0.05)}" x1="{a}" y1="{y}" x2="{b}" y2="{y}"/>')
+            a = x1b + (12 if k1 in ("node", "fan") else 8)
+            b = x2a - (12 if k2 in ("node", "fan") else 8)
+            if k2 == "fan":
+                out.append(fan_wires(anim, a, x2a - 10, y, d1 + 0.05))
+            elif k1 == "fan":
+                out.append("".join(
+                    f'<path class="wire" d="M {x1a + 10} {yy} C {x1a + 28} {yy}, {b - 18} {y}, {b} {y}" fill="none"/>'
+                    f'<path class="wire-on {anim.show(d1 + 0.05)}" d="M {x1a + 10} {yy} C {x1a + 28} {yy}, {b - 18} {y}, {b} {y}" fill="none"/>'
+                    for yy in (y + (i - (FAN - 1) / 2) * 26 for i in range(FAN))))
+            else:
+                out.append(f'<line class="wire" x1="{a}" y1="{y}" x2="{b}" y2="{y}"/>'
+                           f'<line class="wire-on {anim.show(d1 + 0.05)}" x1="{a}" y1="{y}" x2="{b}" y2="{y}"/>')
         for (xa, xb, kind, start, done), (_, it, isub, *_r) in zip(spans, items):
             cx = (xa + xb) / 2
             if kind == "node":
@@ -171,14 +208,19 @@ def wide(t):
             elif kind == "bars":
                 out.append(bars(anim, xa, y, xb - xa, start))
             elif kind == "grid":
-                out.append(grid(anim, xa, y, start, done))
+                out.append(grid(anim, xa, y, start, done, size=11, gap=4))
+            elif kind == "fan":
+                out.append(fan(anim, xa, y, start, done))
             else:
                 out.append(scan(anim, xa, y, xb - xa, start, done))
             out.append(f'<text class="title" x="{cx}" y="{label_y}" text-anchor="middle">{esc(it)}</text>'
                        f'<text class="sub" x="{cx}" y="{label_y + 17}" text-anchor="middle">{esc(isub)}</text>')
-    for y in ((rows[0] + rows[1]) / 2 + 8, (rows[1] + rows[2]) / 2 + 6):
-        out.append(f'<line class="divider" x1="12" y1="{y}" x2="{W - 12}" y2="{y}"/>')
-    return svg(W, H, t, anim, out)
+        y = label_y + 17 + 18
+        dividers.append(y)
+        y += 22
+    for d in dividers[:-1]:
+        out.append(f'<line class="divider" x1="12" y1="{d}" x2="{W - 12}" y2="{d}"/>')
+    return svg(W, dividers[-1], t, anim, out)
 
 
 def narrow(t):
@@ -205,13 +247,21 @@ def narrow(t):
                 out.append(grid(anim, 200, yy, start, done, size=14, gap=5))
             elif kind == "scan":
                 out.append(scan(anim, 200, yy, 186, start, done))
+            elif kind == "fan":
+                step = (done - start) / FAN
+                for i in range(FAN):
+                    cx, on = 300 + i * 34, anim.show(start + step * (i + 1))
+                    out.append(f'<circle class="node" cx="{cx}" cy="{yy}" r="8"/>'
+                               f'<circle class="done {on}" cx="{cx}" cy="{yy}" r="8"/>'
+                               f'<path class="tick {on}" d="M {cx - 3.6} {yy + 0.4} l 2.4 2.4 l 4.8 -5.2"/>')
         y = ys[-1] + 44
     return svg(W, y - 14, t, anim, out)
 
 
 def svg(w, h, t, anim, body):
-    title = ("Three flows: every branch is built and tested with nine suites in parallel; a release deploys only the "
-             "services picked for it and waits for healthy rollouts; a dependency scan checks for known vulnerabilities.")
+    title = ("Three flows: every branch is built and tested with nine suites in parallel; a release deploys the picked "
+             "services to stage first and, once stage is healthy, to the clusters of several customers; a dependency scan "
+             "checks for known vulnerabilities.")
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img">\n'
             f"<title>{esc(title)}</title>\n" + "\n".join(body) + f"\n{style(t, anim)}\n</svg>\n")
 

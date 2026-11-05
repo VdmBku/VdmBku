@@ -6,7 +6,7 @@
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/app-delivery/dark-narrow.svg">
   <source media="(max-width: 600px)" srcset="../assets/app-delivery/light-narrow.svg">
   <source media="(prefers-color-scheme: dark)" srcset="../assets/app-delivery/dark.svg">
-  <img src="../assets/app-delivery/light.svg" alt="Three flows. Every branch: checkout, build, nine test suites in parallel, image, reports. Release on demand: pick a tag and services, preflight, lint, deploy only the picked services, wait for healthy rollouts, update the version page. Dependency scan: resolve dependencies, scan against CVE data, publish a report." width="100%">
+  <img src="../assets/app-delivery/light.svg" alt="Three flows. Every branch: checkout, build, nine test suites in parallel, image, reports. Release on demand: pick a tag and services, checks, deploy the picked services to stage, stage healthy, the same release to several customer clusters, update the version page. Dependency scan: resolve dependencies, scan against CVE data, publish a report." width="100%">
 </picture>
 
 ## Moving a legacy backend to Kubernetes
@@ -25,12 +25,11 @@ A multibranch Jenkins pipeline builds every branch. After the build, the test su
 
 A release is a form, not a script. You pick the release tag and tick the services to deploy. The pipeline then:
 
-1. checks the parameters and the secrets it will need before touching anything,
-2. lints the deploy code,
-3. deploys only the picked services to the cluster with Ansible, one environment per run, and refuses to start while a database migration is still running,
-4. deploys only release tags to production,
-5. waits until every rollout it started is healthy,
-6. updates a version page that shows what runs where.
+1. checks the parameters and the secrets it will need before touching anything, and lints the deploy code,
+2. deploys only the picked services to stage with Ansible, and refuses to start while a database migration is still running,
+3. waits until every rollout it started on stage is healthy,
+4. once stage is fine, rolls the same release out to the clusters of several customers, release tags only,
+5. updates a version page that shows what runs where.
 
 ## Dependency scan
 
