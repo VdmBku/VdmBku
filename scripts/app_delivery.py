@@ -7,7 +7,7 @@ python scripts/app_delivery.py
 """
 from pathlib import Path
 
-from pipeline import FONT, THEMES, esc
+from pipeline import FONT, SLOW, THEMES, esc
 
 # (kind, title, subtitle, start, done); kinds: node, bars, grid, scan
 TRACKS = [
@@ -54,7 +54,7 @@ class Anim:
         """opacity base -> 1 at `at`, back to base after HOLD"""
         self.n += 1
         c = f"a{self.n}"
-        self.rules.append(f".{c} {{ animation: {c} {CYCLE}s linear infinite; }} "
+        self.rules.append(f".{c} {{ animation: {c} {CYCLE * SLOW:.2f}s linear infinite; }} "
                           f"@keyframes {c} {{ 0%, {pct(at - 0.05)} {{ opacity: {base} }} {pct(at + 0.1)}, {pct(HOLD)} {{ opacity: 1 }} "
                           f"{pct(HOLD + 0.4)}, 100% {{ opacity: {base} }} }}")
         return c
@@ -63,7 +63,7 @@ class Anim:
         """scaleX 0 -> 1 between start and end"""
         self.n += 1
         c = f"a{self.n}"
-        self.rules.append(f".{c} {{ transform-box: fill-box; transform-origin: left center; animation: {c} {CYCLE}s linear infinite; }} "
+        self.rules.append(f".{c} {{ transform-box: fill-box; transform-origin: left center; animation: {c} {CYCLE * SLOW:.2f}s linear infinite; }} "
                           f"@keyframes {c} {{ 0%, {pct(start)} {{ transform: scaleX(0) }} {pct(end)}, {pct(HOLD)} {{ transform: scaleX(1) }} "
                           f"{pct(HOLD + 0.4)}, 100% {{ transform: scaleX(0) }} }}")
         return c

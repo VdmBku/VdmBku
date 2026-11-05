@@ -4,7 +4,7 @@ python scripts/demo_flow.py
 """
 from pathlib import Path
 
-from pipeline import FONT, THEMES, esc
+from pipeline import FONT, SLOW, THEMES, esc
 
 BUTTON = "Request a demo"
 STEPS = [
@@ -34,20 +34,20 @@ def style(t):
     css = [f"""
   text {{ font-family: {FONT}; }}
   .btn {{ fill: {t['accent']}; transform-box: fill-box; transform-origin: center;
-          animation: press {CYCLE}s ease-in-out infinite; }}
+          animation: press {CYCLE * SLOW:.2f}s ease-in-out infinite; }}
   .btn-text {{ font-size: 14px; font-weight: 600; fill: #ffffff; pointer-events: none; }}
   .ripple {{ fill: none; stroke: {t['accent']}; stroke-width: 2; opacity: 0; transform-box: fill-box;
-             transform-origin: center; animation: ripple {CYCLE}s ease-out infinite; }}
+             transform-origin: center; animation: ripple {CYCLE * SLOW:.2f}s ease-out infinite; }}
   .track {{ stroke: {t['stroke']}; stroke-width: 3; fill: none; stroke-linecap: round; }}
   .fill {{ stroke: {t['accent']}; stroke-width: 3; fill: none; stroke-linecap: round;
-           animation: fill {CYCLE}s linear infinite; }}
+           animation: fill {CYCLE * SLOW:.2f}s linear infinite; }}
   .node {{ fill: {t['fill']}; stroke: {t['stroke']}; stroke-width: 2; }}
   .done {{ fill: {t['accent']}; opacity: 0; }}
   .tick {{ fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }}
   .title {{ font-size: 13px; font-weight: 600; fill: {t['text']}; }}
   .sub {{ font-size: 12px; fill: {t['muted']}; }}
   .glow {{ fill: none; stroke: {t['accent']}; stroke-width: 2; opacity: 0; transform-box: fill-box;
-           transform-origin: center; animation: glow {CYCLE}s ease-out infinite; }}
+           transform-origin: center; animation: glow {CYCLE * SLOW:.2f}s ease-out infinite; }}
   @keyframes press {{ 0% {{ transform: scale(1) }} {pct(0.25)} {{ transform: scale(.93) }}
                       {pct(0.5)} {{ transform: scale(1) }} 100% {{ transform: scale(1) }} }}
   @keyframes ripple {{ 0% {{ opacity: 0; transform: scale(1) }} {pct(0.25)} {{ opacity: .8; transform: scale(1) }}
@@ -62,7 +62,7 @@ def style(t):
     t0, t1 = ON[SVC - 1] + 0.1, ON[SVC] - 0.1
     for j in range(SERVICES):
         on = t0 + (t1 - t0) * (j + 1) / SERVICES
-        css.append(f"  .v{j} {{ animation: v{j} {CYCLE}s linear infinite; }}\n"
+        css.append(f"  .v{j} {{ animation: v{j} {CYCLE * SLOW:.2f}s linear infinite; }}\n"
                    f"  @keyframes v{j} {{ 0%, {pct(on - 0.05)} {{ opacity: 0 }} {pct(on + 0.1)}, {pct(HOLD)} {{ opacity: 1 }} "
                    f"{pct(HOLD + 0.4)}, 100% {{ opacity: 0 }} }}\n")
     css.append(f"  .svc {{ fill: {t['fill']}; stroke: {t['stroke']}; stroke-width: 1.5; }} .svc-on {{ fill: {t['accent']}; opacity: 0; }}\n"
@@ -70,7 +70,7 @@ def style(t):
                f"  @media (prefers-reduced-motion: reduce) {{ .svc-on {{ animation: none !important; opacity: 1 !important; }} }}\n")
     for i in range(len(STEPS)):
         on = ON[i]
-        css.append(f"  .s{i} {{ animation: s{i} {CYCLE}s linear infinite; }}\n"
+        css.append(f"  .s{i} {{ animation: s{i} {CYCLE * SLOW:.2f}s linear infinite; }}\n"
                    f"  @keyframes s{i} {{ 0%, {pct(on - 0.05)} {{ opacity: 0 }} {pct(on + 0.15)}, {pct(HOLD)} {{ opacity: 1 }} "
                    f"{pct(HOLD + 0.4)}, 100% {{ opacity: 0 }} }}\n")
     return "<style>" + "".join(css) + "</style>"

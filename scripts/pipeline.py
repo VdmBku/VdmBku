@@ -10,6 +10,7 @@ THEMES = {
     "light": dict(text="#1f2328", muted="#59636e", fill="#f6f8fa", stroke="#d0d7de", accent="#0f8a82", red="#cf222e"),
     "dark": dict(text="#e6edf3", muted="#9198a1", fill="#151b23", stroke="#3d444d", accent="#2fbfb4", red="#f85149"),
 }
+SLOW = 1.6  # every animation runs this many times slower than the timings written in the code
 FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif"
 
 # 24x24 line icons, drawn by hand for this picture
@@ -21,6 +22,7 @@ ICONS = {
                  '<path d="M7.5 7.5h.01M7.5 16.5h.01"/>',
     "Deploy": '<path d="M12 15V4M7.5 8.5L12 4l4.5 4.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>',
     "Observe": '<path d="M3 12h4l3-7 4 14 3-7h4"/>',
+    "Shield": '<path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/>',
     "Bell": '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
 }
 
@@ -29,7 +31,7 @@ STAGES = [  # (title, subtitle, tool lines, lit from, lit until)
     ("Build & test", "checks in parallel", ["Jenkins · GitLab CI", "GitHub Actions"], 0.9, 2.6),
     ("Package", "artifact to a registry", ["Docker · Harbor · Nexus"], 2.6, 3.6),
     ("Provision", "create or change infra", ["Terraform", "AWS · Azure · GCP · Hetzner"], 3.6, 5.0),
-    ("Deploy", "to the servers from 04", ["Ansible · Helm · Argo CD"], 5.0, 6.5),
+    ("Deploy", "registry to the cluster", ["Ansible · Helm · Argo CD"], 5.0, 6.7),
 ]
 OBSERVE_TOOLS = "Prometheus · Grafana · Zabbix · Wazuh"
 CHECKS = [("build", 1.9), ("lint", 1.5), ("unit tests", 2.5), ("secret scan", 2.1)]  # name, done
@@ -55,33 +57,33 @@ class Anim:
 
     def show(self, at, base=0.0):
         c = self._cls()
-        self.rules.append(f".{c} {{ animation: {c} {CYCLE}s linear infinite; }} @keyframes {c} {{ 0%, {pct(at - 0.05)} "
+        self.rules.append(f".{c} {{ animation: {c} {CYCLE * SLOW:.2f}s linear infinite; }} @keyframes {c} {{ 0%, {pct(at - 0.05)} "
                           f"{{ opacity: {base} }} {pct(at + 0.1)}, {pct(HOLD)} {{ opacity: 1 }} {pct(HOLD + 0.4)}, 100% {{ opacity: {base} }} }}")
         return c
 
     def window(self, start, end, peak=1.0):
         c = self._cls()
-        self.rules.append(f".{c} {{ animation: {c} {CYCLE}s linear infinite; }} @keyframes {c} {{ 0%, {pct(start - 0.05)} "
+        self.rules.append(f".{c} {{ animation: {c} {CYCLE * SLOW:.2f}s linear infinite; }} @keyframes {c} {{ 0%, {pct(start - 0.05)} "
                           f"{{ opacity: 0 }} {pct(start + 0.1)}, {pct(end)} {{ opacity: {peak} }} {pct(end + 0.25)}, 100% {{ opacity: 0 }} }}")
         return c
 
     def grow(self, start, end):
         c = self._cls()
-        self.rules.append(f".{c} {{ transform-box: fill-box; transform-origin: left center; animation: {c} {CYCLE}s linear infinite; }} "
+        self.rules.append(f".{c} {{ transform-box: fill-box; transform-origin: left center; animation: {c} {CYCLE * SLOW:.2f}s linear infinite; }} "
                           f"@keyframes {c} {{ 0%, {pct(start)} {{ transform: scaleX(0) }} {pct(end)}, {pct(HOLD)} {{ transform: scaleX(1) }} "
                           f"{pct(HOLD + 0.4)}, 100% {{ transform: scaleX(0) }} }}")
         return c
 
     def move(self, start, end, dx):
         c = self._cls()
-        self.rules.append(f".{c} {{ animation: {c} {CYCLE}s ease-in-out infinite; }} @keyframes {c} {{ 0%, {pct(start)} "
+        self.rules.append(f".{c} {{ animation: {c} {CYCLE * SLOW:.2f}s ease-in-out infinite; }} @keyframes {c} {{ 0%, {pct(start)} "
                           f"{{ transform: translateX(0) }} {pct(end)}, {pct(HOLD)} {{ transform: translateX({dx}px) }} "
                           f"{pct(HOLD + 0.4)}, 100% {{ transform: translateX(0) }} }}")
         return c
 
     def red(self, start, end):
         c = self._cls()
-        self.rules.append(f".{c} {{ animation: {c} {CYCLE}s linear infinite; }} @keyframes {c} {{ 0%, {pct(start - 0.05)} "
+        self.rules.append(f".{c} {{ animation: {c} {CYCLE * SLOW:.2f}s linear infinite; }} @keyframes {c} {{ 0%, {pct(start - 0.05)} "
                           f"{{ stroke: var(--accent) }} {pct(start + 0.1)}, {pct(end)} {{ stroke: var(--red) }} "
                           f"{pct(end + 0.3)}, 100% {{ stroke: var(--accent) }} }}")
         return c
@@ -117,17 +119,26 @@ def style(t, anim):
   .srv-led {{ fill: {t['muted']}; }}
   .app {{ fill: {t['accent']}; }}
   .db {{ fill: {t['fill']}; stroke: {t['accent']}; stroke-width: 1.5; }}
+  .cloud-frame {{ fill: none; stroke: {t['stroke']}; stroke-width: 1.2; stroke-dasharray: 4 4; }}
+  .fw {{ fill: {t['fill']}; stroke: {t['muted']}; stroke-width: 1.4; }}
+  .fw-line {{ stroke: {t['muted']}; stroke-width: 1; }}
+  .mark {{ font-size: 13px; font-weight: 700; fill: {t['accent']}; }}
+  .ci {{ fill: {t['fill']}; stroke: {t['muted']}; stroke-width: 1.4; }}
+  .ci-text {{ font-size: 10px; font-weight: 700; fill: {t['muted']}; }}
+  .scan-card {{ fill: {t['fill']}; stroke: {t['muted']}; stroke-width: 1.3; stroke-dasharray: 5 4; }}
+  .scan-title {{ font-size: 13px; font-weight: 600; fill: {t['text']}; }}
+  .side {{ stroke: {t['muted']}; stroke-width: 1.2; stroke-dasharray: 3 3; fill: none; }}
   .box-body {{ fill: {t['accent']}; fill-opacity: .2; }}
   .box-frame {{ fill: none; stroke: {t['accent']}; stroke-width: 1.6; }}
   .ridge {{ stroke: {t['accent']}; stroke-width: 1.2; opacity: .75; }}
-  .pulse {{ fill: none; stroke: {t['accent']}; stroke-width: 2; stroke-linejoin: round; animation: beat 1.2s linear infinite; }}
-  .live {{ fill: {t['accent']}; animation: blink 1.4s ease-in-out infinite; }}
+  .pulse {{ fill: none; stroke: {t['accent']}; stroke-width: 2; stroke-linejoin: round; animation: beat {1.2 * SLOW:.2f}s linear infinite; }}
+  .live {{ fill: {t['accent']}; animation: blink {1.4 * SLOW:.2f}s ease-in-out infinite; }}
   .badge {{ fill: none; stroke: {t['accent']}; stroke-width: 1.2; }}
   .badge-text {{ font-size: 11px; font-weight: 700; fill: {t['accent']}; }}
   .alert {{ fill: {t['fill']}; stroke: {t['red']}; stroke-width: 1.8; }}
   .alert-icon {{ fill: none; stroke: {t['red']}; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }}
   .alert-title {{ font-size: 13px; font-weight: 700; fill: {t['red']}; }}
-  .loop {{ fill: none; stroke: {t['accent']}; stroke-width: 1.5; stroke-dasharray: 5 5; opacity: .7; animation: flow 1.6s linear infinite; }}
+  .loop {{ fill: none; stroke: {t['accent']}; stroke-width: 1.5; stroke-dasharray: 5 5; opacity: .7; animation: flow {1.6 * SLOW:.2f}s linear infinite; }}
   @keyframes beat {{ to {{ transform: translateX(-50px) }} }}
   @keyframes blink {{ 0%, 100% {{ opacity: 1 }} 50% {{ opacity: .3 }} }}
   @keyframes flow {{ to {{ stroke-dashoffset: -20 }} }}
@@ -209,15 +220,22 @@ def container(x, y, w=44, h=20):
 def viz_package(anim, rx, ry, rw, rh):
     y = ry + rh / 2
     dbx = rx + rw - 40
-    out = [f'<line class="wire" x1="{rx + 60}" y1="{y}" x2="{dbx - 4}" y2="{y}"/>',
+    two_lines = rw < 200
+    out = [f'<rect class="ci" x="{rx}" y="{y - 12}" width="26" height="24" rx="5"/>'
+           f'<text class="ci-text" x="{rx + 13}" y="{y + 3.5}" text-anchor="middle">CI</text>',
+           f'<line class="wire" x1="{rx + 26}" y1="{y}" x2="{dbx - 4}" y2="{y}"/>',
            f'<ellipse class="db" cx="{dbx + 18}" cy="{y + 14}" rx="18" ry="5"/>'
            f'<rect class="db" x="{dbx}" y="{y - 12}" width="36" height="26" style="stroke-width:0"/>'
            f'<line class="db" x1="{dbx}" y1="{y - 12}" x2="{dbx}" y2="{y + 14}"/><line class="db" x1="{dbx + 36}" y1="{y - 12}" x2="{dbx + 36}" y2="{y + 14}"/>'
-           f'<ellipse class="db" cx="{dbx + 18}" cy="{y - 12}" rx="18" ry="5"/>',
-           f'<text class="tiny" x="{dbx + 18}" y="{y + 32}" text-anchor="middle">registry</text>']
-    m = anim.move(2.75, 3.45, dbx - rx - 58)
-    out.append(f'<g class="{m}">{container(rx, y - 10)}'
-               f'<text class="chip-text" x="{rx + 22}" y="{y - 15}" text-anchor="middle">app:1.4</text></g>')
+           f'<ellipse class="db" cx="{dbx + 18}" cy="{y - 12}" rx="18" ry="5"/>']
+    if two_lines:
+        out.append(f'<text class="tiny" x="{dbx + 18}" y="{y + 30}" text-anchor="middle">container</text>'
+                   f'<text class="tiny" x="{dbx + 18}" y="{y + 42}" text-anchor="middle">registry</text>')
+    else:
+        out.append(f'<text class="tiny" x="{dbx + 18}" y="{y + 32}" text-anchor="middle">container registry</text>')
+    m = anim.move(2.75, 3.45, dbx - rx - 82)
+    out.append(f'<g class="{m}">{container(rx + 32, y - 10)}'
+               f'<text class="chip-text" x="{rx + 54}" y="{y - 15}" text-anchor="middle">app:1.4</text></g>')
     out.append(tick(anim, dbx + 34, y - 16, 3.5, r=6))
     return "".join(out)
 
@@ -226,27 +244,57 @@ SRV_X = (0, 46, 92)
 
 
 def viz_provision(anim, rx, ry, rw, rh):
-    c = anim.show(3.8)
-    out = [f'<text class="tiny-on {c}" x="{rx}" y="{ry + 10}">plan: +2 ~1</text>',
-           f'<text class="tiny {anim.show(4.25)}" x="{rx + 76}" y="{ry + 10}">apply</text>']
-    sy = ry + 24
-    out.append(server(rx + SRV_X[0], sy))
-    out.append(f'<rect class="srv-chg {anim.show(4.4)}" x="{rx + SRV_X[0] - 3}" y="{sy - 3}" width="40" height="28" rx="6"/>')
-    out.append(f'<text class="tiny-on {anim.show(4.4)}" x="{rx + SRV_X[0] + 17}" y="{sy + 40}" text-anchor="middle">~ changed</text>')
-    for i, at in ((1, 4.6), (2, 4.8)):
-        out.append(f'<g class="{anim.show(at)}">{server(rx + SRV_X[i], sy, "srv-new")}</g>')
-    out.append(f'<text class="tiny-on {anim.show(4.8)}" x="{rx + SRV_X[1] + 40}" y="{sy + 40}" text-anchor="middle">+ new</text>')
+    out = [f'<text class="tiny-on {anim.show(3.8)}" x="{rx}" y="{ry + 8}">plan: +2 servers, ~1 rule</text>',
+           f'<text class="tiny-on {anim.show(4.25)}" x="{rx + rw - 6}" y="{ry + 26}" text-anchor="end">apply</text>',
+           f'<rect class="cloud-frame" x="{rx}" y="{ry + 14}" width="{rw}" height="{rh - 14}" rx="8"/>',
+           f'<text class="tiny" x="{rx + 6}" y="{ry + 26}">cloud</text>']
+    iy = ry + 14 + (rh - 14) / 2 - 6
+    # firewall: a small brick wall
+    fx = rx + 8
+    out.append(f'<rect class="fw" x="{fx}" y="{iy}" width="18" height="20" rx="2"/>'
+               f'<line class="fw-line" x1="{fx}" y1="{iy + 7}" x2="{fx + 18}" y2="{iy + 7}"/>'
+               f'<line class="fw-line" x1="{fx}" y1="{iy + 13}" x2="{fx + 18}" y2="{iy + 13}"/>'
+               f'<line class="fw-line" x1="{fx + 9}" y1="{iy}" x2="{fx + 9}" y2="{iy + 7}"/>'
+               f'<line class="fw-line" x1="{fx + 5}" y1="{iy + 7}" x2="{fx + 5}" y2="{iy + 13}"/>'
+               f'<line class="fw-line" x1="{fx + 13}" y1="{iy + 13}" x2="{fx + 13}" y2="{iy + 20}"/>')
+    c = anim.show(4.4)
+    out.append(f'<rect class="srv-chg {c}" x="{fx - 3}" y="{iy - 3}" width="24" height="26" rx="4"/>'
+               f'<text class="mark {c}" x="{fx + 22}" y="{iy - 2}">~</text>')
+    step = min(46, (rw - 36 - 30) / 2)
+    xs = [rx + 36 + k * step for k in range(3)]
+    out.append(server(xs[0], iy - 1, w=30, h=22))
+    for k, at in ((1, 4.6), (2, 4.8)):
+        c = anim.show(at)
+        out.append(f'<g class="{c}">{server(xs[k], iy - 1, "srv-new", w=30, h=22)}</g>'
+                   f'<text class="mark {c}" x="{xs[k] + 26}" y="{iy - 3}">+</text>')
     return "".join(out)
 
 
+def mini_registry(x, y):
+    return (f'<ellipse class="db" cx="{x + 11}" cy="{y + 9}" rx="11" ry="3.5"/>'
+            f'<rect class="db" x="{x}" y="{y - 8}" width="22" height="17" style="stroke-width:0"/>'
+            f'<line class="db" x1="{x}" y1="{y - 8}" x2="{x}" y2="{y + 9}"/><line class="db" x1="{x + 22}" y1="{y - 8}" x2="{x + 22}" y2="{y + 9}"/>'
+            f'<ellipse class="db" cx="{x + 11}" cy="{y - 8}" rx="11" ry="3.5"/>')
+
+
 def viz_deploy(anim, rx, ry, rw, rh):
-    out = [f'<text class="tiny {anim.show(5.15)}" x="{rx}" y="{ry + 10}">rolling update</text>']
-    sy = ry + 24
-    for i, at in enumerate((5.5, 5.9, 6.3)):
-        x = rx + SRV_X[i]
-        out.append(server(x, sy))
-        out.append(f'<rect class="app {anim.show(at)}" x="{x + 22}" y="{sy + 5}" width="8" height="12" rx="2"/>')
-        out.append(tick(anim, x + 17, sy + 38, at + 0.05, r=6))
+    fx = rx + 30
+    out = [f'<text class="tiny {anim.show(5.15)}" x="{rx + rw}" y="{ry + 8}" text-anchor="end">rolling update</text>',
+           f'<rect class="cloud-frame" x="{fx}" y="{ry + 14}" width="{rx + rw - fx}" height="{rh - 14}" rx="8"/>',
+           f'<text class="tiny" x="{fx + 6}" y="{ry + 26}">cluster</text>']
+    iy = ry + 14 + (rh - 14) / 2 - 8
+    out.append(mini_registry(rx, iy + 11))
+    out.append(f'<text class="tiny" x="{rx + 11}" y="{iy + 34}" text-anchor="middle">CR</text>')
+    nw = 26
+    step = min(46, (rx + rw - fx - 12 - nw) / 2)
+    nodes = [fx + 8 + k * step for k in range(3)]
+    for k, (nx, at) in enumerate(zip(nodes, (5.6, 6.0, 6.4))):
+        out.append(server(nx, iy, w=nw, h=20))
+        m = anim.move(at - 0.4, at, nx + 9 - (rx + 4))
+        c = anim.window(at - 0.45, at)
+        out.append(f'<g class="{c}"><g class="{m}">{container(rx + 4, iy + 5.5, w=14, h=9)}</g></g>')
+        out.append(f'<g class="{anim.show(at)}">{container(nx + 9, iy + 5.5, w=14, h=9)}</g>')
+        out.append(tick(anim, nx + nw / 2, iy + 30, at + 0.05, r=5))
     return "".join(out)
 
 
@@ -261,7 +309,8 @@ def pulse(anim, x, y, w, h, clip):
         pts += [(x + k * 50 + px, y + h / 2 + py) for px, py in pattern]
     d = "M " + " L ".join(f"{a:.1f} {b:.1f}" for a, b in pts)
     return (f'<clipPath id="{clip}"><rect x="{x}" y="{y}" width="{w}" height="{h}"/></clipPath>'
-            f'<g clip-path="url(#{clip})"><path class="pulse {anim.red(*ALERT)}" d="{d}"/></g>')
+            f'<g clip-path="url(#{clip})"><path class="pulse" d="{d}" style="animation: beat {1.2 * SLOW:.2f}s linear infinite, '
+            f'{anim.red(*ALERT)} {CYCLE * SLOW:.2f}s linear infinite"/></g>')
 
 
 def alert(anim, x, y, w):
@@ -270,6 +319,22 @@ def alert(anim, x, y, w):
             f'{icon("Bell", x + 12, y + 12, 22, "alert-icon")}'
             f'<text class="alert-title" x="{x + 44}" y="{y + 20}">Alert</text>'
             f'<text class="what" x="{x + 44}" y="{y + 36}">to on-call SRE / DevOps</text></g>')
+
+
+def scan_card(anim, x, y, w, h, two_lines=False):
+    out = [f'<rect class="scan-card" x="{x}" y="{y}" width="{w}" height="{h}" rx="10"/>',
+           icon("Shield", x + 12, y + h / 2 - 11, 22),
+           f'<text class="scan-title" x="{x + 44}" y="{y + 21}">Container scan</text>']
+    if two_lines:
+        out.append(f'<text class="what" x="{x + 44}" y="{y + 37}">image vulnerabilities</text>'
+                   f'<text class="tiny" x="{x + 44}" y="{y + 51}">outside the main pipeline</text>')
+    else:
+        out.append(f'<text class="what" x="{x + 44}" y="{y + 38}">image vulnerabilities, outside the main pipeline</text>')
+    bx, bw = x + w - 96, 58
+    out.append(f'<rect class="slot" x="{bx}" y="{y + h / 2 - 3}" width="{bw}" height="6" rx="3"/>'
+               f'<rect class="bar {anim.grow(3.7, 4.9)}" x="{bx}" y="{y + h / 2 - 3}" width="{bw}" height="6" rx="3"/>')
+    out.append(tick(anim, x + w - 22, y + h / 2, 4.95, r=6))
+    return "".join(out)
 
 
 def card(anim, i, x, y, w, h, narrow=False):
@@ -301,6 +366,17 @@ def arrow(x1, y1, x2, y2):
             f'<polygon class="head" points="{x2},{y2} {x2 - 4},{y2 - 6} {x2 + 4},{y2 - 6}"/>')
 
 
+def watchers(x, y):
+    """What Observe keeps an eye on: always on."""
+    out = []
+    for k, label in enumerate(("apps", "metrics", "cluster")):
+        bx = x + k * 82
+        out.append(f'<rect class="badge" x="{bx}" y="{y}" width="72" height="18" rx="9"/>'
+                   f'<circle class="live" cx="{bx + 11}" cy="{y + 9}" r="3.5"/>'
+                   f'<text class="badge-text" x="{bx + 20}" y="{y + 13}">{label}</text>')
+    return "".join(out)
+
+
 def observe(anim, x, y, w, h, narrow=False):
     out = [f'<rect class="card" x="{x}" y="{y}" width="{w}" height="{h}" rx="10"/>',
            f'<text class="num" x="{x + 14}" y="{y + 24}">06</text>',
@@ -308,49 +384,60 @@ def observe(anim, x, y, w, h, narrow=False):
            f'<rect class="badge" x="{x + 112}" y="{y + 10}" width="50" height="19" rx="9.5"/>'
            f'<circle class="live" cx="{x + 123}" cy="{y + 19.5}" r="3.5"/>'
            f'<text class="badge-text" x="{x + 131}" y="{y + 24}">24/7</text>',
-           f'<text class="what" x="{x + 14}" y="{y + 46}">metrics, logs, security events</text>',
+           f'<text class="what" x="{x + 14}" y="{y + 46}">watches apps, metrics and the cluster</text>',
            f'<text class="tool" x="{x + 14}" y="{y + 64}">{esc(OBSERVE_TOOLS)}</text>']
     if not narrow:
-        out.append(pulse(anim, x + 300, y + 18, 360, 52, "beat-w"))
-        out.append(alert(anim, x + w - 228, y + 22, 214))
+        out.append(watchers(x + 300, y + 12))
+        out.append(pulse(anim, x + 300, y + 34, 360, 50, "beat-w"))
+        out.append(alert(anim, x + w - 228, y + 26, 214))
     else:
-        out.append(pulse(anim, x + 14, y + 78, w - 28, 44, "beat-n"))
-        out.append(alert(anim, x + 14, y + 128, w - 28))
+        out.append(watchers(x + 14, y + 76))
+        out.append(pulse(anim, x + 14, y + 96, w - 28, 40, "beat-n"))
+        out.append(alert(anim, x + 14, y + 142, w - 28))
     return "".join(out)
 
 
 def wide(t):
-    W, H = 960, 330
+    W = 960
     anim, out = Anim(), []
-    cw, gap, cy, ch = 172, 15, 16, 186
+    cw, gap, cy, ch = 172, 15, 16, 200
     xs = [20 + i * (cw + gap) for i in range(len(STAGES))]
     for i, x in enumerate(xs):
         out.append(card(anim, i, x, cy, cw, ch))
         if i:
             out.append(arrow(x - gap + 2, cy + 46, x - 1, cy + 46))
-    by = cy + ch + 30
+    sy, sh = cy + ch + 18, 60
+    out.append(f'<path class="side" d="M {xs[2] + cw / 2} {cy + ch} L {xs[2] + cw / 2} {sy}"/>')
+    out.append(scan_card(anim, xs[2], sy, 2 * cw + gap, sh, two_lines=True))
+    by = sy + sh + 22
     out.append(observe(anim, 20, by, W - 40, 96))
-    # deployed servers are watched; incidents come back as commits
+    # deployed apps and the cluster are watched; incidents come back as commits
     out.append(arrow(xs[-1] + cw / 2, cy + ch + 2, xs[-1] + cw / 2, by - 1))
     out.append(f'<path class="loop" d="M 60 {by} L 60 {cy + ch + 4}"/>'
                f'<polygon fill="{t["accent"]}" opacity=".7" points="60,{cy + ch + 2} 56,{cy + ch + 9} 64,{cy + ch + 9}"/>'
                f'<text class="tiny" x="70" y="{cy + ch + 19}">fixes come back as commits</text>')
-    return svg(W, H, t, anim, out)
+    return svg(W, by + 96 + 14, t, anim, out)
 
 
 def narrow(t):
     W = 400
     anim, out = Anim(), []
-    ch, gap = 96, 16
-    ys = [12 + i * (ch + gap) for i in range(len(STAGES))]
+    ch, gap, sh = 96, 16, 62
+    ys, y = [], 12
+    for i in range(len(STAGES)):
+        ys.append(y)
+        y += ch + gap + (sh + gap if i == 2 else 0)
     for i, y in enumerate(ys):
         out.append(card(anim, i, 12, y, W - 24, ch, narrow=True))
         if i:
-            out.append(arrow(40, y - gap + 2, 40, y - 1))
+            out.append(arrow(40, ys[i - 1] + ch + 2, 40, y - 1))
+    sy = ys[2] + ch + gap
+    out.append(f'<path class="side" d="M 230 {ys[2] + ch} L 230 {sy}"/>')
+    out.append(scan_card(anim, 60, sy, W - 72, sh, two_lines=True))
     by = ys[-1] + ch + gap
     out.append(arrow(40, by - gap + 2, 40, by - 1))
-    out.append(observe(anim, 12, by, W - 24, 186, narrow=True))
-    return svg(W, by + 198, t, anim, out)
+    out.append(observe(anim, 12, by, W - 24, 200, narrow=True))
+    return svg(W, by + 212, t, anim, out)
 
 
 TOOLS = {  # icon file in assets/icons, label
@@ -387,9 +474,12 @@ def tools_column(stage, x, y, h):
 def vertical(t):
     W, x0 = 920, 44
     anim, out = Anim(), []
-    ch, gap, cw = 104, 20, 600
+    ch, gap, cw, sh = 104, 20, 600, 60
     tx = x0 + cw + 28
-    ys = [12 + i * (ch + gap) for i in range(len(STAGES))]
+    ys, yy = [], 12
+    for i in range(len(STAGES)):
+        ys.append(yy)
+        yy += ch + gap + (sh + gap if i == 2 else 0)
     for i, y in enumerate(ys):
         title, sub, tools, t0, t1 = STAGES[i]
         out += [f'<rect class="card" x="{x0}" y="{y}" width="{cw}" height="{ch}" rx="10"/>',
@@ -402,10 +492,13 @@ def vertical(t):
         out.append(f'<line class="divider-v" x1="{x0 + cw + 1}" y1="{y + ch / 2}" x2="{tx - 8}" y2="{y + ch / 2}"/>')
         out.append(tools_column(title, tx, y, ch))
         if i:
-            out.append(arrow(x0 + 26, y - gap + 2, x0 + 26, y - 1))
+            out.append(arrow(x0 + 26, ys[i - 1] + ch + 2, x0 + 26, y - 1))
+    sy = ys[2] + ch + gap
+    out.append(f'<path class="side" d="M {x0 + 360} {ys[2] + ch} L {x0 + 360} {sy}"/>')
+    out.append(scan_card(anim, x0 + 48, sy, cw - 48, sh, two_lines=True))
     by = ys[-1] + ch + gap
     out.append(arrow(x0 + 26, by - gap + 2, x0 + 26, by - 1))
-    oh = 124
+    oh = 130
     out += [f'<rect class="card" x="{x0}" y="{by}" width="{cw}" height="{oh}" rx="10"/>',
             f'<text class="num" x="{x0 + 14}" y="{by + 26}">06</text>',
             icon("Observe", x0 + 40, by + 10),
@@ -413,9 +506,11 @@ def vertical(t):
             f'<rect class="badge" x="{x0 + 138}" y="{by + 12}" width="50" height="19" rx="9.5"/>'
             f'<circle class="live" cx="{x0 + 149}" cy="{by + 21.5}" r="3.5"/>'
             f'<text class="badge-text" x="{x0 + 157}" y="{by + 26}">24/7</text>',
-            f'<text class="what" x="{x0 + 14}" y="{by + 48}">metrics, logs, security events</text>',
-            pulse(anim, x0 + 250, by + 12, cw - 270, 44, "beat-v"),
-            alert(anim, x0 + 250, by + 66, cw - 270),
+            f'<text class="what" x="{x0 + 14}" y="{by + 48}">watches apps, metrics</text>',
+            f'<text class="what" x="{x0 + 14}" y="{by + 64}">and the cluster</text>',
+            watchers(x0 + 250, by + 10),
+            pulse(anim, x0 + 250, by + 32, cw - 270, 36, "beat-v"),
+            alert(anim, x0 + 250, by + 72, cw - 270),
             f'<line class="divider-v" x1="{x0 + cw + 1}" y1="{by + oh / 2}" x2="{tx - 8}" y2="{by + oh / 2}"/>',
             tools_column("Observe", tx, by, oh)]
     # incidents come back as commits: a dashed loop up the left side
