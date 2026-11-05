@@ -6,6 +6,7 @@
   .name { font-size: 15px; font-weight: 600; fill: #1f2328; }
   .tool { font-size: 13px; fill: #59636e; }
   .note { font-size: 12px; fill: #59636e; }
+  .icon { fill: none; stroke: #0f8a82; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   .box { fill: #f6f8fa; stroke: #d0d7de; stroke-width: 1; }
   .hl { fill: none; stroke: #0f8a82; stroke-width: 2; opacity: 0;
          animation: lit 7.199999999999999s linear infinite; }
@@ -20,12 +21,14 @@
 </style>
 <rect class="box" x="12" y="16" width="136" height="172" rx="10"/><rect class="hl" x="12" y="16" width="136" height="172" rx="10" style="animation-delay: 0.0s"/>
 <text class="num" x="28" y="44">01</text>
+<g class="icon" transform="translate(112 29) scale(0.8333)"><circle cx="12" cy="12" r="3.2"/><path d="M3 12h5.8M15.2 12H21"/></g>
 <text class="name" x="28" y="66">Commit</text>
 <text class="tool" x="28" y="98">Git</text>
 <text class="tool" x="28" y="119">GitLab</text>
 <text class="tool" x="28" y="140">GitHub</text>
 <rect class="box" x="172" y="16" width="136" height="172" rx="10"/><rect class="hl" x="172" y="16" width="136" height="172" rx="10" style="animation-delay: 1.2s"/>
 <text class="num" x="188" y="44">02</text>
+<g class="icon" transform="translate(272 29) scale(0.8333)"><circle cx="12" cy="12" r="9"/><path d="M8 12.4l2.8 2.8L16.2 9.6"/></g>
 <text class="name" x="188" y="66">Build &amp; test</text>
 <text class="tool" x="188" y="98">Jenkins</text>
 <text class="tool" x="188" y="119">GitLab CI</text>
@@ -33,6 +36,7 @@
 <line class="wire" x1="151" y1="61" x2="165" y2="61"/><polygon class="head" points="171,61 164,57 164,65"/>
 <rect class="box" x="332" y="16" width="136" height="172" rx="10"/><rect class="hl" x="332" y="16" width="136" height="172" rx="10" style="animation-delay: 2.4s"/>
 <text class="num" x="348" y="44">03</text>
+<g class="icon" transform="translate(432 29) scale(0.8333)"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></g>
 <text class="name" x="348" y="66">Package</text>
 <text class="tool" x="348" y="98">Docker</text>
 <text class="tool" x="348" y="119">Harbor</text>
@@ -40,6 +44,7 @@
 <line class="wire" x1="311" y1="61" x2="325" y2="61"/><polygon class="head" points="331,61 324,57 324,65"/>
 <rect class="box" x="492" y="16" width="136" height="172" rx="10"/><rect class="hl" x="492" y="16" width="136" height="172" rx="10" style="animation-delay: 3.6s"/>
 <text class="num" x="508" y="44">04</text>
+<g class="icon" transform="translate(592 29) scale(0.8333)"><rect x="3.5" y="4" width="17" height="7" rx="2"/><rect x="3.5" y="13" width="17" height="7" rx="2"/><path d="M7.5 7.5h.01M7.5 16.5h.01"/></g>
 <text class="name" x="508" y="66">Provision</text>
 <text class="tool" x="508" y="98">Terraform</text>
 <text class="tool" x="508" y="119">AWS, Azure</text>
@@ -47,6 +52,7 @@
 <line class="wire" x1="471" y1="61" x2="485" y2="61"/><polygon class="head" points="491,61 484,57 484,65"/>
 <rect class="box" x="652" y="16" width="136" height="172" rx="10"/><rect class="hl" x="652" y="16" width="136" height="172" rx="10" style="animation-delay: 4.8s"/>
 <text class="num" x="668" y="44">05</text>
+<g class="icon" transform="translate(752 29) scale(0.8333)"><path d="M12 15V4M7.5 8.5L12 4l4.5 4.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></g>
 <text class="name" x="668" y="66">Deploy</text>
 <text class="tool" x="668" y="98">Ansible</text>
 <text class="tool" x="668" y="119">Helm</text>
@@ -54,6 +60,7 @@
 <line class="wire" x1="631" y1="61" x2="645" y2="61"/><polygon class="head" points="651,61 644,57 644,65"/>
 <rect class="box" x="812" y="16" width="136" height="172" rx="10"/><rect class="hl" x="812" y="16" width="136" height="172" rx="10" style="animation-delay: 6.0s"/>
 <text class="num" x="828" y="44">06</text>
+<g class="icon" transform="translate(912 29) scale(0.8333)"><path d="M3 12h4l3-7 4 14 3-7h4"/></g>
 <text class="name" x="828" y="66">Observe</text>
 <text class="tool" x="828" y="98">Prometheus</text>
 <text class="tool" x="828" y="119">Grafana</text>
