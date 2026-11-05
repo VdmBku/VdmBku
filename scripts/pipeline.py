@@ -30,7 +30,7 @@ ICONS = {
 
 STAGES = [  # (title, subtitle, tool lines, lit from, lit until)
     ("Commit", "merge to main, tag", ["Git · GitLab · GitHub"], 0.0, 0.9),
-    ("Build & test", "checks in parallel", ["Jenkins · GitLab CI", "GitHub Actions"], 0.9, 2.6),
+    ("Build & test", "checks in parallel", ["Jenkins · GitLab CI", "GitHub Actions", "Ansible · Docker"], 0.9, 2.6),
     ("Package", "artifact to a registry", ["Docker · Harbor · Nexus"], 2.6, 3.6),
     ("Provision", "create or change infra", ["Terraform", "AWS · Azure · GCP · Hetzner"], 3.6, 5.0),
     ("Deploy", "registry to the cluster", ["Ansible · Helm · Argo CD", "Docker Compose"], 5.0, 7.3),
@@ -450,7 +450,7 @@ def card(anim, i, x, y, w, h, narrow=False):
         out += [f'<text class="name" x="{x + 14}" y="{y + 46}">{esc(title)}</text>',
                 f'<text class="what" x="{x + 14}" y="{y + 63}">{esc(sub)}</text>']
         for k, line in enumerate(tools):
-            out.append(f'<text class="tool" x="{x + 14}" y="{y + h - 26 + k * 14 - (len(tools) - 1) * 0}">{esc(line)}</text>')
+            out.append(f'<text class="tool" x="{x + 14}" y="{y + h - 12 - (len(tools) - 1 - k) * 14}">{esc(line)}</text>')
         out.append(VIZ[i](anim, x + 14, y + 76, w - 28, 70))
     else:
         out += [f'<text class="name" x="{x + 44}" y="{y + 24}">{esc(title)}</text>',
@@ -570,7 +570,7 @@ def narrow(t):
 
 TOOLS = {  # icon file in assets/icons, label
     "Commit": [("git", "Git"), ("gitlab", "GitLab"), ("github", "GitHub")],
-    "Build & test": [("jenkins", "Jenkins"), ("gitlab", "GitLab CI"), ("github-actions", "GitHub Actions")],
+    "Build & test": [("jenkins", "Jenkins"), ("gitlab", "GitLab CI"), ("github-actions", "GitHub Actions"), ("ansible", "Ansible"), ("docker", "Docker")],
     "Package": [("docker", "Docker"), ("harbor", "Harbor"), ("nexus", "Nexus")],
     "Provision": [("terraform", "Terraform"), ("aws", "AWS"), ("azure", "Azure"), ("gcp", "GCP"), ("hetzner", "Hetzner")],
     "Deploy": [("ansible", "Ansible"), ("helm", "Helm"), ("argo-cd", "Argo CD"), ("kubernetes", "Kubernetes"), ("docker-compose", "Docker Compose")],
