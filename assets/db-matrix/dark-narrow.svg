@@ -5,7 +5,7 @@
   .chip { fill: #151b23; stroke: #2fbfb4; stroke-width: 1.5; }
   .chip-text { font-size: 13px; font-weight: 600; fill: #e6edf3; }
   .chip-sub { font-size: 11px; fill: #9198a1; }
-  .release { transform-box: fill-box; transform-origin: center; animation: pulse 19.84s ease-out infinite; }
+  .release { transform-box: fill-box; transform-origin: center; animation: pulse 27.28s ease-out infinite; }
   .head { font-size: 12px; fill: #9198a1; }
   .engine { font-size: 14px; font-weight: 600; fill: #e6edf3; }
   .wire { stroke: #3d444d; stroke-width: 1.5; fill: none; }
@@ -17,62 +17,62 @@
   .row { fill: #2fbfb4; opacity: 0; }
   .ok { opacity: .35; }
   .glow { fill: none; stroke: #2fbfb4; stroke-width: 2; opacity: 0; transform-box: fill-box;
-           transform-origin: center; animation: glow 19.84s ease-out infinite; }
+           transform-origin: center; animation: glow 27.28s ease-out infinite; }
   @keyframes pulse { 0% { transform: scale(1) } 2.02% { transform: scale(1.06) } 4.44%, 100% { transform: scale(1) } }
   @keyframes glow { 0%, 82.26% { opacity: 0; transform: scale(1) } 83.06% { opacity: .9; transform: scale(1) }
                      91.94% { opacity: 0; transform: scale(1.25) } 100% { opacity: 0 } }
-  .verdict { animation: verdict 19.84s linear infinite; }
+  .verdict { animation: verdict 27.28s linear infinite; }
   @keyframes verdict { 0%, 81.85% { opacity: .35 } 83.06%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: .35 } }
   @media (prefers-reduced-motion: reduce) {
     .release, .glow, .done, .tick, .fill, .row, .verdict { animation: none !important; }
     .done, .tick, .verdict { opacity: 1 !important; } .fill { stroke-dashoffset: 0 !important; } }
-  .r0 { animation: r0 19.84s linear infinite; }
+  .r0 { animation: r0 27.28s linear infinite; }
   @keyframes r0 { 0%, 4.44% { opacity: 0 } 5.65%, 22.98% { opacity: .08 } 24.60%, 100% { opacity: 0 } }
-  .s00 { animation: s00 19.84s linear infinite; }
+  .s00 { animation: s00 27.28s linear infinite; }
   @keyframes s00 { 0%, 8.06% { opacity: 0 } 9.27%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s01 { animation: s01 19.84s linear infinite; }
+  .s01 { animation: s01 27.28s linear infinite; }
   @keyframes s01 { 0%, 11.69% { opacity: 0 } 12.90%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s02 { animation: s02 19.84s linear infinite; }
+  .s02 { animation: s02 27.28s linear infinite; }
   @keyframes s02 { 0%, 15.32% { opacity: 0 } 16.53%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s03 { animation: s03 19.84s linear infinite; }
+  .s03 { animation: s03 27.28s linear infinite; }
   @keyframes s03 { 0%, 18.95% { opacity: 0 } 20.16%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s04 { animation: s04 19.84s linear infinite; }
+  .s04 { animation: s04 27.28s linear infinite; }
   @keyframes s04 { 0%, 22.58% { opacity: 0 } 23.79%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .r1 { animation: r1 19.84s linear infinite; }
+  .r1 { animation: r1 27.28s linear infinite; }
   @keyframes r1 { 0%, 23.79% { opacity: 0 } 25.00%, 42.34% { opacity: .08 } 43.95%, 100% { opacity: 0 } }
-  .s10 { animation: s10 19.84s linear infinite; }
+  .s10 { animation: s10 27.28s linear infinite; }
   @keyframes s10 { 0%, 27.42% { opacity: 0 } 28.63%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s11 { animation: s11 19.84s linear infinite; }
+  .s11 { animation: s11 27.28s linear infinite; }
   @keyframes s11 { 0%, 31.05% { opacity: 0 } 32.26%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s12 { animation: s12 19.84s linear infinite; }
+  .s12 { animation: s12 27.28s linear infinite; }
   @keyframes s12 { 0%, 34.68% { opacity: 0 } 35.89%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s13 { animation: s13 19.84s linear infinite; }
+  .s13 { animation: s13 27.28s linear infinite; }
   @keyframes s13 { 0%, 38.31% { opacity: 0 } 39.52%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s14 { animation: s14 19.84s linear infinite; }
+  .s14 { animation: s14 27.28s linear infinite; }
   @keyframes s14 { 0%, 41.94% { opacity: 0 } 43.15%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .r2 { animation: r2 19.84s linear infinite; }
+  .r2 { animation: r2 27.28s linear infinite; }
   @keyframes r2 { 0%, 43.15% { opacity: 0 } 44.35%, 61.69% { opacity: .08 } 63.31%, 100% { opacity: 0 } }
-  .s20 { animation: s20 19.84s linear infinite; }
+  .s20 { animation: s20 27.28s linear infinite; }
   @keyframes s20 { 0%, 46.77% { opacity: 0 } 47.98%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s21 { animation: s21 19.84s linear infinite; }
+  .s21 { animation: s21 27.28s linear infinite; }
   @keyframes s21 { 0%, 50.40% { opacity: 0 } 51.61%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s22 { animation: s22 19.84s linear infinite; }
+  .s22 { animation: s22 27.28s linear infinite; }
   @keyframes s22 { 0%, 54.03% { opacity: 0 } 55.24%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s23 { animation: s23 19.84s linear infinite; }
+  .s23 { animation: s23 27.28s linear infinite; }
   @keyframes s23 { 0%, 57.66% { opacity: 0 } 58.87%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s24 { animation: s24 19.84s linear infinite; }
+  .s24 { animation: s24 27.28s linear infinite; }
   @keyframes s24 { 0%, 61.29% { opacity: 0 } 62.50%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .r3 { animation: r3 19.84s linear infinite; }
+  .r3 { animation: r3 27.28s linear infinite; }
   @keyframes r3 { 0%, 62.50% { opacity: 0 } 63.71%, 81.05% { opacity: .08 } 82.66%, 100% { opacity: 0 } }
-  .s30 { animation: s30 19.84s linear infinite; }
+  .s30 { animation: s30 27.28s linear infinite; }
   @keyframes s30 { 0%, 66.13% { opacity: 0 } 67.34%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s31 { animation: s31 19.84s linear infinite; }
+  .s31 { animation: s31 27.28s linear infinite; }
   @keyframes s31 { 0%, 69.76% { opacity: 0 } 70.97%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s32 { animation: s32 19.84s linear infinite; }
+  .s32 { animation: s32 27.28s linear infinite; }
   @keyframes s32 { 0%, 73.39% { opacity: 0 } 74.60%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s33 { animation: s33 19.84s linear infinite; }
+  .s33 { animation: s33 27.28s linear infinite; }
   @keyframes s33 { 0%, 77.02% { opacity: 0 } 78.23%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
-  .s34 { animation: s34 19.84s linear infinite; }
+  .s34 { animation: s34 27.28s linear infinite; }
   @keyframes s34 { 0%, 80.65% { opacity: 0 } 81.85%, 93.55% { opacity: 1 } 96.77%, 100% { opacity: 0 } }
 </style>
 <style>@keyframes f0 { 0%, 8.47% { stroke-dashoffset: 224 } 12.10% { stroke-dashoffset: 168.0 } 15.73% { stroke-dashoffset: 112.0 } 19.35% { stroke-dashoffset: 56.0 } 22.98% { stroke-dashoffset: 0.0 } 93.55% { stroke-dashoffset: 0 } 96.77%, 100% { stroke-dashoffset: 224 } } @keyframes f1 { 0%, 27.82% { stroke-dashoffset: 224 } 31.45% { stroke-dashoffset: 168.0 } 35.08% { stroke-dashoffset: 112.0 } 38.71% { stroke-dashoffset: 56.0 } 42.34% { stroke-dashoffset: 0.0 } 93.55% { stroke-dashoffset: 0 } 96.77%, 100% { stroke-dashoffset: 224 } } @keyframes f2 { 0%, 47.18% { stroke-dashoffset: 224 } 50.81% { stroke-dashoffset: 168.0 } 54.44% { stroke-dashoffset: 112.0 } 58.06% { stroke-dashoffset: 56.0 } 61.69% { stroke-dashoffset: 0.0 } 93.55% { stroke-dashoffset: 0 } 96.77%, 100% { stroke-dashoffset: 224 } } @keyframes f3 { 0%, 66.53% { stroke-dashoffset: 224 } 70.16% { stroke-dashoffset: 168.0 } 73.79% { stroke-dashoffset: 112.0 } 77.42% { stroke-dashoffset: 56.0 } 81.05% { stroke-dashoffset: 0.0 } 93.55% { stroke-dashoffset: 0 } 96.77%, 100% { stroke-dashoffset: 224 } }</style>
@@ -84,7 +84,7 @@
 <text class="head" x="374" y="78" text-anchor="middle">Up</text>
 <rect class="row r0" x="6" y="87" width="388" height="34" rx="8"/>
 <text class="engine" x="14" y="109">PostgreSQL</text>
-<line class="track" x1="150" y1="104" x2="374" y2="104"/><line class="fill" x1="150" y1="104" x2="374" y2="104" stroke-dasharray="224" style="animation: f0 19.84s linear infinite"/>
+<line class="track" x1="150" y1="104" x2="374" y2="104"/><line class="fill" x1="150" y1="104" x2="374" y2="104" stroke-dasharray="224" style="animation: f0 27.28s linear infinite"/>
 <circle class="node" cx="150" cy="104" r="8"/><circle class="done s00" cx="150" cy="104" r="8"/><path class="tick s00" d="M 146 104.5 l 2.8 2.8 l 5.4 -6"/>
 <circle class="node" cx="206" cy="104" r="8"/><circle class="done s01" cx="206" cy="104" r="8"/><path class="tick s01" d="M 202 104.5 l 2.8 2.8 l 5.4 -6"/>
 <circle class="node" cx="262" cy="104" r="8"/><circle class="done s02" cx="262" cy="104" r="8"/><path class="tick s02" d="M 258 104.5 l 2.8 2.8 l 5.4 -6"/>
@@ -92,7 +92,7 @@
 <circle class="node" cx="374" cy="104" r="8"/><circle class="done s04" cx="374" cy="104" r="8"/><path class="tick s04" d="M 370 104.5 l 2.8 2.8 l 5.4 -6"/>
 <rect class="row r1" x="6" y="131" width="388" height="34" rx="8"/>
 <text class="engine" x="14" y="153">Oracle</text>
-<line class="track" x1="150" y1="148" x2="374" y2="148"/><line class="fill" x1="150" y1="148" x2="374" y2="148" stroke-dasharray="224" style="animation: f1 19.84s linear infinite"/>
+<line class="track" x1="150" y1="148" x2="374" y2="148"/><line class="fill" x1="150" y1="148" x2="374" y2="148" stroke-dasharray="224" style="animation: f1 27.28s linear infinite"/>
 <circle class="node" cx="150" cy="148" r="8"/><circle class="done s10" cx="150" cy="148" r="8"/><path class="tick s10" d="M 146 148.5 l 2.8 2.8 l 5.4 -6"/>
 <circle class="node" cx="206" cy="148" r="8"/><circle class="done s11" cx="206" cy="148" r="8"/><path class="tick s11" d="M 202 148.5 l 2.8 2.8 l 5.4 -6"/>
 <circle class="node" cx="262" cy="148" r="8"/><circle class="done s12" cx="262" cy="148" r="8"/><path class="tick s12" d="M 258 148.5 l 2.8 2.8 l 5.4 -6"/>
@@ -100,7 +100,7 @@
 <circle class="node" cx="374" cy="148" r="8"/><circle class="done s14" cx="374" cy="148" r="8"/><path class="tick s14" d="M 370 148.5 l 2.8 2.8 l 5.4 -6"/>
 <rect class="row r2" x="6" y="175" width="388" height="34" rx="8"/>
 <text class="engine" x="14" y="197">MariaDB</text>
-<line class="track" x1="150" y1="192" x2="374" y2="192"/><line class="fill" x1="150" y1="192" x2="374" y2="192" stroke-dasharray="224" style="animation: f2 19.84s linear infinite"/>
+<line class="track" x1="150" y1="192" x2="374" y2="192"/><line class="fill" x1="150" y1="192" x2="374" y2="192" stroke-dasharray="224" style="animation: f2 27.28s linear infinite"/>
 <circle class="node" cx="150" cy="192" r="8"/><circle class="done s20" cx="150" cy="192" r="8"/><path class="tick s20" d="M 146 192.5 l 2.8 2.8 l 5.4 -6"/>
 <circle class="node" cx="206" cy="192" r="8"/><circle class="done s21" cx="206" cy="192" r="8"/><path class="tick s21" d="M 202 192.5 l 2.8 2.8 l 5.4 -6"/>
 <circle class="node" cx="262" cy="192" r="8"/><circle class="done s22" cx="262" cy="192" r="8"/><path class="tick s22" d="M 258 192.5 l 2.8 2.8 l 5.4 -6"/>
@@ -108,7 +108,7 @@
 <circle class="node" cx="374" cy="192" r="8"/><circle class="done s24" cx="374" cy="192" r="8"/><path class="tick s24" d="M 370 192.5 l 2.8 2.8 l 5.4 -6"/>
 <rect class="row r3" x="6" y="219" width="388" height="34" rx="8"/>
 <text class="engine" x="14" y="241">MySQL</text>
-<line class="track" x1="150" y1="236" x2="374" y2="236"/><line class="fill" x1="150" y1="236" x2="374" y2="236" stroke-dasharray="224" style="animation: f3 19.84s linear infinite"/>
+<line class="track" x1="150" y1="236" x2="374" y2="236"/><line class="fill" x1="150" y1="236" x2="374" y2="236" stroke-dasharray="224" style="animation: f3 27.28s linear infinite"/>
 <circle class="node" cx="150" cy="236" r="8"/><circle class="done s30" cx="150" cy="236" r="8"/><path class="tick s30" d="M 146 236.5 l 2.8 2.8 l 5.4 -6"/>
 <circle class="node" cx="206" cy="236" r="8"/><circle class="done s31" cx="206" cy="236" r="8"/><path class="tick s31" d="M 202 236.5 l 2.8 2.8 l 5.4 -6"/>
 <circle class="node" cx="262" cy="236" r="8"/><circle class="done s32" cx="262" cy="236" r="8"/><path class="tick s32" d="M 258 236.5 l 2.8 2.8 l 5.4 -6"/>

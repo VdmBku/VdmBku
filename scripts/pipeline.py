@@ -10,7 +10,7 @@ THEMES = {
     "light": dict(text="#1f2328", muted="#59636e", fill="#f6f8fa", stroke="#d0d7de", accent="#0f8a82", red="#cf222e"),
     "dark": dict(text="#e6edf3", muted="#9198a1", fill="#151b23", stroke="#3d444d", accent="#2fbfb4", red="#f85149"),
 }
-SLOW = 1.6  # every animation runs this many times slower than the timings written in the code
+SLOW = 2.2  # every animation runs this many times slower than the timings written in the code
 FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif"
 
 # 24x24 line icons, drawn by hand for this picture
@@ -67,6 +67,19 @@ class Anim:
         c = self._cls()
         self.rules.append(f".{c} {{ animation: {c} {CYCLE * SLOW:.2f}s linear infinite; }} @keyframes {c} {{ 0%, {pct(start - 0.05)} "
                           f"{{ opacity: 0 }} {pct(start + 0.1)}, {pct(end)} {{ opacity: {peak} }} {pct(end + 0.25)}, 100% {{ opacity: 0 }} }}")
+        return c
+
+    def until(self, at):
+        c = self._cls()
+        self.rules.append(f".{c} {{ animation: {c} {CYCLE * SLOW:.2f}s linear infinite; }} @keyframes {c} {{ 0%, {pct(at - 0.05)} "
+                          f"{{ opacity: 1 }} {pct(at + 0.1)}, {pct(HOLD)} {{ opacity: 0 }} {pct(HOLD + 0.4)}, 100% {{ opacity: 1 }} }}")
+        return c
+
+    def pop(self, start, end):
+        c = self._cls()
+        self.rules.append(f".{c} {{ transform-box: fill-box; transform-origin: left center; animation: {c} {CYCLE * SLOW:.2f}s ease-out infinite; }} "
+                          f"@keyframes {c} {{ 0%, {pct(start)} {{ transform: scale(0) }} {pct(end)}, {pct(HOLD)} {{ transform: scale(1) }} "
+                          f"{pct(HOLD + 0.4)}, 100% {{ transform: scale(0) }} }}")
         return c
 
     def grow(self, start, end):
@@ -133,6 +146,9 @@ def style(t, anim):
   .glyph-tile {{ fill: #242938; }}
   .glyph {{ fill: none; stroke: #ffffff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }}
   .ring {{ fill: none; stroke: {t['red']}; stroke-width: 2; }}
+  .old-box-body {{ fill: {t['muted']}; fill-opacity: .18; }}
+  .old-box-frame {{ fill: none; stroke: {t['muted']}; stroke-width: 1.4; }}
+  .old-ridge {{ stroke: {t['muted']}; stroke-width: 1; opacity: .7; }}
   .box-body {{ fill: {t['accent']}; fill-opacity: .2; }}
   .box-frame {{ fill: none; stroke: {t['accent']}; stroke-width: 1.6; }}
   .ridge {{ stroke: {t['accent']}; stroke-width: 1.2; opacity: .75; }}
@@ -183,7 +199,8 @@ def viz_commit(anim, rx, ry, rw, rh):
            f'C {X(.50)} {ya}, {X(.46)} {ym}, {X(.55)} {ym}"/>',
            f'<path class="wire" d="M {X(.18)} {ym} C {X(.25)} {ym}, {X(.22)} {yb}, {X(.32)} {yb} L {X(.62)} {yb} '
            f'C {X(.70)} {yb}, {X(.66)} {ym}, {X(.75)} {ym}"/>',
-           f'<circle class="dot" cx="{X(.03)}" cy="{ym}" r="4.5"/>']
+           f'<circle class="dot" cx="{X(.03)}" cy="{ym}" r="4.5"/>',
+           f'<text class="tiny" x="{X(.03)}" y="{ym + 16}" text-anchor="middle">v1.3</text>']
     if wide:
         out += [f'<text class="tiny" x="{X(.45)}" y="{ya + 3.5}">feature</text>',
                 f'<text class="tiny" x="{X(.66)}" y="{yb + 3.5}">fix</text>',
@@ -215,33 +232,46 @@ def viz_build(anim, rx, ry, rw, rh):
     return "".join(out)
 
 
-def container(x, y, w=44, h=20):
-    """A shipping container: the image that goes to the registry."""
-    ridges = "".join(f'<line class="ridge" x1="{x + k}" y1="{y + 3}" x2="{x + k}" y2="{y + h - 3}"/>' for k in range(7, w - 3, 6))
-    return (f'<rect class="box-body" x="{x}" y="{y}" width="{w}" height="{h}" rx="2"/>{ridges}'
-            f'<rect class="box-frame" x="{x}" y="{y}" width="{w}" height="{h}" rx="2"/>')
+def container(x, y, w=44, h=20, old=False):
+    """A shipping container: the image that goes to the registry. old=True draws the previous version, muted."""
+    p = "old-" if old else ""
+    ridges = "".join(f'<line class="{p}ridge" x1="{x + k}" y1="{y + 3}" x2="{x + k}" y2="{y + h - 3}"/>' for k in range(7, w - 3, 6))
+    return (f'<rect class="{p}box-body" x="{x}" y="{y}" width="{w}" height="{h}" rx="2"/>{ridges}'
+            f'<rect class="{p}box-frame" x="{x}" y="{y}" width="{w}" height="{h}" rx="2"/>')
+
+
+VERSION_AT = {1: 0.9, 2: 2.6, 4: 5.0}   # stage index: when the v1.4 chip lights up on that card
+DEPLOYED = 6.5                          # every node runs 1.4 from here
+
+
+def ver_chip(anim, x, y, at):
+    return (f'<g class="{anim.show(at)}"><rect class="chip" x="{x}" y="{y}" width="38" height="18" rx="9"/>'
+            f'<text class="chip-text" x="{x + 19}" y="{y + 13}" text-anchor="middle">v1.4</text></g>')
 
 
 def viz_package(anim, rx, ry, rw, rh):
     y = ry + rh / 2
     dbx = rx + rw - 40
-    two_lines = rw < 200
-    out = [f'<rect class="ci" x="{rx}" y="{y - 12}" width="26" height="24" rx="5"/>'
-           f'<text class="ci-text" x="{rx + 13}" y="{y + 3.5}" text-anchor="middle">CI</text>',
-           f'<line class="wire" x1="{rx + 26}" y1="{y}" x2="{dbx - 4}" y2="{y}"/>',
+    out = [f'<line class="wire" x1="{rx + 26}" y1="{y}" x2="{dbx - 4}" y2="{y}"/>',
            f'<ellipse class="db" cx="{dbx + 18}" cy="{y + 14}" rx="18" ry="5"/>'
            f'<rect class="db" x="{dbx}" y="{y - 12}" width="36" height="26" style="stroke-width:0"/>'
            f'<line class="db" x1="{dbx}" y1="{y - 12}" x2="{dbx}" y2="{y + 14}"/><line class="db" x1="{dbx + 36}" y1="{y - 12}" x2="{dbx + 36}" y2="{y + 14}"/>'
            f'<ellipse class="db" cx="{dbx + 18}" cy="{y - 12}" rx="18" ry="5"/>']
-    if two_lines:
+    if rw < 200:
         out.append(f'<text class="tiny" x="{dbx + 18}" y="{y + 30}" text-anchor="middle">container</text>'
                    f'<text class="tiny" x="{dbx + 18}" y="{y + 42}" text-anchor="middle">registry</text>')
     else:
         out.append(f'<text class="tiny" x="{dbx + 18}" y="{y + 32}" text-anchor="middle">container registry</text>')
-    m = anim.move(2.75, 3.45, dbx - rx - 82)
-    out.append(f'<g class="{m}">{container(rx + 32, y - 10)}'
-               f'<text class="chip-text" x="{rx + 54}" y="{y - 15}" text-anchor="middle">app:1.4</text></g>')
-    out.append(tick(anim, dbx + 34, y - 16, 3.5, r=6))
+    # built in CI: the container grows out of the CI box, then it is pushed along the line
+    push = anim.move(3.05, 3.6, dbx - rx - 78)
+    grow = anim.pop(2.6, 2.95)
+    out.append(f'<g class="{push}"><g class="{grow}">{container(rx + 28, y - 10)}'
+               f'<text class="chip-text" x="{rx + 50}" y="{y - 15}" text-anchor="middle">app:1.4</text></g></g>')
+    out.append(f'<rect class="ci" x="{rx}" y="{y - 12}" width="26" height="24" rx="5"/>'
+               f'<text class="ci-text" x="{rx + 13}" y="{y + 3.5}" text-anchor="middle">CI</text>'
+               f'<text class="tiny" x="{rx + 13}" y="{y + 26}" text-anchor="middle">build</text>')
+    out.append(f'<text class="tiny-on {anim.show(3.05)}" x="{(rx + 44 + dbx) / 2}" y="{y + 25}" text-anchor="middle">push</text>')
+    out.append(tick(anim, dbx + 34, y - 16, 3.65, r=6))
     return "".join(out)
 
 
@@ -295,11 +325,13 @@ def viz_deploy(anim, rx, ry, rw, rh):
     nodes = [fx + 8 + k * step for k in range(3)]
     for k, (nx, at) in enumerate(zip(nodes, (5.6, 6.0, 6.4))):
         out.append(server(nx, iy, w=nw, h=20))
+        out.append(f'<g class="{anim.until(at)}">{container(nx + 9, iy + 5.5, w=14, h=9, old=True)}</g>')
         m = anim.move(at - 0.4, at, nx + 9 - (rx + 4))
         c = anim.window(at - 0.45, at)
         out.append(f'<g class="{c}"><g class="{m}">{container(rx + 4, iy + 5.5, w=14, h=9)}</g></g>')
         out.append(f'<g class="{anim.show(at)}">{container(nx + 9, iy + 5.5, w=14, h=9)}</g>')
-        out.append(tick(anim, nx + nw / 2, iy + 30, at + 0.05, r=5))
+        out.append(f'<text class="tiny {anim.until(at)}" x="{nx + nw / 2}" y="{iy + 32}" text-anchor="middle">1.3</text>'
+                   f'<text class="tiny-on {anim.show(at)}" x="{nx + nw / 2}" y="{iy + 32}" text-anchor="middle">1.4</text>')
     return "".join(out)
 
 
@@ -347,6 +379,8 @@ def card(anim, i, x, y, w, h, narrow=False):
     out = [f'<rect class="card" x="{x}" y="{y}" width="{w}" height="{h}" rx="10"/>',
            f'<rect class="hl {anim.window(t0, t1)}" x="{x}" y="{y}" width="{w}" height="{h}" rx="10"/>',
            f'<text class="num" x="{x + 14}" y="{y + 24}">{i + 1:02d}</text>']
+    if i in VERSION_AT:
+        out.append(ver_chip(anim, x + w - 52, y + 33, VERSION_AT[i]) if not narrow else ver_chip(anim, x + 150, y + 10, VERSION_AT[i]))
     if not narrow:
         out.append(icon(title, x + w - 34, y + 9))
     if not narrow:
@@ -371,11 +405,14 @@ def arrow(x1, y1, x2, y2):
             f'<polygon class="head" points="{x2},{y2} {x2 - 4},{y2 - 6} {x2 + 4},{y2 - 6}"/>')
 
 
-def watchers(x, y):
-    """What Observe keeps an eye on: always on."""
-    out = []
-    for k, label in enumerate(("apps", "metrics", "cluster")):
-        bx = x + k * 82
+def watchers(anim, x, y):
+    """What Observe keeps an eye on: always on. The app badge shows the version that runs."""
+    out = [f'<rect class="badge" x="{x}" y="{y}" width="86" height="18" rx="9"/>'
+           f'<circle class="live" cx="{x + 11}" cy="{y + 9}" r="3.5"/>'
+           f'<text class="badge-text {anim.until(DEPLOYED)}" x="{x + 20}" y="{y + 13}">app v1.3</text>'
+           f'<text class="badge-text {anim.show(DEPLOYED)}" x="{x + 20}" y="{y + 13}">app v1.4</text>']
+    for k, label in enumerate(("metrics", "cluster")):
+        bx = x + 96 + k * 82
         out.append(f'<rect class="badge" x="{bx}" y="{y}" width="72" height="18" rx="9"/>'
                    f'<circle class="live" cx="{bx + 11}" cy="{y + 9}" r="3.5"/>'
                    f'<text class="badge-text" x="{bx + 20}" y="{y + 13}">{label}</text>')
@@ -413,12 +450,12 @@ def observe(anim, x, y, w, h, narrow=False):
            f'<text class="what" x="{x + 14}" y="{y + 46}">watches apps, metrics and the cluster</text>',
            f'<text class="tool" x="{x + 14}" y="{y + 64}">{esc(OBSERVE_TOOLS)}</text>']
     if not narrow:
-        out.append(watchers(x + 300, y + 12))
+        out.append(watchers(anim, x + 300, y + 12))
         out.append(pulse(anim, x + 300, y + 34, 330, 50, "beat-w"))
         out.append(channels(anim, x + w - 226, y + 26))
         out.append(alert(anim, x + w - 226, y + 72, 212))
     else:
-        out.append(watchers(x + 14, y + 76))
+        out.append(watchers(anim, x + 14, y + 76))
         out.append(pulse(anim, x + 14, y + 96, w - 28, 40, "beat-n"))
         out.append(channels(anim, x + 14, y + 160))
         out.append(alert(anim, x + 14, y + 206, w - 28))
@@ -514,6 +551,7 @@ def vertical(t):
                 f'<rect class="hl {anim.window(t0, t1)}" x="{x0}" y="{y}" width="{cw}" height="{ch}" rx="10"/>',
                 f'<text class="num" x="{x0 + 14}" y="{y + 26}">{i + 1:02d}</text>',
                 icon(title, x0 + 40, y + 10),
+                ver_chip(anim, x0 + 200, y + 12, VERSION_AT[i]) if i in VERSION_AT else "",
                 f'<text class="name" x="{x0 + 70}" y="{y + 26}">{esc(title)}</text>',
                 f'<text class="what" x="{x0 + 14}" y="{y + 48}">{esc(sub)}</text>']
         out.append(VIZ[i](anim, x0 + 250, y + 14, cw - 270, ch - 28))
@@ -536,7 +574,7 @@ def vertical(t):
             f'<text class="badge-text" x="{x0 + 157}" y="{by + 26}">24/7</text>',
             f'<text class="what" x="{x0 + 14}" y="{by + 48}">watches apps, metrics</text>',
             f'<text class="what" x="{x0 + 14}" y="{by + 64}">and the cluster</text>',
-            watchers(x0 + 250, by + 10),
+            watchers(anim, x0 + 250, by + 10),
             pulse(anim, x0 + 250, by + 32, cw - 270, 36, "beat-v"),
             channels(anim, x0 + 250, by + 84, size=22, gap=22),
             alert(anim, x0 + 250, by + 128, cw - 270),
