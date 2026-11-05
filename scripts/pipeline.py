@@ -120,6 +120,8 @@ def style(t, anim):
   .wire {{ stroke: {t['stroke']}; stroke-width: 1.5; fill: none; }}
   .divider-v {{ stroke: {t['stroke']}; stroke-width: 1; stroke-dasharray: 2 4; }}
   .head {{ fill: {t['stroke']}; }}
+  .step-line {{ stroke: {t['muted']}; stroke-width: 2; }}
+  .step-head {{ fill: {t['muted']}; }}
   .slot {{ fill: {t['stroke']}; opacity: .55; }}
   .bar {{ fill: {t['accent']}; }}
   .dot {{ fill: {t['fill']}; stroke: {t['stroke']}; stroke-width: 1.5; }}
@@ -374,11 +376,11 @@ def alert(anim, x, y, w):
             f'<text class="what" x="{x + 44}" y="{y + 36}">on-call SRE / DevOps notified</text></g>')
 
 
-def scan_card(anim, x, y, w, h, two_lines=False):
+def scan_card(anim, x, y, w, h, two_lines=False, tools=True):
     out = [f'<rect class="scan-card" x="{x}" y="{y}" width="{w}" height="{h}" rx="10"/>',
            icon("Shield", x + 12, y + h / 2 - 11, 22),
            f'<text class="scan-title" x="{x + 44}" y="{y + 21}">Container scan</text>',
-           f'<text class="tool" x="{x + 150}" y="{y + 21}">Trivy · Snyk</text>']
+           f'<text class="tool" x="{x + 150}" y="{y + 21}">Trivy · Snyk</text>' if tools else ""]
     if two_lines:
         out.append(f'<text class="what" x="{x + 44}" y="{y + 37}">image vulnerabilities</text>'
                    f'<text class="tiny" x="{x + 44}" y="{y + 51}">outside the main pipeline</text>')
@@ -416,10 +418,10 @@ def card(anim, i, x, y, w, h, narrow=False):
 
 def arrow(x1, y1, x2, y2):
     if y1 == y2:
-        return (f'<line class="wire" x1="{x1}" y1="{y1}" x2="{x2 - 5}" y2="{y2}"/>'
-                f'<polygon class="head" points="{x2},{y2} {x2 - 6},{y2 - 4} {x2 - 6},{y2 + 4}"/>')
-    return (f'<line class="wire" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2 - 5}"/>'
-            f'<polygon class="head" points="{x2},{y2} {x2 - 4},{y2 - 6} {x2 + 4},{y2 - 6}"/>')
+        return (f'<line class="step-line" x1="{x1}" y1="{y1}" x2="{x2 - 7}" y2="{y2}"/>'
+                f'<polygon class="step-head" points="{x2},{y2} {x2 - 8},{y2 - 5} {x2 - 8},{y2 + 5}"/>')
+    return (f'<line class="step-line" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2 - 7}"/>'
+            f'<polygon class="step-head" points="{x2},{y2} {x2 - 5},{y2 - 8} {x2 + 5},{y2 - 8}"/>')
 
 
 def watchers(anim, x, y):
@@ -504,7 +506,7 @@ def wide(t):
 def narrow(t):
     W = 400
     anim, out = Anim(), []
-    ch, gap, sh = 96, 16, 62
+    ch, gap, sh = 96, 24, 62
     ys, y = [], 12
     for i in range(len(STAGES)):
         ys.append(y)
@@ -562,7 +564,7 @@ def tools_column(stage, x, y, h):
 def vertical(t):
     W, x0 = 990, 44
     anim, out = Anim(), []
-    ch, gap, cw, sh = 104, 20, 600, 60
+    ch, gap, cw, sh = 104, 34, 600, 60
     tx = x0 + cw + 28
     ys, yy = [], 12
     for i in range(len(STAGES)):
@@ -584,7 +586,7 @@ def vertical(t):
             out.append(arrow(x0 + 26, ys[i - 1] + ch + 2, x0 + 26, y - 1))
     sy = ys[2] + ch + gap
     out.append(f'<path class="side" d="M {x0 + 360} {ys[2] + ch} L {x0 + 360} {sy}"/>')
-    out.append(scan_card(anim, x0 + 48, sy, cw - 48, sh, two_lines=True))
+    out.append(scan_card(anim, x0 + 48, sy, cw - 48, sh, two_lines=True, tools=False))
     out.append(f'<line class="divider-v" x1="{x0 + cw + 1}" y1="{sy + sh / 2}" x2="{tx - 8}" y2="{sy + sh / 2}"/>')
     out.append(tools_column("Container scan", tx, sy, sh))
     by = ys[-1] + ch + gap

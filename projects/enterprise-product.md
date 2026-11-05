@@ -3,10 +3,10 @@
 <sub>Release builds, security checks and release testing on four database engines</sub>
 
 <picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/enterprise-build/dark-narrow.svg?v=7">
-  <source media="(max-width: 600px)" srcset="../assets/enterprise-build/light-narrow.svg?v=7">
-  <source media="(prefers-color-scheme: dark)" srcset="../assets/enterprise-build/dark.svg?v=7">
-  <img src="../assets/enterprise-build/light.svg?v=7" alt="Release build: checkout, three web front-ends, server tests cached per commit, server JAR with the bundles inside, Docker image, deploy with Ansible. Dependency audit: npm audit on four front-ends, a gate that fails on high severity, archived reports. Antivirus service: keep the previous image for rollback, build the ClamAV image, push, deploy with Ansible." width="100%">
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/enterprise-build/dark-narrow.svg?v=8">
+  <source media="(max-width: 600px)" srcset="../assets/enterprise-build/light-narrow.svg?v=8">
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/enterprise-build/dark.svg?v=8">
+  <img src="../assets/enterprise-build/light.svg?v=8" alt="Release build: checkout, three web front-ends, server tests cached per commit, server JAR with the bundles inside, Docker image, deploy with Ansible. Dependency audit: npm audit on four front-ends, a gate that fails on high severity, archived reports. Antivirus service: keep the previous image for rollback, build the ClamAV image, push, deploy with Ansible." width="100%">
 </picture>
 
 A Java server product with three web front-ends, which customers run on their own database: PostgreSQL, Oracle, MariaDB or MySQL.
@@ -26,10 +26,10 @@ The product runs its own ClamAV service. Its image has its own pipeline: the cur
 ## The release check on four databases
 
 <picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/db-matrix/dark-narrow.svg?v=7">
-  <source media="(max-width: 600px)" srcset="../assets/db-matrix/light-narrow.svg?v=7">
-  <source media="(prefers-color-scheme: dark)" srcset="../assets/db-matrix/dark.svg?v=7">
-  <img src="../assets/db-matrix/light.svg?v=7" alt="A new release is checked on PostgreSQL, Oracle, MariaDB and MySQL one after another. For each engine: database up, build and tests, restore dump, migrate, server up. When all four pass, the release is OK." width="100%">
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/db-matrix/dark-narrow.svg?v=8">
+  <source media="(max-width: 600px)" srcset="../assets/db-matrix/light-narrow.svg?v=8">
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/db-matrix/dark.svg?v=8">
+  <img src="../assets/db-matrix/light.svg?v=8" alt="A new release is checked on PostgreSQL, Oracle, MariaDB and MySQL one after another. For each engine: database up, build and tests, restore dump, migrate, server up. When all four pass, the release is OK." width="100%">
 </picture>
 
 A release that works on one engine can still break a migration on another. One parameterized Jenkins pipeline runs the same check on every engine, one after another:

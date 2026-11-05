@@ -3,10 +3,10 @@
 <sub>Backend, web and mobile apps · since 2018</sub>
 
 <picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/app-delivery/dark-narrow.svg?v=7">
-  <source media="(max-width: 600px)" srcset="../assets/app-delivery/light-narrow.svg?v=7">
-  <source media="(prefers-color-scheme: dark)" srcset="../assets/app-delivery/dark.svg?v=7">
-  <img src="../assets/app-delivery/light.svg?v=7" alt="Three flows. Every branch or tag: checkout, build, nine test suites in parallel, image, reports. Release on demand: pick a tag and services, checks, deploy the picked services to stage, stage healthy, the same release to several customer clusters, update the version page. Dependency scan: resolve dependencies, scan against CVE data, publish a report." width="100%">
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/app-delivery/dark-narrow.svg?v=8">
+  <source media="(max-width: 600px)" srcset="../assets/app-delivery/light-narrow.svg?v=8">
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/app-delivery/dark.svg?v=8">
+  <img src="../assets/app-delivery/light.svg?v=8" alt="Three flows. Every branch or tag: checkout, build, nine test suites in parallel, image, reports. Release on demand: pick a tag and services, checks, deploy the picked services to stage, stage healthy, the same release to several customer clusters, update the version page. Dependency scan: resolve dependencies, scan against CVE data, publish a report." width="100%">
 </picture>
 
 ## Moving a legacy backend to Kubernetes
