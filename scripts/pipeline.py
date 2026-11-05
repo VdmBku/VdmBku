@@ -149,6 +149,8 @@ def style(t, anim):
   .old-box-body {{ fill: {t['muted']}; fill-opacity: .18; }}
   .old-box-frame {{ fill: none; stroke: {t['muted']}; stroke-width: 1.4; }}
   .old-ridge {{ stroke: {t['muted']}; stroke-width: 1; opacity: .7; }}
+  .house {{ fill: {t['fill']}; stroke: {t['accent']}; stroke-width: 1.5; stroke-linejoin: round; }}
+  .slot-empty {{ fill: none; stroke: {t['accent']}; stroke-width: 1; stroke-dasharray: 2 2; opacity: .7; }}
   .box-body {{ fill: {t['accent']}; fill-opacity: .2; }}
   .box-frame {{ fill: none; stroke: {t['accent']}; stroke-width: 1.6; }}
   .ridge {{ stroke: {t['accent']}; stroke-width: 1.2; opacity: .75; }}
@@ -235,9 +237,27 @@ def viz_build(anim, rx, ry, rw, rh):
 def container(x, y, w=44, h=20, old=False):
     """A shipping container: the image that goes to the registry. old=True draws the previous version, muted."""
     p = "old-" if old else ""
-    ridges = "".join(f'<line class="{p}ridge" x1="{x + k}" y1="{y + 3}" x2="{x + k}" y2="{y + h - 3}"/>' for k in range(7, w - 3, 6))
+    ridges = "".join(f'<line class="{p}ridge" x1="{x + k}" y1="{y + 3}" x2="{x + k}" y2="{y + h - 3}"/>' for k in range(7, int(w) - 3, 6))
     return (f'<rect class="{p}box-body" x="{x}" y="{y}" width="{w}" height="{h}" rx="2"/>{ridges}'
             f'<rect class="{p}box-frame" x="{x}" y="{y}" width="{w}" height="{h}" rx="2"/>')
+
+
+def warehouse(anim, x, y, w=40, h=34, arrive=None):
+    """The container registry: a warehouse with containers stacked inside.
+    With arrive set, an empty slot fills with the new container at that moment."""
+    roof = h * 0.3
+    out = [f'<polygon class="house" points="{x},{y + roof} {x + w / 2},{y} {x + w},{y + roof} {x + w},{y + h} {x},{y + h}"/>']
+    cw, ch = (w - 12) / 2, (h - roof - 8) / 2
+    ix, iy = x + 4, y + roof + 3
+    for col, row in ((0, 1), (1, 1), (0, 0)):
+        out.append(container(ix + col * (cw + 4), iy + row * (ch + 2), w=cw, h=ch, old=True))
+    sx, sy = ix + cw + 4, iy
+    if arrive is None:
+        out.append(container(sx, sy, w=cw, h=ch, old=True))
+    else:
+        out.append(f'<rect class="slot-empty" x="{sx}" y="{sy}" width="{cw}" height="{ch}" rx="1.5"/>'
+                   f'<g class="{anim.show(arrive)}">{container(sx, sy, w=cw, h=ch)}</g>')
+    return "".join(out)
 
 
 VERSION_AT = {1: 0.9, 2: 2.6, 4: 5.0}   # stage index: when the v1.4 chip lights up on that card
@@ -252,26 +272,24 @@ def ver_chip(anim, x, y, at):
 def viz_package(anim, rx, ry, rw, rh):
     y = ry + rh / 2
     dbx = rx + rw - 40
-    out = [f'<line class="wire" x1="{rx + 26}" y1="{y}" x2="{dbx - 4}" y2="{y}"/>',
-           f'<ellipse class="db" cx="{dbx + 18}" cy="{y + 14}" rx="18" ry="5"/>'
-           f'<rect class="db" x="{dbx}" y="{y - 12}" width="36" height="26" style="stroke-width:0"/>'
-           f'<line class="db" x1="{dbx}" y1="{y - 12}" x2="{dbx}" y2="{y + 14}"/><line class="db" x1="{dbx + 36}" y1="{y - 12}" x2="{dbx + 36}" y2="{y + 14}"/>'
-           f'<ellipse class="db" cx="{dbx + 18}" cy="{y - 12}" rx="18" ry="5"/>']
+    out = [f'<line class="wire" x1="{rx + 26}" y1="{y}" x2="{dbx - 2}" y2="{y}"/>',
+           warehouse(anim, dbx, y - 18, arrive=3.65)]
     if rw < 200:
-        out.append(f'<text class="tiny" x="{dbx + 18}" y="{y + 30}" text-anchor="middle">container</text>'
-                   f'<text class="tiny" x="{dbx + 18}" y="{y + 42}" text-anchor="middle">registry</text>')
+        out.append(f'<text class="tiny" x="{dbx + 20}" y="{y + 29}" text-anchor="middle">container</text>'
+                   f'<text class="tiny" x="{dbx + 20}" y="{y + 41}" text-anchor="middle">registry</text>')
     else:
-        out.append(f'<text class="tiny" x="{dbx + 18}" y="{y + 32}" text-anchor="middle">container registry</text>')
-    # built in CI: the container grows out of the CI box, then it is pushed along the line
-    push = anim.move(3.05, 3.6, dbx - rx - 78)
+        out.append(f'<text class="tiny" x="{dbx + 20}" y="{y + 31}" text-anchor="middle">container registry</text>')
+    # built in CI: the container grows out of the CI box, is pushed along the line and goes into the warehouse
+    push = anim.move(3.05, 3.6, dbx - rx - 74)
     grow = anim.pop(2.6, 2.95)
-    out.append(f'<g class="{push}"><g class="{grow}">{container(rx + 28, y - 10)}'
-               f'<text class="chip-text" x="{rx + 50}" y="{y - 15}" text-anchor="middle">app:1.4</text></g></g>')
+    out.append(f'<g class="{anim.until(3.68)}"><g class="{push}"><g class="{grow}">{container(rx + 28, y - 10)}'
+               f'<text class="chip-text" x="{rx + 50}" y="{y - 15}" text-anchor="middle">app:1.4</text></g></g></g>')
     out.append(f'<rect class="ci" x="{rx}" y="{y - 12}" width="26" height="24" rx="5"/>'
                f'<text class="ci-text" x="{rx + 13}" y="{y + 3.5}" text-anchor="middle">CI</text>'
                f'<text class="tiny" x="{rx + 13}" y="{y + 26}" text-anchor="middle">build</text>')
     out.append(f'<text class="tiny-on {anim.show(3.05)}" x="{(rx + 44 + dbx) / 2}" y="{y + 25}" text-anchor="middle">push</text>')
-    out.append(tick(anim, dbx + 34, y - 16, 3.65, r=6))
+    out.append(f'<text class="chip-text {anim.show(3.65)}" x="{dbx + 20}" y="{y - 22}" text-anchor="middle">app:1.4</text>')
+    out.append(tick(anim, dbx + 40, y - 14, 3.7, r=6))
     return "".join(out)
 
 
@@ -306,10 +324,8 @@ def viz_provision(anim, rx, ry, rw, rh):
 
 
 def mini_registry(x, y):
-    return (f'<ellipse class="db" cx="{x + 11}" cy="{y + 9}" rx="11" ry="3.5"/>'
-            f'<rect class="db" x="{x}" y="{y - 8}" width="22" height="17" style="stroke-width:0"/>'
-            f'<line class="db" x1="{x}" y1="{y - 8}" x2="{x}" y2="{y + 9}"/><line class="db" x1="{x + 22}" y1="{y - 8}" x2="{x + 22}" y2="{y + 9}"/>'
-            f'<ellipse class="db" cx="{x + 11}" cy="{y - 8}" rx="11" ry="3.5"/>')
+    """A small warehouse for the Deploy step: the registry the nodes pull from."""
+    return warehouse(None, x - 1, y - 11, w=24, h=20)
 
 
 def viz_deploy(anim, rx, ry, rw, rh):
@@ -531,18 +547,20 @@ def tool_icon(name, x, y, size):
 
 def tools_column(stage, x, y, h):
     items = TOOLS[stage]
-    size, gap = 30, 8
-    iy = y + h / 2 - size / 2 - 8
-    out = [tool_icon(name, x + k * (size + gap), iy, size) for k, (name, _) in enumerate(items)]
-    labels = [label for _, label in items]
-    lines = [labels] if len(" · ".join(labels)) <= 36 else [labels[:3], labels[3:]]
-    for k, line in enumerate(lines):
-        out.append(f'<text class="tool" x="{x}" y="{iy + size + 17 + k * 14}">{esc(" · ".join(line))}</text>')
+    size, slot = 30, 60
+    iy = y + h / 2 - size / 2 - 10
+    out = []
+    for k, (name, label) in enumerate(items):
+        cx = x + k * slot + size / 2
+        out.append(tool_icon(name, x + k * slot, iy, size))
+        words = label.split(" ") if len(label) > 11 and " " in label else [label]
+        for n, word in enumerate(words):
+            out.append(f'<text class="tiny" x="{cx}" y="{iy + size + 13 + n * 11}" text-anchor="middle">{esc(word)}</text>')
     return "".join(out)
 
 
 def vertical(t):
-    W, x0 = 920, 44
+    W, x0 = 990, 44
     anim, out = Anim(), []
     ch, gap, cw, sh = 104, 20, 600, 60
     tx = x0 + cw + 28
