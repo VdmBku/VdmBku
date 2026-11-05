@@ -1,10 +1,19 @@
-# Hi, I'm Vadim 👋
+<h1 align="center">Vadim Bykov</h1>
 
-DevOps Tech Lead at [Silk Data](https://github.com/SilkData). I've been in IT since 2013 and in DevOps since 2018. Most of my work is CI/CD pipelines and the infrastructure under them: Jenkins, GitLab CI, Terraform, Ansible and Kubernetes. I also led and mentored a team of two engineers.
+<p align="center">
+  <b>DevOps Tech Lead</b> · 10+ years in IT, 7+ in DevOps
+</p>
 
-I love it when things just work.
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=20&pause=2000&color=1E9E96&center=true&vCenter=true&width=600&height=40&lines=I+love+it+when+things+just+work.;CI%2FCD+%C2%B7+Infrastructure+as+Code+%C2%B7+Kubernetes+%26+GitOps" alt="I love it when things just work." />
+</p>
 
-[LinkedIn](https://www.linkedin.com/in/vadik-bkv) · [Email](mailto:vadim_bkv@yahoo.com)
+<p align="center">
+  <a href="https://www.linkedin.com/in/vadik-bkv"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square" alt="LinkedIn" /></a>
+  <a href="mailto:vadim_bkv@yahoo.com"><img src="https://img.shields.io/badge/Email-vadim__bkv%40yahoo.com-555555?style=flat-square" alt="Email: vadim_bkv@yahoo.com" /></a>
+</p>
+
+I work at [Silk Data](https://github.com/SilkData), a machine-learning R&D company. Most of my work is CI/CD pipelines and the infrastructure under them: Jenkins, GitLab CI, Terraform, Ansible and Kubernetes. I started as a sysadmin in 2013, moved to DevOps in 2018 and have led and mentored a team of two engineers.
 
 <picture>
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/pipeline/dark-narrow.svg">
