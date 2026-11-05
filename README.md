@@ -34,6 +34,13 @@ I work at [Silk Data](https://github.com/SilkData), a machine-learning R&D compa
 
 **Enterprise product.** Every release is tested against four database engines: the pipeline restores a production-like dump, runs the migration and checks that the server comes up.
 
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/db-matrix/dark-narrow.svg">
+  <source media="(max-width: 600px)" srcset="./assets/db-matrix/light-narrow.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/db-matrix/dark.svg">
+  <img src="./assets/db-matrix/light.svg" alt="A new release is checked on PostgreSQL, Oracle, MariaDB and MySQL one after another. For each engine: database up, build and tests, restore dump, migrate, server up. When all four pass, the release is OK." width="100%">
+</picture>
+
 **Company infrastructure.** All internal and client servers are described in code, each with its own firewall. One pipeline brings any new server to the same secure, monitored baseline.
 
 **Anti-plagiarism SaaS.** A prospect clicks "Request a demo" on the landing page. After a quick approval, one pipeline builds a complete environment for them from scratch: cloud server, security baseline, monitoring and all six services behind a proxy with TLS.
