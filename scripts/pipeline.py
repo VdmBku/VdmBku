@@ -69,6 +69,12 @@ class Anim:
                           f"{{ opacity: 0 }} {pct(start + 0.1)}, {pct(end)} {{ opacity: {peak} }} {pct(end + 0.25)}, 100% {{ opacity: 0 }} }}")
         return c
 
+    def hide_during(self, start, end):
+        c = self._cls()
+        self.rules.append(f".{c} {{ animation: {c} {CYCLE * SLOW:.2f}s linear infinite; }} @keyframes {c} {{ 0%, {pct(start - 0.05)} "
+                          f"{{ opacity: 1 }} {pct(start + 0.05)}, {pct(end)} {{ opacity: 0 }} {pct(end + 0.25)}, 100% {{ opacity: 1 }} }}")
+        return c
+
     def drop(self, start, end, dy):
         c = self._cls()
         self.rules.append(f".{c} {{ animation: {c} {CYCLE * SLOW:.2f}s ease-in-out infinite; }} @keyframes {c} {{ 0%, {pct(start)} "
@@ -171,6 +177,7 @@ def style(t, anim):
   .box-frame {{ fill: none; stroke: {t['accent']}; stroke-width: 1.6; }}
   .ridge {{ stroke: {t['accent']}; stroke-width: 1.2; opacity: .75; }}
   .pulse {{ fill: none; stroke: {t['accent']}; stroke-width: 2; stroke-linejoin: round; animation: beat {1.2 * SLOW:.2f}s linear infinite; }}
+  .flat {{ stroke: {t['red']}; stroke-width: 2.2; stroke-linecap: round; }}
   .live {{ fill: {t['accent']}; animation: blink {1.4 * SLOW:.2f}s ease-in-out infinite; }}
   .badge {{ fill: none; stroke: {t['accent']}; stroke-width: 1.2; }}
   .badge-text {{ font-size: 11px; font-weight: 700; fill: {t['accent']}; }}
@@ -380,7 +387,7 @@ VIZ = [viz_commit, viz_build, viz_package, viz_provision, viz_deploy]
 
 
 def pulse(anim, x, y, w, h, clip):
-    """A heartbeat line that never stops; it turns red while an alert is open."""
+    """A heartbeat line that keeps running; while an alert is open it goes flat and red."""
     pattern = [(0, 0), (14, 0), (18, -4), (22, 0), (26, 0), (29, 7), (32, -20), (35, 9), (38, 0), (50, 0)]
     pts = []
     for k in range(int(w / 50) + 2):
@@ -388,7 +395,8 @@ def pulse(anim, x, y, w, h, clip):
     d = "M " + " L ".join(f"{a:.1f} {b:.1f}" for a, b in pts)
     return (f'<clipPath id="{clip}"><rect x="{x}" y="{y}" width="{w}" height="{h}"/></clipPath>'
             f'<g clip-path="url(#{clip})"><path class="pulse" d="{d}" style="animation: beat {1.2 * SLOW:.2f}s linear infinite, '
-            f'{anim.red(*ALERT)} {CYCLE * SLOW:.2f}s linear infinite"/></g>')
+            f'{anim.hide_during(*ALERT)} {CYCLE * SLOW:.2f}s linear infinite"/></g>'
+            f'<line class="flat {anim.window(*ALERT)}" x1="{x}" y1="{y + h / 2}" x2="{x + w}" y2="{y + h / 2}"/>')
 
 
 def alert(anim, x, y, w):
@@ -409,6 +417,8 @@ def scan_card(anim, x, y, w, h, two_lines=False, tools=True):
                    f'<text class="tiny" x="{x + 44}" y="{y + 51}">outside the main pipeline</text>')
     else:
         out.append(f'<text class="what" x="{x + 44}" y="{y + 38}">image vulnerabilities, outside the main pipeline</text>')
+    # the scan runs on the release image that just landed in the registry
+    out.append(ver_chip(anim, x + 146, y + 8, 3.65))
     # the image is scanned: a beam sweeps over it, findings appear by severity, the report is done
     compact = w < 400
     cw_, ch_, chip, gap = (30, 16, 26, 3) if compact else (44, 22, 34, 6)
