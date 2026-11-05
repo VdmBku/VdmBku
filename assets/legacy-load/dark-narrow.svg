@@ -5,18 +5,18 @@
   .grid { stroke: #3d444d; stroke-width: 1; opacity: .6; }
   .axis { font-size: 11px; fill: #9198a1; }
   .before { fill: none; stroke: #f85149; stroke-width: 2.5; stroke-linejoin: round;
-             animation: db 17.60s linear infinite; }
+             animation: db 24.20s linear infinite; }
   .after { fill: none; stroke: #2fbfb4; stroke-width: 2.5; stroke-linejoin: round;
-            animation: da 17.60s linear infinite; }
+            animation: da 24.20s linear infinite; }
   .marker { stroke: #2fbfb4; stroke-width: 1.5; stroke-dasharray: 4 4; }
   .note { font-size: 12px; font-weight: 600; fill: #e6edf3; }
   .note-sub { font-size: 11px; fill: #9198a1; }
   .value-bad { font-size: 13px; font-weight: 600; fill: #f85149; }
   .value-good { font-size: 13px; font-weight: 600; fill: #2fbfb4; }
   .foot { font-size: 10px; fill: #9198a1; }
-  .mark { animation: show 17.60s linear infinite; }
-  .before-label { animation: peak 17.60s linear infinite; }
-  .after-label { animation: low 17.60s linear infinite; }
+  .mark { animation: show 24.20s linear infinite; }
+  .before-label { animation: peak 24.20s linear infinite; }
+  .after-label { animation: low 24.20s linear infinite; }
   @keyframes db { 0% { stroke-dashoffset: 491 } 40.37%, 87.27% { stroke-dashoffset: 0 }
                   90.91%, 100% { stroke-dashoffset: 491 } }
   @keyframes da { 0%, 40.37% { stroke-dashoffset: 172 } 54.55%, 87.27% { stroke-dashoffset: 0 }

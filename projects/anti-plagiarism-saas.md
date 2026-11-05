@@ -3,10 +3,10 @@
 <sub>Demo environments on request</sub>
 
 <picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/demo-flow/dark-narrow.svg?v=3">
-  <source media="(max-width: 600px)" srcset="../assets/demo-flow/light-narrow.svg?v=3">
-  <source media="(prefers-color-scheme: dark)" srcset="../assets/demo-flow/dark.svg?v=3">
-  <img src="../assets/demo-flow/light.svg?v=3" alt="Request a demo, then seven automated steps: approve, pipeline, server and DNS, hardening, proxy and TLS, six service releases one by one, ready with access sent." width="100%">
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/demo-flow/dark-narrow.svg?v=5">
+  <source media="(max-width: 600px)" srcset="../assets/demo-flow/light-narrow.svg?v=5">
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/demo-flow/dark.svg?v=5">
+  <img src="../assets/demo-flow/light.svg?v=5" alt="Request a demo, then seven automated steps: approve, pipeline, server and DNS, hardening, proxy and TLS, six service releases one by one, ready with access sent." width="100%">
 </picture>
 
 ## From a button to a running environment
