@@ -3,10 +3,10 @@
 <sub>From a broken pipeline to stable cloud releases</sub>
 
 <picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/edtech-release/dark-narrow.svg?v=9">
-  <source media="(max-width: 600px)" srcset="../assets/edtech-release/light-narrow.svg?v=9">
-  <source media="(prefers-color-scheme: dark)" srcset="../assets/edtech-release/dark.svg?v=9">
-  <img src="../assets/edtech-release/light.svg?v=9" alt="A release: pick component versions, dry run, deploy to a cloud stage with Terraform and Ansible, check it, then roll the same release out to about 20 client servers on-prem." width="100%">
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/edtech-release/dark-narrow.svg?v=10">
+  <source media="(max-width: 600px)" srcset="../assets/edtech-release/light-narrow.svg?v=10">
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/edtech-release/dark.svg?v=10">
+  <img src="../assets/edtech-release/light.svg?v=10" alt="A release: pick component versions, dry run, deploy to a cloud stage with Terraform and Ansible, check it, then roll the same release out to about 20 client servers on-prem." width="100%">
 </picture>
 
 ## Where it started

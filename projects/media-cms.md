@@ -3,10 +3,10 @@
 <sub>Microservices behind a high-traffic media portal</sub>
 
 <picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/media-gitops/dark-narrow.svg?v=9">
-  <source media="(max-width: 600px)" srcset="../assets/media-gitops/light-narrow.svg?v=9">
-  <source media="(prefers-color-scheme: dark)" srcset="../assets/media-gitops/dark.svg?v=9">
-  <img src="../assets/media-gitops/light.svg?v=9" alt="Every branch of ten services is built into images, with no deploy from CI. A release tag is promoted to the production registry and pinned in Git. Argo CD, as an app of apps, syncs platform components, stateful services and the ten services into GKE Autopilot." width="100%">
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/media-gitops/dark-narrow.svg?v=10">
+  <source media="(max-width: 600px)" srcset="../assets/media-gitops/light-narrow.svg?v=10">
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/media-gitops/dark.svg?v=10">
+  <img src="../assets/media-gitops/light.svg?v=10" alt="Every branch of ten services is built into images, with no deploy from CI. A release tag is promoted to the production registry and pinned in Git. Argo CD, as an app of apps, syncs platform components, stateful services and the ten services into GKE Autopilot." width="100%">
 </picture>
 
 ## The new platform

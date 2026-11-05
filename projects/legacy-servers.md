@@ -3,10 +3,10 @@
 <sub>Incident response and security</sub>
 
 <picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/legacy-lockdown/dark-narrow.svg?v=9">
-  <source media="(max-width: 600px)" srcset="../assets/legacy-lockdown/light-narrow.svg?v=9">
-  <source media="(prefers-color-scheme: dark)" srcset="../assets/legacy-lockdown/dark.svg?v=9">
-  <img src="../assets/legacy-lockdown/light.svg?v=9" alt="Visitors reach the origin through the CDN, while bots and scanners hit it directly. Six steps close the direct path: report-only logging, a secret header from the CDN, the client IP set by the edge, DNS moved to the CDN, 403 for anything without the secret, and a cloud firewall that lets in only the CDN and uptime checks. Uptime stays at 100% the whole time." width="100%">
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/legacy-lockdown/dark-narrow.svg?v=10">
+  <source media="(max-width: 600px)" srcset="../assets/legacy-lockdown/light-narrow.svg?v=10">
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/legacy-lockdown/dark.svg?v=10">
+  <img src="../assets/legacy-lockdown/light.svg?v=10" alt="Visitors reach the origin through the CDN, while bots and scanners hit it directly. Six steps close the direct path: report-only logging, a secret header from the CDN, the client IP set by the edge, DNS moved to the CDN, 403 for anything without the secret, and a cloud firewall that lets in only the CDN and uptime checks. Uptime stays at 100% the whole time." width="100%">
 </picture>
 
 The portal's old servers run an end-of-life PHP stack behind a CDN. These are the main pieces of work on them.
@@ -21,10 +21,10 @@ Server load reached ~85. Almost all slow requests were on-the-fly image resizing
 Load dropped to 2 to 7, and it no longer depends on bots.
 
 <picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/legacy-load/dark-narrow.svg?v=9">
-  <source media="(max-width: 600px)" srcset="../assets/legacy-load/light-narrow.svg?v=9">
-  <source media="(prefers-color-scheme: dark)" srcset="../assets/legacy-load/dark.svg?v=9">
-  <img src="../assets/legacy-load/light.svg?v=9" alt="Server load during the bot incident: around 85 before the cache for the image resize endpoint, 2 to 7 after it. A repeat request went from 0.57 s to 0.0005 s. Illustrative curve." width="100%">
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="../assets/legacy-load/dark-narrow.svg?v=10">
+  <source media="(max-width: 600px)" srcset="../assets/legacy-load/light-narrow.svg?v=10">
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/legacy-load/dark.svg?v=10">
+  <img src="../assets/legacy-load/light.svg?v=10" alt="Server load during the bot incident: around 85 before the cache for the image resize endpoint, 2 to 7 after it. A repeat request went from 0.57 s to 0.0005 s. Illustrative curve." width="100%">
 </picture>
 
 ## A critical bug with no patch

@@ -33,7 +33,7 @@ STAGES = [  # (title, subtitle, tool lines, lit from, lit until)
     ("Build & test", "checks in parallel", ["Jenkins · GitLab CI", "GitHub Actions"], 0.9, 2.6),
     ("Package", "artifact to a registry", ["Docker · Harbor · Nexus"], 2.6, 3.6),
     ("Provision", "create or change infra", ["Terraform", "AWS · Azure · GCP · Hetzner"], 3.6, 5.0),
-    ("Deploy", "registry to the cluster", ["Ansible · Helm · Argo CD"], 5.0, 7.3),
+    ("Deploy", "registry to the cluster", ["Ansible · Helm · Argo CD", "Docker Compose"], 5.0, 7.3),
 ]
 OBSERVE_TOOLS = "Prometheus · Grafana · Zabbix · Wazuh · UptimeRobot"
 CHECKS = [("build", 1.9), ("lint", 1.5), ("unit tests", 2.5), ("secret scan", 2.1)]  # name, done
@@ -403,7 +403,7 @@ def scan_card(anim, x, y, w, h, two_lines=False, tools=True):
     out = [f'<rect class="scan-card" x="{x}" y="{y}" width="{w}" height="{h}" rx="10"/>',
            icon("Shield", x + 12, y + h / 2 - 11, 22),
            f'<text class="scan-title" x="{x + 44}" y="{y + 21}">Container scan</text>',
-           f'<text class="tool" x="{x + w - 14}" y="{y + 15}" text-anchor="end">Trivy · Snyk</text>' if tools else ""]
+           f'<text class="tool" x="{x + w - 14}" y="{y + 15}" text-anchor="end">Trivy · Grype · Snyk</text>' if tools else ""]
     if two_lines:
         out.append(f'<text class="what" x="{x + 44}" y="{y + 37}">image vulnerabilities</text>'
                    f'<text class="tiny" x="{x + 44}" y="{y + 51}">outside the main pipeline</text>')
@@ -563,9 +563,9 @@ TOOLS = {  # icon file in assets/icons, label
     "Build & test": [("jenkins", "Jenkins"), ("gitlab", "GitLab CI"), ("github-actions", "GitHub Actions")],
     "Package": [("docker", "Docker"), ("harbor", "Harbor"), ("nexus", "Nexus")],
     "Provision": [("terraform", "Terraform"), ("aws", "AWS"), ("azure", "Azure"), ("gcp", "GCP"), ("hetzner", "Hetzner")],
-    "Deploy": [("ansible", "Ansible"), ("helm", "Helm"), ("argo-cd", "Argo CD"), ("kubernetes", "Kubernetes")],
+    "Deploy": [("ansible", "Ansible"), ("helm", "Helm"), ("argo-cd", "Argo CD"), ("kubernetes", "Kubernetes"), ("docker-compose", "Docker Compose")],
     "Observe": [("prometheus", "Prometheus"), ("grafana", "Grafana"), ("zabbix", "Zabbix"), ("wazuh", "Wazuh"), ("uptimerobot", "UptimeRobot")],
-    "Container scan": [("trivy", "Trivy"), ("snyk", "Snyk")],
+    "Container scan": [("trivy", "Trivy"), ("grype", "Grype"), ("snyk", "Snyk")],
 }
 ICON_DIR = Path(__file__).resolve().parent.parent / "assets" / "icons"
 
