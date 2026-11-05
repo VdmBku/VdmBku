@@ -35,7 +35,7 @@ STAGES = [  # (title, subtitle, tool lines, lit from, lit until)
     ("Provision", "create or change infra", ["Terraform", "AWS · Azure · GCP · Hetzner"], 3.6, 5.0),
     ("Deploy", "registry to the cluster", ["Ansible · Helm · Argo CD"], 5.0, 6.7),
 ]
-OBSERVE_TOOLS = "Prometheus · Grafana · Zabbix · Wazuh"
+OBSERVE_TOOLS = "Prometheus · Grafana · Zabbix · Wazuh · UptimeRobot"
 CHECKS = [("build", 1.9), ("lint", 1.5), ("unit tests", 2.5), ("secret scan", 2.1)]  # name, done
 ALERT = (7.4, 9.4)
 HOLD, CYCLE = 9.8, 10.6
@@ -361,7 +361,8 @@ def alert(anim, x, y, w):
 def scan_card(anim, x, y, w, h, two_lines=False):
     out = [f'<rect class="scan-card" x="{x}" y="{y}" width="{w}" height="{h}" rx="10"/>',
            icon("Shield", x + 12, y + h / 2 - 11, 22),
-           f'<text class="scan-title" x="{x + 44}" y="{y + 21}">Container scan</text>']
+           f'<text class="scan-title" x="{x + 44}" y="{y + 21}">Container scan</text>',
+           f'<text class="tool" x="{x + 150}" y="{y + 21}">Trivy · Snyk</text>']
     if two_lines:
         out.append(f'<text class="what" x="{x + 44}" y="{y + 37}">image vulnerabilities</text>'
                    f'<text class="tiny" x="{x + 44}" y="{y + 51}">outside the main pipeline</text>')
@@ -511,7 +512,8 @@ TOOLS = {  # icon file in assets/icons, label
     "Package": [("docker", "Docker"), ("harbor", "Harbor"), ("nexus", "Nexus")],
     "Provision": [("terraform", "Terraform"), ("aws", "AWS"), ("azure", "Azure"), ("gcp", "GCP"), ("hetzner", "Hetzner")],
     "Deploy": [("ansible", "Ansible"), ("helm", "Helm"), ("argo-cd", "Argo CD"), ("kubernetes", "Kubernetes")],
-    "Observe": [("prometheus", "Prometheus"), ("grafana", "Grafana"), ("zabbix", "Zabbix"), ("wazuh", "Wazuh")],
+    "Observe": [("prometheus", "Prometheus"), ("grafana", "Grafana"), ("zabbix", "Zabbix"), ("wazuh", "Wazuh"), ("uptimerobot", "UptimeRobot")],
+    "Container scan": [("trivy", "Trivy"), ("snyk", "Snyk")],
 }
 ICON_DIR = Path(__file__).resolve().parent.parent / "assets" / "icons"
 
@@ -532,7 +534,10 @@ def tools_column(stage, x, y, h):
     size, gap = 30, 8
     iy = y + h / 2 - size / 2 - 8
     out = [tool_icon(name, x + k * (size + gap), iy, size) for k, (name, _) in enumerate(items)]
-    out.append(f'<text class="tool" x="{x}" y="{iy + size + 17}">{esc(" · ".join(label for _, label in items))}</text>')
+    labels = [label for _, label in items]
+    lines = [labels] if len(" · ".join(labels)) <= 36 else [labels[:3], labels[3:]]
+    for k, line in enumerate(lines):
+        out.append(f'<text class="tool" x="{x}" y="{iy + size + 17 + k * 14}">{esc(" · ".join(line))}</text>')
     return "".join(out)
 
 
@@ -562,6 +567,8 @@ def vertical(t):
     sy = ys[2] + ch + gap
     out.append(f'<path class="side" d="M {x0 + 360} {ys[2] + ch} L {x0 + 360} {sy}"/>')
     out.append(scan_card(anim, x0 + 48, sy, cw - 48, sh, two_lines=True))
+    out.append(f'<line class="divider-v" x1="{x0 + cw + 1}" y1="{sy + sh / 2}" x2="{tx - 8}" y2="{sy + sh / 2}"/>')
+    out.append(tools_column("Container scan", tx, sy, sh))
     by = ys[-1] + ch + gap
     out.append(arrow(x0 + 26, by - gap + 2, x0 + 26, by - 1))
     oh = 184
