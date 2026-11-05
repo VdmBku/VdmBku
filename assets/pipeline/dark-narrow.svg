@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="522" viewBox="0 0 400 522" role="img">
+<title>Delivery pipeline: commit, build &amp; test, package, provision, deploy, observe</title>
+<style>
+  text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; }
+  .num { font-size: 12px; font-weight: 600; fill: #2fbfb4; letter-spacing: .08em; }
+  .name { font-size: 15px; font-weight: 600; fill: #e6edf3; }
+  .tool { font-size: 13px; fill: #9198a1; }
+  .note { font-size: 12px; fill: #9198a1; }
+  .box { fill: #151b23; stroke: #3d444d; stroke-width: 1; }
+  .hl { fill: none; stroke: #2fbfb4; stroke-width: 2; opacity: 0;
+         animation: lit 7.199999999999999s linear infinite; }
+  .wire { stroke: #3d444d; stroke-width: 1.5; fill: none; }
+  .head { fill: #3d444d; }
+  .loop { stroke: #2fbfb4; stroke-width: 1.5; fill: none; stroke-dasharray: 5 5;
+           opacity: .7; animation: flow 1.6s linear infinite; }
+  @keyframes lit { 0% { opacity: 0 } 3% { opacity: 1 } 16.7% { opacity: 1 }
+                   19.7% { opacity: 0 } 100% { opacity: 0 } }
+  @keyframes flow { to { stroke-dashoffset: -20 } }
+  @media (prefers-reduced-motion: reduce) { .hl, .loop { animation: none; } }
+</style>
+<rect class="box" x="12" y="12" width="330" height="64" rx="10"/><rect class="hl" x="12" y="12" width="330" height="64" rx="10" style="animation-delay: 0.0s"/>
+<text class="num" x="28" y="38">01</text>
+<text class="name" x="58" y="38">Commit</text>
+<text class="tool" x="58" y="59">Git, GitLab, GitHub</text>
+<rect class="box" x="12" y="98" width="330" height="64" rx="10"/><rect class="hl" x="12" y="98" width="330" height="64" rx="10" style="animation-delay: 1.2s"/>
+<text class="num" x="28" y="124">02</text>
+<text class="name" x="58" y="124">Build &amp; test</text>
+<text class="tool" x="58" y="145">Jenkins, GitLab CI, GitHub Actions</text>
+<line class="wire" x1="38" y1="79" x2="38" y2="91"/><polygon class="head" points="38,97 34,90 42,90"/>
+<rect class="box" x="12" y="184" width="330" height="64" rx="10"/><rect class="hl" x="12" y="184" width="330" height="64" rx="10" style="animation-delay: 2.4s"/>
+<text class="num" x="28" y="210">03</text>
+<text class="name" x="58" y="210">Package</text>
+<text class="tool" x="58" y="231">Docker, Harbor, Nexus</text>
+<line class="wire" x1="38" y1="165" x2="38" y2="177"/><polygon class="head" points="38,183 34,176 42,176"/>
+<rect class="box" x="12" y="270" width="330" height="64" rx="10"/><rect class="hl" x="12" y="270" width="330" height="64" rx="10" style="animation-delay: 3.6s"/>
+<text class="num" x="28" y="296">04</text>
+<text class="name" x="58" y="296">Provision</text>
+<text class="tool" x="58" y="317">Terraform, AWS, Azure, GCP, Hetzner</text>
+<line class="wire" x1="38" y1="251" x2="38" y2="263"/><polygon class="head" points="38,269 34,262 42,262"/>
+<rect class="box" x="12" y="356" width="330" height="64" rx="10"/><rect class="hl" x="12" y="356" width="330" height="64" rx="10" style="animation-delay: 4.8s"/>
+<text class="num" x="28" y="382">05</text>
+<text class="name" x="58" y="382">Deploy</text>
+<text class="tool" x="58" y="403">Ansible, Helm, Argo CD</text>
+<line class="wire" x1="38" y1="337" x2="38" y2="349"/><polygon class="head" points="38,355 34,348 42,348"/>
+<rect class="box" x="12" y="442" width="330" height="64" rx="10"/><rect class="hl" x="12" y="442" width="330" height="64" rx="10" style="animation-delay: 6.0s"/>
+<text class="num" x="28" y="468">06</text>
+<text class="name" x="58" y="468">Observe</text>
+<text class="tool" x="58" y="489">Prometheus, Grafana, Zabbix, Wazuh</text>
+<line class="wire" x1="38" y1="423" x2="38" y2="435"/><polygon class="head" points="38,441 34,434 42,434"/>
+<path class="loop" d="M 344 474.0 C 392 474.0, 392 44.0, 350 44.0"/>
+<polygon fill="#2fbfb4" opacity=".7" points="344,44.0 352,40.0 352,48.0"/>
+</svg>

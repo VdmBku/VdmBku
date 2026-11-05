@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="290" viewBox="0 0 960 290" role="img">
+<title>Delivery pipeline: commit, build &amp; test, package, provision, deploy, observe</title>
+<style>
+  text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; }
+  .num { font-size: 12px; font-weight: 600; fill: #2fbfb4; letter-spacing: .08em; }
+  .name { font-size: 15px; font-weight: 600; fill: #e6edf3; }
+  .tool { font-size: 13px; fill: #9198a1; }
+  .note { font-size: 12px; fill: #9198a1; }
+  .box { fill: #151b23; stroke: #3d444d; stroke-width: 1; }
+  .hl { fill: none; stroke: #2fbfb4; stroke-width: 2; opacity: 0;
+         animation: lit 7.199999999999999s linear infinite; }
+  .wire { stroke: #3d444d; stroke-width: 1.5; fill: none; }
+  .head { fill: #3d444d; }
+  .loop { stroke: #2fbfb4; stroke-width: 1.5; fill: none; stroke-dasharray: 5 5;
+           opacity: .7; animation: flow 1.6s linear infinite; }
+  @keyframes lit { 0% { opacity: 0 } 3% { opacity: 1 } 16.7% { opacity: 1 }
+                   19.7% { opacity: 0 } 100% { opacity: 0 } }
+  @keyframes flow { to { stroke-dashoffset: -20 } }
+  @media (prefers-reduced-motion: reduce) { .hl, .loop { animation: none; } }
+</style>
+<rect class="box" x="12" y="16" width="136" height="172" rx="10"/><rect class="hl" x="12" y="16" width="136" height="172" rx="10" style="animation-delay: 0.0s"/>
+<text class="num" x="28" y="44">01</text>
+<text class="name" x="28" y="66">Commit</text>
+<text class="tool" x="28" y="98">Git</text>
+<text class="tool" x="28" y="119">GitLab</text>
+<text class="tool" x="28" y="140">GitHub</text>
+<rect class="box" x="172" y="16" width="136" height="172" rx="10"/><rect class="hl" x="172" y="16" width="136" height="172" rx="10" style="animation-delay: 1.2s"/>
+<text class="num" x="188" y="44">02</text>
+<text class="name" x="188" y="66">Build &amp; test</text>
+<text class="tool" x="188" y="98">Jenkins</text>
+<text class="tool" x="188" y="119">GitLab CI</text>
+<text class="tool" x="188" y="140">GitHub Actions</text>
+<line class="wire" x1="151" y1="61" x2="165" y2="61"/><polygon class="head" points="171,61 164,57 164,65"/>
+<rect class="box" x="332" y="16" width="136" height="172" rx="10"/><rect class="hl" x="332" y="16" width="136" height="172" rx="10" style="animation-delay: 2.4s"/>
+<text class="num" x="348" y="44">03</text>
+<text class="name" x="348" y="66">Package</text>
+<text class="tool" x="348" y="98">Docker</text>
+<text class="tool" x="348" y="119">Harbor</text>
+<text class="tool" x="348" y="140">Nexus</text>
+<line class="wire" x1="311" y1="61" x2="325" y2="61"/><polygon class="head" points="331,61 324,57 324,65"/>
+<rect class="box" x="492" y="16" width="136" height="172" rx="10"/><rect class="hl" x="492" y="16" width="136" height="172" rx="10" style="animation-delay: 3.6s"/>
+<text class="num" x="508" y="44">04</text>
+<text class="name" x="508" y="66">Provision</text>
+<text class="tool" x="508" y="98">Terraform</text>
+<text class="tool" x="508" y="119">AWS, Azure</text>
+<text class="tool" x="508" y="140">GCP, Hetzner</text>
+<line class="wire" x1="471" y1="61" x2="485" y2="61"/><polygon class="head" points="491,61 484,57 484,65"/>
+<rect class="box" x="652" y="16" width="136" height="172" rx="10"/><rect class="hl" x="652" y="16" width="136" height="172" rx="10" style="animation-delay: 4.8s"/>
+<text class="num" x="668" y="44">05</text>
+<text class="name" x="668" y="66">Deploy</text>
+<text class="tool" x="668" y="98">Ansible</text>
+<text class="tool" x="668" y="119">Helm</text>
+<text class="tool" x="668" y="140">Argo CD</text>
+<line class="wire" x1="631" y1="61" x2="645" y2="61"/><polygon class="head" points="651,61 644,57 644,65"/>
+<rect class="box" x="812" y="16" width="136" height="172" rx="10"/><rect class="hl" x="812" y="16" width="136" height="172" rx="10" style="animation-delay: 6.0s"/>
+<text class="num" x="828" y="44">06</text>
+<text class="name" x="828" y="66">Observe</text>
+<text class="tool" x="828" y="98">Prometheus</text>
+<text class="tool" x="828" y="119">Grafana</text>
+<text class="tool" x="828" y="140">Zabbix</text>
+<text class="tool" x="828" y="161">Wazuh</text>
+<line class="wire" x1="791" y1="61" x2="805" y2="61"/><polygon class="head" points="811,61 804,57 804,65"/>
+<path class="loop" d="M 880.0 190 C 880.0 258, 80.0 258, 80.0 196"/>
+<polygon fill="#2fbfb4" opacity=".7" points="80.0,190 76.0,198 84.0,198"/>
+<text class="note" x="480.0" y="264" text-anchor="middle">metrics and alerts feed the next change</text>
+</svg>
