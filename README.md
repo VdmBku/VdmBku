@@ -18,8 +18,8 @@ I work at [Silk Data](https://github.com/SilkData), a machine-learning R&D compa
 <picture>
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/pipeline/dark-narrow.svg">
   <source media="(max-width: 600px)" srcset="./assets/pipeline/light-narrow.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/pipeline/dark.svg">
-  <img src="./assets/pipeline/light.svg" alt="Delivery pipeline. Commit. Build and test, with build, lint, unit tests and a secret scan in parallel. Package: the artifact goes to a registry. Provision: plan and apply create or change the servers. Deploy: a rolling update onto those servers. Observe runs 24/7 and alerts the on-call SRE or DevOps engineer; fixes come back as commits. Tools: Git, GitLab, GitHub, Jenkins, GitLab CI, GitHub Actions, Docker, Harbor, Nexus, Terraform on AWS, Azure, GCP and Hetzner, Ansible, Helm, Argo CD, Prometheus, Grafana, Zabbix, Wazuh." width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/pipeline/dark-vertical.svg">
+  <img src="./assets/pipeline/light-vertical.svg" alt="Delivery pipeline. Commit. Build and test, with build, lint, unit tests and a secret scan in parallel. Package: the artifact goes to a registry. Provision: plan and apply create or change the servers. Deploy: a rolling update onto those servers. Observe runs 24/7 and alerts the on-call SRE or DevOps engineer; fixes come back as commits. Tools: Git, GitLab, GitHub, Jenkins, GitLab CI, GitHub Actions, Docker, Harbor, Nexus, Terraform on AWS, Azure, GCP and Hetzner, Ansible, Helm, Argo CD, Prometheus, Grafana, Zabbix, Wazuh." width="680">
 </picture>
 
 <sub>How the pipelines I build usually look. The names under each step are the tools I've used for it in production.</sub>
