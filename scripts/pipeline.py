@@ -7,8 +7,8 @@ python scripts/pipeline.py
 from pathlib import Path
 
 THEMES = {
-    "light": dict(text="#1f2328", muted="#59636e", fill="#f6f8fa", stroke="#d0d7de", accent="#0f8a82", red="#cf222e"),
-    "dark": dict(text="#e6edf3", muted="#9198a1", fill="#151b23", stroke="#3d444d", accent="#2fbfb4", red="#f85149"),
+    "light": dict(text="#1f2328", muted="#59636e", fill="#f6f8fa", stroke="#d0d7de", accent="#0f8a82", red="#cf222e", amber="#9a6700"),
+    "dark": dict(text="#e6edf3", muted="#9198a1", fill="#151b23", stroke="#3d444d", accent="#2fbfb4", red="#f85149", amber="#d29922"),
 }
 SLOW = 2.2  # every animation runs this many times slower than the timings written in the code
 FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif"
@@ -33,7 +33,7 @@ STAGES = [  # (title, subtitle, tool lines, lit from, lit until)
     ("Build & test", "checks in parallel", ["Jenkins · GitLab CI", "GitHub Actions"], 0.9, 2.6),
     ("Package", "artifact to a registry", ["Docker · Harbor · Nexus"], 2.6, 3.6),
     ("Provision", "create or change infra", ["Terraform", "AWS · Azure · GCP · Hetzner"], 3.6, 5.0),
-    ("Deploy", "registry to the cluster", ["Ansible · Helm · Argo CD"], 5.0, 6.7),
+    ("Deploy", "registry to the cluster", ["Ansible · Helm · Argo CD"], 5.0, 7.3),
 ]
 OBSERVE_TOOLS = "Prometheus · Grafana · Zabbix · Wazuh · UptimeRobot"
 CHECKS = [("build", 1.9), ("lint", 1.5), ("unit tests", 2.5), ("secret scan", 2.1)]  # name, done
@@ -67,6 +67,13 @@ class Anim:
         c = self._cls()
         self.rules.append(f".{c} {{ animation: {c} {CYCLE * SLOW:.2f}s linear infinite; }} @keyframes {c} {{ 0%, {pct(start - 0.05)} "
                           f"{{ opacity: 0 }} {pct(start + 0.1)}, {pct(end)} {{ opacity: {peak} }} {pct(end + 0.25)}, 100% {{ opacity: 0 }} }}")
+        return c
+
+    def drop(self, start, end, dy):
+        c = self._cls()
+        self.rules.append(f".{c} {{ animation: {c} {CYCLE * SLOW:.2f}s ease-in-out infinite; }} @keyframes {c} {{ 0%, {pct(start)} "
+                          f"{{ transform: translateY(0) }} {pct(end)}, {pct(HOLD)} {{ transform: translateY({dy}px) }} "
+                          f"{pct(HOLD + 0.4)}, 100% {{ transform: translateY(0) }} }}")
         return c
 
     def until(self, at):
@@ -153,6 +160,13 @@ def style(t, anim):
   .old-ridge {{ stroke: {t['muted']}; stroke-width: 1; opacity: .7; }}
   .house {{ fill: {t['fill']}; stroke: {t['accent']}; stroke-width: 1.5; stroke-linejoin: round; }}
   .slot-empty {{ fill: none; stroke: {t['accent']}; stroke-width: 1; stroke-dasharray: 2 2; opacity: .7; }}
+  .beam {{ fill: {t['accent']}; opacity: .85; animation: sweep {0.9 * SLOW:.2f}s ease-in-out infinite alternate; }}
+  .sev {{ fill: {t['fill']}; stroke-width: 1.4; }}
+  .sev-text {{ font-size: 10px; font-weight: 700; }}
+  .sev-ok {{ stroke: {t['accent']}; fill: {t['accent']}; }}
+  .sev-high {{ stroke: {t['red']}; fill: {t['red']}; }}
+  .sev-med {{ stroke: {t['amber']}; fill: {t['amber']}; }}
+  @keyframes sweep {{ from {{ transform: translateX(0) }} to {{ transform: translateX(var(--sweep)) }} }}
   .box-body {{ fill: {t['accent']}; fill-opacity: .2; }}
   .box-frame {{ fill: none; stroke: {t['accent']}; stroke-width: 1.6; }}
   .ridge {{ stroke: {t['accent']}; stroke-width: 1.2; opacity: .75; }}
@@ -179,7 +193,7 @@ def icon(name, x, y, size=20, cls="icon"):
 
 
 def tick(anim, x, y, at, r=6):
-    c = anim.show(at)
+    c = anim.show(at) if anim else ""
     return (f'<circle class="ok {c}" cx="{x}" cy="{y}" r="{r}"/>'
             f'<path class="okv {c}" d="M {x - r * .45:.1f} {y + .3:.1f} l {r * .3:.1f} {r * .3:.1f} l {r * .6:.1f} {-r * .65:.1f}"/>')
 
@@ -263,7 +277,7 @@ def warehouse(anim, x, y, w=40, h=34, arrive=None):
 
 
 VERSION_AT = {1: 0.9, 2: 2.6, 4: 5.0}   # stage index: when the v1.4 chip lights up on that card
-DEPLOYED = 6.5                          # every node runs 1.4 from here
+DEPLOYED = 7.2                          # every node runs 1.4 from here
 
 
 def ver_chip(anim, x, y, at):
@@ -331,25 +345,34 @@ def mini_registry(x, y):
 
 
 def viz_deploy(anim, rx, ry, rw, rh):
+    """Rolling update, node by node: 1.4 arrives and starts next to 1.3, passes its health check,
+    then 1.3 is stopped and 1.4 takes its place."""
     fx = rx + 30
     out = [f'<text class="tiny {anim.show(5.15)}" x="{rx + rw}" y="{ry + 8}" text-anchor="end">rolling update</text>',
-           f'<rect class="cloud-frame" x="{fx}" y="{ry + 14}" width="{rx + rw - fx}" height="{rh - 14}" rx="8"/>',
-           f'<text class="tiny" x="{fx + 6}" y="{ry + 26}">cluster</text>']
+           f'<text class="tiny" x="{fx}" y="{ry + 8}">cluster</text>',
+           f'<rect class="cloud-frame" x="{fx}" y="{ry + 14}" width="{rx + rw - fx}" height="{rh - 14}" rx="8"/>']
     iy = ry + 14 + (rh - 14) / 2 - 8
     out.append(mini_registry(rx, iy + 11))
     out.append(f'<text class="tiny" x="{rx + 11}" y="{iy + 34}" text-anchor="middle">CR</text>')
     nw = 26
     step = min(46, (rx + rw - fx - 12 - nw) / 2)
     nodes = [fx + 8 + k * step for k in range(3)]
-    for k, (nx, at) in enumerate(zip(nodes, (5.6, 6.0, 6.4))):
+    above = 13                                   # the new container waits this far above its slot
+    for k, (nx, at) in enumerate(zip(nodes, (5.5, 6.1, 6.7))):
+        healthy, swap = at + 0.15, at + 0.35
+        slot_x, slot_y = nx + 6, iy + 5.5
         out.append(server(nx, iy, w=nw, h=20))
-        out.append(f'<g class="{anim.until(at)}">{container(nx + 9, iy + 5.5, w=14, h=9, old=True)}</g>')
-        m = anim.move(at - 0.4, at, nx + 9 - (rx + 4))
-        c = anim.window(at - 0.45, at)
-        out.append(f'<g class="{c}"><g class="{m}">{container(rx + 4, iy + 5.5, w=14, h=9)}</g></g>')
-        out.append(f'<g class="{anim.show(at)}">{container(nx + 9, iy + 5.5, w=14, h=9)}</g>')
-        out.append(f'<text class="tiny {anim.until(at)}" x="{nx + nw / 2}" y="{iy + 32}" text-anchor="middle">1.3</text>'
-                   f'<text class="tiny-on {anim.show(at)}" x="{nx + nw / 2}" y="{iy + 32}" text-anchor="middle">1.4</text>')
+        out.append(f'<g class="{anim.until(swap)}">{container(slot_x, slot_y, w=14, h=9, old=True)}</g>')
+        # 1.4 leaves the registry, flies to its node and waits above it while it starts
+        fly = anim.move(at - 0.45, at, slot_x - (rx + 4))
+        down = anim.drop(swap, swap + 0.2, above)
+        vis = anim.window(at - 0.5, swap + 0.2)
+        out.append(f'<g class="{vis}"><g class="{down}"><g class="{fly}">{container(rx + 4, slot_y - above, w=14, h=9)}</g></g></g>')
+        out.append(f'<g class="{anim.show(swap + 0.2)}">{container(slot_x, slot_y, w=14, h=9)}</g>')
+        # health check passed: a small tick next to the waiting container
+        out.append(f'<g class="{anim.window(healthy, swap + 0.2)}">{tick(None, slot_x + 20, slot_y - above + 4.5, None, r=4)}</g>')
+        out.append(f'<text class="tiny {anim.until(swap)}" x="{nx + nw / 2}" y="{iy + 32}" text-anchor="middle">1.3</text>'
+                   f'<text class="tiny-on {anim.show(swap)}" x="{nx + nw / 2}" y="{iy + 32}" text-anchor="middle">1.4</text>')
     return "".join(out)
 
 
@@ -380,16 +403,27 @@ def scan_card(anim, x, y, w, h, two_lines=False, tools=True):
     out = [f'<rect class="scan-card" x="{x}" y="{y}" width="{w}" height="{h}" rx="10"/>',
            icon("Shield", x + 12, y + h / 2 - 11, 22),
            f'<text class="scan-title" x="{x + 44}" y="{y + 21}">Container scan</text>',
-           f'<text class="tool" x="{x + 150}" y="{y + 21}">Trivy · Snyk</text>' if tools else ""]
+           f'<text class="tool" x="{x + w - 14}" y="{y + 15}" text-anchor="end">Trivy · Snyk</text>' if tools else ""]
     if two_lines:
         out.append(f'<text class="what" x="{x + 44}" y="{y + 37}">image vulnerabilities</text>'
                    f'<text class="tiny" x="{x + 44}" y="{y + 51}">outside the main pipeline</text>')
     else:
         out.append(f'<text class="what" x="{x + 44}" y="{y + 38}">image vulnerabilities, outside the main pipeline</text>')
-    bx, bw = x + w - 96, 58
-    out.append(f'<rect class="slot" x="{bx}" y="{y + h / 2 - 3}" width="{bw}" height="6" rx="3"/>'
-               f'<rect class="bar {anim.grow(3.7, 4.9)}" x="{bx}" y="{y + h / 2 - 3}" width="{bw}" height="6" rx="3"/>')
-    out.append(tick(anim, x + w - 22, y + h / 2, 4.95, r=6))
+    # the image is scanned: a beam sweeps over it, findings appear by severity, the report is done
+    compact = w < 400
+    cw_, ch_, chip, gap = (30, 16, 26, 3) if compact else (44, 22, 34, 6)
+    bx = x + w - (148 if compact else 210)
+    cy = y + h / 2
+    out.append(container(bx, cy - ch_ / 2, w=cw_, h=ch_))
+    out.append(f'<clipPath id="scan-clip"><rect x="{bx}" y="{cy - ch_ / 2}" width="{cw_}" height="{ch_}"/></clipPath>'
+               f'<g class="{anim.window(3.7, 4.9)}"><g clip-path="url(#scan-clip)">'
+               f'<rect class="beam" x="{bx}" y="{cy - ch_ / 2 - 2}" width="3" height="{ch_ + 4}" style="--sweep: {cw_ - 3}px"/></g></g>')
+    for k, (label, sev, at) in enumerate((("C 0", "ok", 4.0), ("H 1", "high", 4.3), ("M 4", "med", 4.6))):
+        cx = bx + cw_ + 8 + k * (chip + gap)
+        c = anim.show(at)
+        out.append(f'<g class="{c}"><rect class="sev sev-{sev}" x="{cx}" y="{cy - 8}" width="{chip}" height="16" rx="8" style="fill-opacity:.12"/>'
+                   f'<text class="sev-text sev-{sev}" x="{cx + chip / 2}" y="{cy + 3.5}" text-anchor="middle" style="stroke:none">{label}</text></g>')
+    out.append(tick(anim, x + w - 14, cy, 4.95, r=6))
     return "".join(out)
 
 
