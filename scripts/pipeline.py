@@ -25,7 +25,7 @@ ICONS = {
 }
 
 STAGES = [  # (title, subtitle, tool lines, lit from, lit until)
-    ("Commit", "push or merge", ["Git · GitLab · GitHub"], 0.0, 0.9),
+    ("Commit", "merge to main, tag", ["Git · GitLab · GitHub"], 0.0, 0.9),
     ("Build & test", "checks in parallel", ["Jenkins · GitLab CI", "GitHub Actions"], 0.9, 2.6),
     ("Package", "artifact to a registry", ["Docker · Harbor · Nexus"], 2.6, 3.6),
     ("Provision", "create or change infra", ["Terraform", "AWS · Azure · GCP · Hetzner"], 3.6, 5.0),
@@ -101,6 +101,7 @@ def style(t, anim):
   .tiny-on {{ font-size: 10.5px; font-weight: 600; fill: {t['accent']}; }}
   .icon {{ fill: none; stroke: {t['accent']}; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }}
   .wire {{ stroke: {t['stroke']}; stroke-width: 1.5; fill: none; }}
+  .divider-v {{ stroke: {t['stroke']}; stroke-width: 1; stroke-dasharray: 2 4; }}
   .head {{ fill: {t['stroke']}; }}
   .slot {{ fill: {t['stroke']}; opacity: .55; }}
   .bar {{ fill: {t['accent']}; }}
@@ -155,13 +156,34 @@ def server(x, y, cls="srv", w=34, h=22):
 # visualisations inside a card; (rx, ry) top-left of the region, rw x rh its size
 
 def viz_commit(anim, rx, ry, rw, rh):
-    y = ry + rh / 2
-    out = [f'<line class="wire" x1="{rx}" y1="{y}" x2="{rx + rw}" y2="{y}"/>']
-    for i in range(3):
-        out.append(f'<circle class="dot" cx="{rx + 10 + i * 32}" cy="{y}" r="6"/>')
-    nx = rx + 10 + 3 * 32
-    c = anim.show(0.35)
-    out.append(f'<circle class="dot-on {c}" cx="{nx}" cy="{y}" r="7"/><text class="tiny-on {c}" x="{nx}" y="{y + 22}" text-anchor="middle">new</text>')
+    """Two branches get commits, merge into main, and main gets a release tag."""
+    tag_w = 40 if rw < 200 else 84
+    span = rw - tag_w - 6
+    X = lambda f: rx + span * f
+    ya, ym, yb = ry + 10, ry + rh * 0.5, ry + rh - 10
+    wide = rw >= 200
+    out = [f'<line class="wire" x1="{rx}" y1="{ym}" x2="{rx + span}" y2="{ym}"/>',
+           f'<path class="wire" d="M {X(.08)} {ym} C {X(.15)} {ym}, {X(.12)} {ya}, {X(.22)} {ya} L {X(.42)} {ya} '
+           f'C {X(.50)} {ya}, {X(.46)} {ym}, {X(.55)} {ym}"/>',
+           f'<path class="wire" d="M {X(.18)} {ym} C {X(.25)} {ym}, {X(.22)} {yb}, {X(.32)} {yb} L {X(.62)} {yb} '
+           f'C {X(.70)} {yb}, {X(.66)} {ym}, {X(.75)} {ym}"/>',
+           f'<circle class="dot" cx="{X(.03)}" cy="{ym}" r="4.5"/>']
+    if wide:
+        out += [f'<text class="tiny" x="{X(.45)}" y="{ya + 3.5}">feature</text>',
+                f'<text class="tiny" x="{X(.66)}" y="{yb + 3.5}">fix</text>',
+                f'<text class="tiny" x="{X(.03)}" y="{ym - 9}" text-anchor="middle">main</text>']
+    for f, y, at in ((.27, ya, .15), (.37, ya, .3), (.38, yb, .35), (.52, yb, .45)):
+        out.append(f'<circle class="dot-on {anim.show(at)}" cx="{X(f)}" cy="{y}" r="4.5"/>')
+    for f, at in ((.55, .5), (.75, .62)):
+        c = anim.show(at)
+        out.append(f'<circle class="dot {c}" cx="{X(f)}" cy="{ym}" r="6"/><circle class="dot-on {c}" cx="{X(f)}" cy="{ym}" r="3.5"/>')
+    c = anim.show(.78)
+    tx = rx + span + 6
+    out.append(f'<g class="{c}"><line class="wire" x1="{X(.75) + 6}" y1="{ym}" x2="{tx}" y2="{ym}"/>'
+               f'<rect class="chip" x="{tx}" y="{ym - 9}" width="{tag_w}" height="18" rx="9"/>'
+               f'<text class="chip-text" x="{tx + tag_w / 2}" y="{ym + 4}" text-anchor="middle">{"release v1.4" if wide else "v1.4"}</text></g>')
+    if not wide:
+        out.append(f'<text class="tiny-on {c}" x="{tx + tag_w / 2}" y="{ym + 22}" text-anchor="middle">release</text>')
     return "".join(out)
 
 
@@ -331,10 +353,42 @@ def narrow(t):
     return svg(W, by + 198, t, anim, out)
 
 
+TOOLS = {  # icon file in assets/icons, label
+    "Commit": [("git", "Git"), ("gitlab", "GitLab"), ("github", "GitHub")],
+    "Build & test": [("jenkins", "Jenkins"), ("gitlab", "GitLab CI"), ("github-actions", "GitHub Actions")],
+    "Package": [("docker", "Docker"), ("harbor", "Harbor"), ("nexus", "Nexus")],
+    "Provision": [("terraform", "Terraform"), ("aws", "AWS"), ("azure", "Azure"), ("gcp", "GCP"), ("hetzner", "Hetzner")],
+    "Deploy": [("ansible", "Ansible"), ("helm", "Helm"), ("argo-cd", "Argo CD"), ("kubernetes", "Kubernetes")],
+    "Observe": [("prometheus", "Prometheus"), ("grafana", "Grafana"), ("zabbix", "Zabbix"), ("wazuh", "Wazuh")],
+}
+ICON_DIR = Path(__file__).resolve().parent.parent / "assets" / "icons"
+
+
+def tool_icon(name, x, y, size):
+    """Inline one icon tile as a nested svg; ids get a prefix so icons cannot clash."""
+    import re
+    raw = (ICON_DIR / f"{name}.svg").read_text(encoding="utf-8")
+    inner = re.search(r"<svg[^>]*>(.*)</svg>", raw, re.S).group(1)
+    ids = set(re.findall(r'id="([^"]+)"', inner))
+    for i in ids:
+        inner = inner.replace(f'id="{i}"', f'id="{name}-{i}"').replace(f"url(#{i})", f"url(#{name}-{i})").replace(f'href="#{i}"', f'href="#{name}-{i}"')
+    return f'<svg x="{x}" y="{y}" width="{size}" height="{size}" viewBox="0 0 256 256">{inner}</svg>'
+
+
+def tools_column(stage, x, y, h):
+    items = TOOLS[stage]
+    size, gap = 30, 8
+    iy = y + h / 2 - size / 2 - 8
+    out = [tool_icon(name, x + k * (size + gap), iy, size) for k, (name, _) in enumerate(items)]
+    out.append(f'<text class="tool" x="{x}" y="{iy + size + 17}">{esc(" · ".join(label for _, label in items))}</text>')
+    return "".join(out)
+
+
 def vertical(t):
-    W, x0 = 680, 44
+    W, x0 = 920, 44
     anim, out = Anim(), []
-    ch, gap, cw = 104, 20, W - x0 - 12
+    ch, gap, cw = 104, 20, 600
+    tx = x0 + cw + 28
     ys = [12 + i * (ch + gap) for i in range(len(STAGES))]
     for i, y in enumerate(ys):
         title, sub, tools, t0, t1 = STAGES[i]
@@ -344,9 +398,9 @@ def vertical(t):
                 icon(title, x0 + 40, y + 10),
                 f'<text class="name" x="{x0 + 70}" y="{y + 26}">{esc(title)}</text>',
                 f'<text class="what" x="{x0 + 14}" y="{y + 48}">{esc(sub)}</text>']
-        for k, line in enumerate(tools):
-            out.append(f'<text class="tool" x="{x0 + 14}" y="{y + 72 + k * 15}">{esc(line)}</text>')
-        out.append(VIZ[i](anim, x0 + 300, y + 14, cw - 320, ch - 28))
+        out.append(VIZ[i](anim, x0 + 250, y + 14, cw - 270, ch - 28))
+        out.append(f'<line class="divider-v" x1="{x0 + cw + 1}" y1="{y + ch / 2}" x2="{tx - 8}" y2="{y + ch / 2}"/>')
+        out.append(tools_column(title, tx, y, ch))
         if i:
             out.append(arrow(x0 + 26, y - gap + 2, x0 + 26, y - 1))
     by = ys[-1] + ch + gap
@@ -360,10 +414,10 @@ def vertical(t):
             f'<circle class="live" cx="{x0 + 149}" cy="{by + 21.5}" r="3.5"/>'
             f'<text class="badge-text" x="{x0 + 157}" y="{by + 26}">24/7</text>',
             f'<text class="what" x="{x0 + 14}" y="{by + 48}">metrics, logs, security events</text>',
-            f'<text class="tool" x="{x0 + 14}" y="{by + 72}">Prometheus · Grafana</text>',
-            f'<text class="tool" x="{x0 + 14}" y="{by + 87}">Zabbix · Wazuh</text>',
-            pulse(anim, x0 + 300, by + 12, cw - 320, 44, "beat-v"),
-            alert(anim, x0 + 300, by + 66, cw - 320)]
+            pulse(anim, x0 + 250, by + 12, cw - 270, 44, "beat-v"),
+            alert(anim, x0 + 250, by + 66, cw - 270),
+            f'<line class="divider-v" x1="{x0 + cw + 1}" y1="{by + oh / 2}" x2="{tx - 8}" y2="{by + oh / 2}"/>',
+            tools_column("Observe", tx, by, oh)]
     # incidents come back as commits: a dashed loop up the left side
     top, bottom = ys[0] + ch / 2, by + oh / 2
     out.append(f'<path class="loop" d="M {x0} {bottom} L 16 {bottom} L 16 {top} L {x0 - 2} {top}"/>'
