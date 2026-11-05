@@ -45,7 +45,7 @@ I work at [Silk Data](https://github.com/SilkData), a machine-learning R&D compa
   <img src="./assets/demo-flow/light.svg" alt="Request a demo, then seven automated steps: approve, pipeline, server and DNS, hardening, proxy and TLS, six services deployed, ready with access sent." width="100%">
 </picture>
 
-**EdTech platform.** There was no DevOps: the existing pipeline didn't work and the app wouldn't build in a container. I reviewed and refactored the whole delivery setup, which gave stable pipelines and cloud releases with managed configuration.
+**EdTech platform.** There was no DevOps: the existing pipeline didn't work and the app wouldn't build in a container. I reviewed and refactored the whole delivery setup, which gave stable pipelines and cloud releases with managed configuration. Then I moved the servers to ARM to cut the cloud bill.
 
 ## Stack
 
