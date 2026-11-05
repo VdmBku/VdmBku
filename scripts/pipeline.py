@@ -23,6 +23,8 @@ ICONS = {
     "Deploy": '<path d="M12 15V4M7.5 8.5L12 4l4.5 4.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>',
     "Observe": '<path d="M3 12h4l3-7 4 14 3-7h4"/>',
     "Shield": '<path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/>',
+    "Mail": '<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/>',
+    "Phone": '<path d="M6.5 3.5h3l1.5 4-2 1.3a11 11 0 0 0 6.2 6.2l1.3-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2z"/>',
     "Bell": '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
 }
 
@@ -128,6 +130,9 @@ def style(t, anim):
   .scan-card {{ fill: {t['fill']}; stroke: {t['muted']}; stroke-width: 1.3; stroke-dasharray: 5 4; }}
   .scan-title {{ font-size: 13px; font-weight: 600; fill: {t['text']}; }}
   .side {{ stroke: {t['muted']}; stroke-width: 1.2; stroke-dasharray: 3 3; fill: none; }}
+  .glyph-tile {{ fill: #242938; }}
+  .glyph {{ fill: none; stroke: #ffffff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }}
+  .ring {{ fill: none; stroke: {t['red']}; stroke-width: 2; }}
   .box-body {{ fill: {t['accent']}; fill-opacity: .2; }}
   .box-frame {{ fill: none; stroke: {t['accent']}; stroke-width: 1.6; }}
   .ridge {{ stroke: {t['accent']}; stroke-width: 1.2; opacity: .75; }}
@@ -318,7 +323,7 @@ def alert(anim, x, y, w):
     return (f'<g class="{c}"><rect class="alert" x="{x}" y="{y}" width="{w}" height="46" rx="10"/>'
             f'{icon("Bell", x + 12, y + 12, 22, "alert-icon")}'
             f'<text class="alert-title" x="{x + 44}" y="{y + 20}">Alert</text>'
-            f'<text class="what" x="{x + 44}" y="{y + 36}">to on-call SRE / DevOps</text></g>')
+            f'<text class="what" x="{x + 44}" y="{y + 36}">on-call SRE / DevOps notified</text></g>')
 
 
 def scan_card(anim, x, y, w, h, two_lines=False):
@@ -377,6 +382,27 @@ def watchers(x, y):
     return "".join(out)
 
 
+CHANNELS = [("slack", "Slack"), ("teams", "Teams"), ("Mail", "email"), ("Phone", "on-call")]
+
+
+def channel_icon(name, x, y, size):
+    if name[0].isupper():            # a line icon on a dark tile
+        return (f'<rect class="glyph-tile" x="{x}" y="{y}" width="{size}" height="{size}" rx="{size * .23:.1f}"/>'
+                f'{icon(name, x + size * .2, y + size * .2, size * .6, "glyph")}')
+    return tool_icon(name, x, y, size)
+
+
+def channels(anim, x, y, size=24, gap=12):
+    out = [f'<text class="tiny" x="{x}" y="{y - 6}">team channels</text>']
+    for k, (name, label) in enumerate(CHANNELS):
+        cx = x + k * (size + gap)
+        out.append(channel_icon(name, cx, y, size))
+        out.append(f'<rect class="ring {anim.window(ALERT[0] + 0.25 * k, ALERT[1])}" x="{cx - 3}" y="{y - 3}" '
+                   f'width="{size + 6}" height="{size + 6}" rx="{size * .3:.1f}"/>')
+        out.append(f'<text class="tiny" x="{cx + size / 2}" y="{y + size + 12}" text-anchor="middle">{label}</text>')
+    return "".join(out)
+
+
 def observe(anim, x, y, w, h, narrow=False):
     out = [f'<rect class="card" x="{x}" y="{y}" width="{w}" height="{h}" rx="10"/>',
            f'<text class="num" x="{x + 14}" y="{y + 24}">06</text>',
@@ -388,12 +414,14 @@ def observe(anim, x, y, w, h, narrow=False):
            f'<text class="tool" x="{x + 14}" y="{y + 64}">{esc(OBSERVE_TOOLS)}</text>']
     if not narrow:
         out.append(watchers(x + 300, y + 12))
-        out.append(pulse(anim, x + 300, y + 34, 360, 50, "beat-w"))
-        out.append(alert(anim, x + w - 228, y + 26, 214))
+        out.append(pulse(anim, x + 300, y + 34, 330, 50, "beat-w"))
+        out.append(channels(anim, x + w - 226, y + 26))
+        out.append(alert(anim, x + w - 226, y + 72, 212))
     else:
         out.append(watchers(x + 14, y + 76))
         out.append(pulse(anim, x + 14, y + 96, w - 28, 40, "beat-n"))
-        out.append(alert(anim, x + 14, y + 142, w - 28))
+        out.append(channels(anim, x + 14, y + 160))
+        out.append(alert(anim, x + 14, y + 206, w - 28))
     return "".join(out)
 
 
@@ -410,13 +438,13 @@ def wide(t):
     out.append(f'<path class="side" d="M {xs[2] + cw / 2} {cy + ch} L {xs[2] + cw / 2} {sy}"/>')
     out.append(scan_card(anim, xs[2], sy, 2 * cw + gap, sh, two_lines=True))
     by = sy + sh + 22
-    out.append(observe(anim, 20, by, W - 40, 96))
+    out.append(observe(anim, 20, by, W - 40, 128))
     # deployed apps and the cluster are watched; incidents come back as commits
     out.append(arrow(xs[-1] + cw / 2, cy + ch + 2, xs[-1] + cw / 2, by - 1))
     out.append(f'<path class="loop" d="M 60 {by} L 60 {cy + ch + 4}"/>'
                f'<polygon fill="{t["accent"]}" opacity=".7" points="60,{cy + ch + 2} 56,{cy + ch + 9} 64,{cy + ch + 9}"/>'
                f'<text class="tiny" x="70" y="{cy + ch + 19}">fixes come back as commits</text>')
-    return svg(W, by + 96 + 14, t, anim, out)
+    return svg(W, by + 128 + 14, t, anim, out)
 
 
 def narrow(t):
@@ -436,8 +464,8 @@ def narrow(t):
     out.append(scan_card(anim, 60, sy, W - 72, sh, two_lines=True))
     by = ys[-1] + ch + gap
     out.append(arrow(40, by - gap + 2, 40, by - 1))
-    out.append(observe(anim, 12, by, W - 24, 200, narrow=True))
-    return svg(W, by + 212, t, anim, out)
+    out.append(observe(anim, 12, by, W - 24, 264, narrow=True))
+    return svg(W, by + 276, t, anim, out)
 
 
 TOOLS = {  # icon file in assets/icons, label
@@ -498,7 +526,7 @@ def vertical(t):
     out.append(scan_card(anim, x0 + 48, sy, cw - 48, sh, two_lines=True))
     by = ys[-1] + ch + gap
     out.append(arrow(x0 + 26, by - gap + 2, x0 + 26, by - 1))
-    oh = 130
+    oh = 184
     out += [f'<rect class="card" x="{x0}" y="{by}" width="{cw}" height="{oh}" rx="10"/>',
             f'<text class="num" x="{x0 + 14}" y="{by + 26}">06</text>',
             icon("Observe", x0 + 40, by + 10),
@@ -510,7 +538,8 @@ def vertical(t):
             f'<text class="what" x="{x0 + 14}" y="{by + 64}">and the cluster</text>',
             watchers(x0 + 250, by + 10),
             pulse(anim, x0 + 250, by + 32, cw - 270, 36, "beat-v"),
-            alert(anim, x0 + 250, by + 72, cw - 270),
+            channels(anim, x0 + 250, by + 84, size=22, gap=22),
+            alert(anim, x0 + 250, by + 128, cw - 270),
             f'<line class="divider-v" x1="{x0 + cw + 1}" y1="{by + oh / 2}" x2="{tx - 8}" y2="{by + oh / 2}"/>',
             tools_column("Observe", tx, by, oh)]
     # incidents come back as commits: a dashed loop up the left side
