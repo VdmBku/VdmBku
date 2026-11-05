@@ -6,7 +6,7 @@ from pathlib import Path
 
 import app_delivery as ad
 from app_delivery import Anim, node, style
-from pipeline import FONT, THEMES, esc
+from pipeline import FONT, SLOW, THEMES, esc
 
 ad.HOLD = 12.6
 ad.CYCLE = 13.4
@@ -35,16 +35,16 @@ def extra(t, theme):
   .box {{ fill: {t['fill']}; stroke: {t['stroke']}; stroke-width: 1.5; }}
   .box-title {{ font-size: 14px; font-weight: 600; fill: {t['text']}; }}
   .box-sub {{ font-size: 12px; fill: {t['muted']}; }}
-  .good {{ fill: none; stroke: {t['accent']}; stroke-width: 2.5; stroke-dasharray: 7 6; animation: flow 1.1s linear infinite; }}
+  .good {{ fill: none; stroke: {t['accent']}; stroke-width: 2.5; stroke-dasharray: 7 6; animation: flow {1.1 * SLOW:.2f}s linear infinite; }}
   .bad {{ fill: none; stroke: {red}; stroke-width: 2.5; stroke-dasharray: 7 6;
-          animation: flow 1.1s linear infinite, cut {ad.CYCLE}s linear infinite; }}
+          animation: flow {1.1 * SLOW:.2f}s linear infinite, cut {ad.CYCLE * SLOW:.2f}s linear infinite; }}
   .bad-text {{ font-size: 12px; font-weight: 600; fill: {red}; }}
   .tag {{ font-size: 11px; fill: {t['accent']}; font-weight: 600; }}
-  .refused {{ animation: refused {ad.CYCLE}s linear infinite; }}
-  .cross {{ stroke: {red}; stroke-width: 3; stroke-linecap: round; animation: cross {ad.CYCLE}s linear infinite; }}
+  .refused {{ animation: refused {ad.CYCLE * SLOW:.2f}s linear infinite; }}
+  .cross {{ stroke: {red}; stroke-width: 3; stroke-linecap: round; animation: cross {ad.CYCLE * SLOW:.2f}s linear infinite; }}
   .uptime {{ fill: {t['fill']}; stroke: {t['accent']}; stroke-width: 1.5; }}
   .uptime-text {{ font-size: 12px; font-weight: 600; fill: {t['text']}; }}
-  .dot {{ fill: {t['accent']}; animation: beat 1.4s ease-in-out infinite; }}
+  .dot {{ fill: {t['accent']}; animation: beat {1.4 * SLOW:.2f}s ease-in-out infinite; }}
   @keyframes flow {{ to {{ stroke-dashoffset: -26 }} }}
   @keyframes beat {{ 0%, 100% {{ opacity: 1 }} 50% {{ opacity: .35 }} }}
   @keyframes cut {{ 0%, {pct(blocked - 0.05)} {{ opacity: 1 }} {pct(blocked + 0.3)}, {pct(ad.HOLD)} {{ opacity: .12 }}

@@ -3,20 +3,20 @@
 <style>
   text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; }
   .btn { fill: #2fbfb4; transform-box: fill-box; transform-origin: center;
-          animation: press 11.599999999999998s ease-in-out infinite; }
+          animation: press 18.56s ease-in-out infinite; }
   .btn-text { font-size: 14px; font-weight: 600; fill: #ffffff; pointer-events: none; }
   .ripple { fill: none; stroke: #2fbfb4; stroke-width: 2; opacity: 0; transform-box: fill-box;
-             transform-origin: center; animation: ripple 11.599999999999998s ease-out infinite; }
+             transform-origin: center; animation: ripple 18.56s ease-out infinite; }
   .track { stroke: #3d444d; stroke-width: 3; fill: none; stroke-linecap: round; }
   .fill { stroke: #2fbfb4; stroke-width: 3; fill: none; stroke-linecap: round;
-           animation: fill 11.599999999999998s linear infinite; }
+           animation: fill 18.56s linear infinite; }
   .node { fill: #151b23; stroke: #3d444d; stroke-width: 2; }
   .done { fill: #2fbfb4; opacity: 0; }
   .tick { fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
   .title { font-size: 13px; font-weight: 600; fill: #e6edf3; }
   .sub { font-size: 12px; fill: #9198a1; }
   .glow { fill: none; stroke: #2fbfb4; stroke-width: 2; opacity: 0; transform-box: fill-box;
-           transform-origin: center; animation: glow 11.599999999999998s ease-out infinite; }
+           transform-origin: center; animation: glow 18.56s ease-out infinite; }
   @keyframes press { 0% { transform: scale(1) } 2.16% { transform: scale(.93) }
                       4.31% { transform: scale(1) } 100% { transform: scale(1) } }
   @keyframes ripple { 0% { opacity: 0; transform: scale(1) } 2.16% { opacity: .8; transform: scale(1) }
@@ -27,34 +27,34 @@
   @media (prefers-reduced-motion: reduce) {
     .btn, .ripple, .fill, .done, .tick, .glow { animation: none !important; }
     .fill { stroke-dashoffset: 0 !important; } .done, .tick { opacity: 1 !important; } }
-  .v0 { animation: v0 11.599999999999998s linear infinite; }
+  .v0 { animation: v0 18.56s linear infinite; }
   @keyframes v0 { 0%, 53.02% { opacity: 0 } 54.31%, 93.97% { opacity: 1 } 97.41%, 100% { opacity: 0 } }
-  .v1 { animation: v1 11.599999999999998s linear infinite; }
+  .v1 { animation: v1 18.56s linear infinite; }
   @keyframes v1 { 0%, 56.47% { opacity: 0 } 57.76%, 93.97% { opacity: 1 } 97.41%, 100% { opacity: 0 } }
-  .v2 { animation: v2 11.599999999999998s linear infinite; }
+  .v2 { animation: v2 18.56s linear infinite; }
   @keyframes v2 { 0%, 59.91% { opacity: 0 } 61.21%, 93.97% { opacity: 1 } 97.41%, 100% { opacity: 0 } }
-  .v3 { animation: v3 11.599999999999998s linear infinite; }
+  .v3 { animation: v3 18.56s linear infinite; }
   @keyframes v3 { 0%, 63.36% { opacity: 0 } 64.66%, 93.97% { opacity: 1 } 97.41%, 100% { opacity: 0 } }
-  .v4 { animation: v4 11.599999999999998s linear infinite; }
+  .v4 { animation: v4 18.56s linear infinite; }
   @keyframes v4 { 0%, 66.81% { opacity: 0 } 68.10%, 93.97% { opacity: 1 } 97.41%, 100% { opacity: 0 } }
-  .v5 { animation: v5 11.599999999999998s linear infinite; }
+  .v5 { animation: v5 18.56s linear infinite; }
   @keyframes v5 { 0%, 70.26% { opacity: 0 } 71.55%, 93.97% { opacity: 1 } 97.41%, 100% { opacity: 0 } }
   .svc { fill: #151b23; stroke: #3d444d; stroke-width: 1.5; } .svc-on { fill: #2fbfb4; opacity: 0; }
   .panel { fill: #151b23; stroke: #3d444d; stroke-width: 1.5; }
   @media (prefers-reduced-motion: reduce) { .svc-on { animation: none !important; opacity: 1 !important; } }
-  .s0 { animation: s0 11.599999999999998s linear infinite; }
+  .s0 { animation: s0 18.56s linear infinite; }
   @keyframes s0 { 0%, 14.22% { opacity: 0 } 15.95%, 93.97% { opacity: 1 } 97.41%, 100% { opacity: 0 } }
-  .s1 { animation: s1 11.599999999999998s linear infinite; }
+  .s1 { animation: s1 18.56s linear infinite; }
   @keyframes s1 { 0%, 22.84% { opacity: 0 } 24.57%, 93.97% { opacity: 1 } 97.41%, 100% { opacity: 0 } }
-  .s2 { animation: s2 11.599999999999998s linear infinite; }
+  .s2 { animation: s2 18.56s linear infinite; }
   @keyframes s2 { 0%, 31.47% { opacity: 0 } 33.19%, 93.97% { opacity: 1 } 97.41%, 100% { opacity: 0 } }
-  .s3 { animation: s3 11.599999999999998s linear infinite; }
+  .s3 { animation: s3 18.56s linear infinite; }
   @keyframes s3 { 0%, 40.09% { opacity: 0 } 41.81%, 93.97% { opacity: 1 } 97.41%, 100% { opacity: 0 } }
-  .s4 { animation: s4 11.599999999999998s linear infinite; }
+  .s4 { animation: s4 18.56s linear infinite; }
   @keyframes s4 { 0%, 48.71% { opacity: 0 } 50.43%, 93.97% { opacity: 1 } 97.41%, 100% { opacity: 0 } }
-  .s5 { animation: s5 11.599999999999998s linear infinite; }
+  .s5 { animation: s5 18.56s linear infinite; }
   @keyframes s5 { 0%, 71.12% { opacity: 0 } 72.84%, 93.97% { opacity: 1 } 97.41%, 100% { opacity: 0 } }
-  .s6 { animation: s6 11.599999999999998s linear infinite; }
+  .s6 { animation: s6 18.56s linear infinite; }
   @keyframes s6 { 0%, 79.74% { opacity: 0 } 81.47%, 93.97% { opacity: 1 } 97.41%, 100% { opacity: 0 } }
 </style>
 <style>@keyframes fill { 0%, 6.03% { stroke-dashoffset: 362 } 11.64% { stroke-dashoffset: 362.0 } 14.66% { stroke-dashoffset: 310.3 } 20.26% { stroke-dashoffset: 310.3 } 23.28% { stroke-dashoffset: 258.6 } 28.88% { stroke-dashoffset: 258.6 } 31.90% { stroke-dashoffset: 206.9 } 37.50% { stroke-dashoffset: 206.9 } 40.52% { stroke-dashoffset: 155.1 } 46.12% { stroke-dashoffset: 155.1 } 49.14% { stroke-dashoffset: 103.4 } 68.53% { stroke-dashoffset: 103.4 } 71.55% { stroke-dashoffset: 51.7 } 77.16% { stroke-dashoffset: 51.7 } 80.17% { stroke-dashoffset: 0.0 } 93.97% { stroke-dashoffset: 0 } 97.41%, 100% { stroke-dashoffset: 362 } }</style>

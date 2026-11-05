@@ -8,7 +8,7 @@ import math
 import random
 from pathlib import Path
 
-from pipeline import FONT, THEMES, esc
+from pipeline import FONT, SLOW, THEMES, esc
 
 RED = {"light": "#cf222e", "dark": "#f85149"}
 CYCLE, DRAW, HOLD = 11.0, 6.0, 9.6
@@ -68,18 +68,18 @@ def chart(t, theme, W, H, x0, x1, y0, y1, big=True):
   .grid {{ stroke: {t['stroke']}; stroke-width: 1; opacity: .6; }}
   .axis {{ font-size: {12 if big else 11}px; fill: {t['muted']}; }}
   .before {{ fill: none; stroke: {red}; stroke-width: 2.5; stroke-linejoin: round;
-             animation: db {CYCLE}s linear infinite; }}
+             animation: db {CYCLE * SLOW:.2f}s linear infinite; }}
   .after {{ fill: none; stroke: {t['accent']}; stroke-width: 2.5; stroke-linejoin: round;
-            animation: da {CYCLE}s linear infinite; }}
+            animation: da {CYCLE * SLOW:.2f}s linear infinite; }}
   .marker {{ stroke: {t['accent']}; stroke-width: 1.5; stroke-dasharray: 4 4; }}
   .note {{ font-size: {13 if big else 12}px; font-weight: 600; fill: {t['text']}; }}
   .note-sub {{ font-size: {12 if big else 11}px; fill: {t['muted']}; }}
   .value-bad {{ font-size: 13px; font-weight: 600; fill: {red}; }}
   .value-good {{ font-size: 13px; font-weight: 600; fill: {t['accent']}; }}
   .foot {{ font-size: {11 if big else 10}px; fill: {t['muted']}; }}
-  .mark {{ animation: show {CYCLE}s linear infinite; }}
-  .before-label {{ animation: peak {CYCLE}s linear infinite; }}
-  .after-label {{ animation: low {CYCLE}s linear infinite; }}
+  .mark {{ animation: show {CYCLE * SLOW:.2f}s linear infinite; }}
+  .before-label {{ animation: peak {CYCLE * SLOW:.2f}s linear infinite; }}
+  .after-label {{ animation: low {CYCLE * SLOW:.2f}s linear infinite; }}
   @keyframes db {{ 0% {{ stroke-dashoffset: {lb:.0f} }} {pct(t_split)}, {pct(HOLD)} {{ stroke-dashoffset: 0 }}
                   {pct(HOLD + 0.4)}, 100% {{ stroke-dashoffset: {lb:.0f} }} }}
   @keyframes da {{ 0%, {pct(t_split)} {{ stroke-dashoffset: {la:.0f} }} {pct(DRAW)}, {pct(HOLD)} {{ stroke-dashoffset: 0 }}

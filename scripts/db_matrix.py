@@ -4,7 +4,7 @@ python scripts/db_matrix.py
 """
 from pathlib import Path
 
-from pipeline import FONT, THEMES, esc
+from pipeline import FONT, SLOW, THEMES, esc
 
 ENGINES = ["PostgreSQL", "Oracle", "MariaDB", "MySQL"]
 STEPS = ["DB up", "Build + tests", "Restore dump", "Migrate", "Server up"]
@@ -33,7 +33,7 @@ def style(t):
   .chip {{ fill: {t['fill']}; stroke: {t['accent']}; stroke-width: 1.5; }}
   .chip-text {{ font-size: 13px; font-weight: 600; fill: {t['text']}; }}
   .chip-sub {{ font-size: 11px; fill: {t['muted']}; }}
-  .release {{ transform-box: fill-box; transform-origin: center; animation: pulse {CYCLE}s ease-out infinite; }}
+  .release {{ transform-box: fill-box; transform-origin: center; animation: pulse {CYCLE * SLOW:.2f}s ease-out infinite; }}
   .head {{ font-size: 12px; fill: {t['muted']}; }}
   .engine {{ font-size: 14px; font-weight: 600; fill: {t['text']}; }}
   .wire {{ stroke: {t['stroke']}; stroke-width: 1.5; fill: none; }}
@@ -45,11 +45,11 @@ def style(t):
   .row {{ fill: {t['accent']}; opacity: 0; }}
   .ok {{ opacity: .35; }}
   .glow {{ fill: none; stroke: {t['accent']}; stroke-width: 2; opacity: 0; transform-box: fill-box;
-           transform-origin: center; animation: glow {CYCLE}s ease-out infinite; }}
+           transform-origin: center; animation: glow {CYCLE * SLOW:.2f}s ease-out infinite; }}
   @keyframes pulse {{ 0% {{ transform: scale(1) }} {pct(0.25)} {{ transform: scale(1.06) }} {pct(0.55)}, 100% {{ transform: scale(1) }} }}
   @keyframes glow {{ 0%, {pct(DONE)} {{ opacity: 0; transform: scale(1) }} {pct(DONE + 0.1)} {{ opacity: .9; transform: scale(1) }}
                      {pct(DONE + 1.2)} {{ opacity: 0; transform: scale(1.25) }} 100% {{ opacity: 0 }} }}
-  .verdict {{ animation: verdict {CYCLE}s linear infinite; }}
+  .verdict {{ animation: verdict {CYCLE * SLOW:.2f}s linear infinite; }}
   @keyframes verdict {{ 0%, {pct(DONE - 0.05)} {{ opacity: .35 }} {pct(DONE + 0.1)}, {pct(HOLD)} {{ opacity: 1 }} {pct(HOLD + 0.4)}, 100% {{ opacity: .35 }} }}
   @media (prefers-reduced-motion: reduce) {{
     .release, .glow, .done, .tick, .fill, .row, .verdict {{ animation: none !important; }}
@@ -58,12 +58,12 @@ def style(t):
     for i in range(len(ENGINES)):
         t0 = lane_t0(i)
         t1 = t0 + STEP * len(STEPS)
-        css.append(f"  .r{i} {{ animation: r{i} {CYCLE}s linear infinite; }}\n"
+        css.append(f"  .r{i} {{ animation: r{i} {CYCLE * SLOW:.2f}s linear infinite; }}\n"
                    f"  @keyframes r{i} {{ 0%, {pct(t0 - 0.05)} {{ opacity: 0 }} {pct(t0 + 0.1)}, {pct(t1)} {{ opacity: .08 }} "
                    f"{pct(t1 + 0.2)}, 100% {{ opacity: 0 }} }}\n")
         for j in range(len(STEPS)):
             on = t0 + STEP * (j + 1)
-            css.append(f"  .s{i}{j} {{ animation: s{i}{j} {CYCLE}s linear infinite; }}\n"
+            css.append(f"  .s{i}{j} {{ animation: s{i}{j} {CYCLE * SLOW:.2f}s linear infinite; }}\n"
                        f"  @keyframes s{i}{j} {{ 0%, {pct(on - 0.05)} {{ opacity: 0 }} {pct(on + 0.1)}, {pct(HOLD)} {{ opacity: 1 }} "
                        f"{pct(HOLD + 0.4)}, 100% {{ opacity: 0 }} }}\n")
     return "<style>" + "".join(css) + "</style>"
@@ -81,7 +81,7 @@ def lane_fill(i, x1, x2, y, vertical=False):
     frames.append(f"{pct(HOLD + 0.4)}, 100% {{ stroke-dashoffset: {length} }}")
     line = (f'<line class="track" x1="{x1}" y1="{y}" x2="{x2}" y2="{y}"/>'
             f'<line class="fill" x1="{x1}" y1="{y}" x2="{x2}" y2="{y}" stroke-dasharray="{length}" '
-            f'style="animation: f{i} {CYCLE}s linear infinite"/>')
+            f'style="animation: f{i} {CYCLE * SLOW:.2f}s linear infinite"/>')
     return line, f"@keyframes f{i} {{ {' '.join(frames)} }}"
 
 
