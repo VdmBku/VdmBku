@@ -30,7 +30,7 @@ I work at [Silk Data](https://github.com/SilkData), a machine-learning R&D compa
 
 **Legacy servers of the same portal.** Brought server load from ~85 down to under 7 during a bot-driven incident, contained a critical remote code execution bug on a runtime that could not be patched, and moved the origin behind the CDN step by step with zero downtime.
 
-**Cross-platform product.** Backend, web and mobile apps. Build and release pipelines for every part, including the mobile apps and their distribution outside the app stores.
+**Cross-platform product** <sub>(since 2018)</sub>. Backend, web and mobile apps. I moved the legacy backend from plain servers to a managed container platform in the cloud, back when that was not yet the usual move: containerized the app, moved file storage to object storage and the database to a managed service. The big processing servers started only when a task landed in the queue and shut down after, which kept the cloud bill low from day one. Build and release pipelines cover every part, including the mobile apps and their distribution outside the app stores.
 
 **Enterprise product.** Every release is tested against four database engines: the pipeline restores a production-like dump, runs the migration and checks that the server comes up.
 
