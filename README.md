@@ -24,11 +24,17 @@ I work at [Silk Data](https://github.com/SilkData), a machine-learning R&D compa
 
 <sub>How the pipelines I build usually look. The names under each step are the tools I've used for it in production.</sub>
 
-## What I work on
+## Selected work
 
 **Media CMS.** Microservices behind a high-traffic media portal. I run the delivery pipelines for all environments and I'm building a new cloud production environment for it, fully described in code.
 
+**Legacy servers of the same portal.** Brought server load from ~85 down to under 7 during a bot-driven incident, contained a critical remote code execution bug on a runtime that could not be patched, and moved the origin behind the CDN step by step with zero downtime.
+
 **Cross-platform product.** Backend, web and mobile apps. Build and release pipelines for every part, including the mobile apps and their distribution outside the app stores.
+
+**Enterprise product.** Every release is tested against four database engines: the pipeline restores a production-like dump, runs the migration and checks that the server comes up.
+
+**Company infrastructure.** All internal and client servers are described in code, each with its own firewall. One pipeline brings any new server to the same secure, monitored baseline.
 
 **Anti-plagiarism SaaS.** A prospect clicks "Request a demo" on the landing page. After a quick approval, one pipeline builds a complete environment for them from scratch: cloud server, security baseline, monitoring and all six services behind a proxy with TLS.
 
@@ -39,7 +45,7 @@ I work at [Silk Data](https://github.com/SilkData), a machine-learning R&D compa
   <img src="./assets/demo-flow/light.svg" alt="Request a demo, then seven automated steps: approve, pipeline, server and DNS, hardening, proxy and TLS, six services deployed, ready with access sent." width="100%">
 </picture>
 
-**EdTech platform.** Deployment used to be manual. I turned it into repeatable automation, built cloud pipelines for every environment and moved the whole stack to a new OS.
+**EdTech platform.** There was no DevOps: the existing pipeline didn't work and the app wouldn't build in a container. I reviewed and refactored the whole delivery setup, which gave stable pipelines and cloud releases with managed configuration.
 
 ## Stack
 
