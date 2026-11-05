@@ -30,7 +30,14 @@ I work at [Silk Data](https://github.com/SilkData), a machine-learning R&D compa
 
 **Cross-platform product.** Backend, web and mobile apps. Build and release pipelines for every part, including the mobile apps and their distribution outside the app stores.
 
-**Anti-plagiarism SaaS.** One pipeline builds a complete environment from scratch: cloud servers, security hardening, monitoring and deployment of all services.
+**Anti-plagiarism SaaS.** A prospect clicks "Request a demo" on the landing page. After a quick approval, one pipeline builds a complete environment for them from scratch: cloud server, security baseline, monitoring and all six services behind a proxy with TLS.
+
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/demo-flow/dark-narrow.svg">
+  <source media="(max-width: 600px)" srcset="./assets/demo-flow/light-narrow.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/demo-flow/dark.svg">
+  <img src="./assets/demo-flow/light.svg" alt="Request a demo, then seven automated steps: approve, pipeline, server and DNS, hardening, proxy and TLS, six services deployed, ready with access sent." width="100%">
+</picture>
 
 **EdTech platform.** Deployment used to be manual. I turned it into repeatable automation, built cloud pipelines for every environment and moved the whole stack to a new OS.
 
